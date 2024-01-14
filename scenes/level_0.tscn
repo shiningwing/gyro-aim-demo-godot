@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci664etpkldjl"]
+
+[ext_resource type="PackedScene" uid="uid://dxtii2gk75v7s" path="res://scenes/hud_0.tscn" id="1_bun0j"]
+
+[node name="Level 0" type="Node3D"]
+
+[node name="HUD0" parent="." instance=ExtResource("1_bun0j")]

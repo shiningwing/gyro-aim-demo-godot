@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxtii2gk75v7s"]
+
+[ext_resource type="Script" path="res://scenes/hud_0.gd" id="1_tlsm6"]
+
+[node name="HUD0" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tlsm6")
+
+[node name="GyroLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Gyroscope: "
+
+[node name="AccelLabel" type="Label" parent="."]
+layout_mode = 0
+offset_top = 24.0
+offset_right = 91.0
+offset_bottom = 47.0
+text = "Accelerometer: "
