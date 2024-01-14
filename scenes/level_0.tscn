@@ -1,9 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://ci664etpkldjl"]
+[gd_scene load_steps=10 format=3 uid="uid://ci664etpkldjl"]
 
 [ext_resource type="PackedScene" uid="uid://dxtii2gk75v7s" path="res://scenes/hud_0.tscn" id="1_bun0j"]
 [ext_resource type="PackedScene" uid="uid://cn13pk5kwsiva" path="res://addons/kenney_prototype_tools/scenes/dark/dark_01.tscn" id="2_qa67t"]
 [ext_resource type="PackedScene" uid="uid://dprksnsipfg02" path="res://addons/kenney_prototype_tools/scenes/orange/orange_01.tscn" id="3_wntka"]
 [ext_resource type="PackedScene" uid="uid://b8cqivgm3hxny" path="res://addons/kenney_prototype_tools/scenes/red/red_01.tscn" id="4_bjww2"]
+[ext_resource type="PackedScene" uid="uid://clcgrdipt2qpf" path="res://scenes/player.tscn" id="5_slo6q"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v53ga"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yy44g"]
+
+[sub_resource type="Sky" id="Sky_x3ghe"]
+sky_material = SubResource("ProceduralSkyMaterial_yy44g")
+
+[sub_resource type="Environment" id="Environment_c3vj2"]
+background_mode = 2
+sky = SubResource("Sky_x3ghe")
 
 [node name="Level0" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -12,17 +25,33 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="Blocks" type="Node3D" parent="."]
 
-[node name="Cube" parent="Blocks" instance=ExtResource("2_qa67t")]
+[node name="StaticBody3D" type="StaticBody3D" parent="Blocks"]
+
+[node name="Cube" parent="Blocks/StaticBody3D" instance=ExtResource("2_qa67t")]
 transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, -25, 0, -25)
 
-[node name="Cube2" parent="Blocks" instance=ExtResource("3_wntka")]
+[node name="Cube2" parent="Blocks/StaticBody3D" instance=ExtResource("3_wntka")]
 transform = Transform3D(50, 0, 0, 0, 10, 0, 0, 0, 1, -25, 1, -25)
 
-[node name="Cube3" parent="Blocks" instance=ExtResource("3_wntka")]
+[node name="Cube3" parent="Blocks/StaticBody3D" instance=ExtResource("3_wntka")]
 transform = Transform3D(50, 0, 0, 0, 10, 0, 0, 0, 1, -25, 1, 24)
 
-[node name="Cube4" parent="Blocks" instance=ExtResource("4_bjww2")]
+[node name="Cube4" parent="Blocks/StaticBody3D" instance=ExtResource("4_bjww2")]
 transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 48, -25, 1, -24)
 
-[node name="Cube5" parent="Blocks" instance=ExtResource("4_bjww2")]
+[node name="Cube5" parent="Blocks/StaticBody3D" instance=ExtResource("4_bjww2")]
 transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 48, 24, 1, -24)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Blocks/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_v53ga")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-1, -8.44439e-08, -2.26267e-08, 0, -0.258819, 0.965926, -8.74228e-08, 0.965926, 0.258819, 0, 14, 0)
+light_energy = 3.0
+
+[node name="Player" parent="." instance=ExtResource("5_slo6q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016762, 1, 0.018594)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_c3vj2")
