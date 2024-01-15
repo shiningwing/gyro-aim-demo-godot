@@ -7,14 +7,15 @@ const JUMP_VELOCITY = 4.5
 @export var min_look_angle: float = -90.0
 @export var max_look_angle: float = 90.0
 
-var mouse_delta: Vector2 = Vector2()
+var mouse_delta := Vector2.ZERO
+var gyro_delta := Vector2.ZERO
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var camera: Camera3D = $Camera3D
-@onready var camera_x_angle_label: Label = $HUD0/Debug/CameraXAngleLabel
-@onready var camera_y_angle_label: Label = $HUD0/Debug/CameraYAngleLabel
+@onready var camera_x_angle_label: Label = $HUD0/Debug/TopLeft/CameraXAngleLabel
+@onready var camera_y_angle_label: Label = $HUD0/Debug/TopLeft/CameraYAngleLabel
 
 
 func _ready():
@@ -51,10 +52,20 @@ func _physics_process(delta):
 func _process(delta):
 	# Apply mouselook rotation
 	process_mouse_input(delta)
+	if GameSettings.gyro_enabled:
+		process_gyro_input(delta)
+	clamp_camera()
 	
 	# Exit game when Esc is pressed
 	if Input.is_action_just_pressed("ui_cancel"):
 		get_tree().quit()
+	
+	if Input.is_action_just_pressed("debug_startgyrocalibration"):
+		MotionInput.calibration_wanted = true
+	if Input.is_action_pressed("debug_calibrategyro"):
+		MotionInput.calibrating = true
+	else:
+		MotionInput.calibrating = false
 
 
 func _input(event):
@@ -66,14 +77,30 @@ func _input(event):
 func process_mouse_input(delta):
 	# Rotate camera around X axis
 	camera.rotation_degrees.x -= mouse_delta.y * GameSettings.mouse_sensitivity_y * delta
-	# Clamp camera X rotation
-	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, min_look_angle, max_look_angle)
 	# Rotate player around Y axis
 	rotation_degrees.y -= mouse_delta.x * GameSettings.mouse_sensitivity_x * delta
 	
 	# Zero out mouse delta to avoid camera "floating"
 	mouse_delta = Vector2.ZERO
 	
+	
+
+
+func process_gyro_input(delta):
+	# Prepare gyro delta from X and Y of the global calibrated gyro
+	gyro_delta = Vector2(MotionInput.calibrated_gyro.x, MotionInput.calibrated_gyro.y)
+	
+	# Rotate camera around X axis
+	camera.rotation_degrees.x -= gyro_delta.y * GameSettings.gyro_sensitivity_y * delta
+	rotation_degrees.y -= gyro_delta.x * GameSettings.gyro_sensitivity_x * delta
+	
+	# Zero out gyro delta to avoid camera "floating"
+	gyro_delta = Vector2.ZERO
+
+
+func clamp_camera():
+	# Clamp camera X rotation
+	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, min_look_angle, max_look_angle)
 	# Update camera angles in debug HUD
 	camera_x_angle_label.text = str("Camera X Angle: ", rotation_degrees.y)
 	camera_y_angle_label.text = str("Camera Y Angle: ", camera.rotation_degrees.x)

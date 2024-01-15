@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxtii2gk75v7s"]
+[gd_scene load_steps=3 format=3 uid="uid://dxtii2gk75v7s"]
 
 [ext_resource type="Script" path="res://scenes/hud_0.gd" id="1_tlsm6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_t0wd7"]
+font_size = 24
 
 [node name="HUD0" type="Control"]
 layout_mode = 3
@@ -10,35 +13,82 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tlsm6")
+metadata/_edit_vertical_guides_ = [1112.0]
 
 [node name="Debug" type="Control" parent="."]
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 854.0
+offset_bottom = 480.0
 
-[node name="GyroLabel" type="Label" parent="Debug"]
+[node name="TopLeft" type="VBoxContainer" parent="Debug"]
 layout_mode = 0
-offset_right = 91.0
-offset_bottom = 23.0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 163.0
+offset_bottom = 136.0
+
+[node name="GyroLabel" type="Label" parent="Debug/TopLeft"]
+layout_mode = 2
 text = "Gyroscope: "
 
-[node name="AccelLabel" type="Label" parent="Debug"]
-layout_mode = 0
-offset_top = 24.0
-offset_right = 122.0
-offset_bottom = 47.0
+[node name="AccelLabel" type="Label" parent="Debug/TopLeft"]
+layout_mode = 2
 text = "Accelerometer: "
 
-[node name="CameraXAngleLabel" type="Label" parent="Debug"]
-layout_mode = 0
-offset_top = 48.0
-offset_right = 131.0
-offset_bottom = 71.0
+[node name="CameraXAngleLabel" type="Label" parent="Debug/TopLeft"]
+layout_mode = 2
 text = "Camera X Angle: "
 
-[node name="CameraYAngleLabel" type="Label" parent="Debug"]
-layout_mode = 0
-offset_top = 72.0
-offset_right = 131.0
-offset_bottom = 95.0
+[node name="CameraYAngleLabel" type="Label" parent="Debug/TopLeft"]
+layout_mode = 2
 text = "Camera Y Angle: "
+
+[node name="BottomRight" type="VBoxContainer" parent="Debug"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -185.0
+offset_top = -117.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 0
+alignment = 2
+
+[node name="GyroCalibrationTimerLabel" type="Label" parent="Debug/BottomRight"]
+layout_mode = 2
+text = "Calibration Timer: 0"
+horizontal_alignment = 2
+
+[node name="GyroCalibratingLabel" type="Label" parent="Debug/BottomRight"]
+layout_mode = 2
+text = "Calibrating: false"
+horizontal_alignment = 2
+
+[node name="CalibrateButton" type="Button" parent="Debug/BottomRight"]
+layout_mode = 2
+text = "Calibrate Gyro"
+
+[node name="ShittyCrosshair" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "+"
+label_settings = SubResource("LabelSettings_t0wd7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="button_up" from="Debug/BottomRight/CalibrateButton" to="." method="_on_calibrate_button_button_up"]

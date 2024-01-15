@@ -13,6 +13,7 @@ var general_settings_load = general_settings.load("user://cfg/general.cfg")
 var mouse_sensitivity_x: float = 10.0
 var mouse_sensitivity_y: float = 10.0
 # Gyro
+var gyro_enabled := true
 var gyro_sensitivity_x: float = 2.0
 var gyro_sensitivity_y: float = 2.0
 
@@ -35,6 +36,7 @@ func _ready():
 		print("Input settings config doesn't exist, creating...")
 		input_settings.set_value("Mouselook", "mouse_sensitivity_x", mouse_sensitivity_x)
 		input_settings.set_value("Mouselook", "mouse_sensivitity_y", mouse_sensitivity_y)
+		input_settings.set_value("Gyro", "gyro_enabled", gyro_enabled)
 		input_settings.set_value("Gyro", "gyro_sensitivity_x", gyro_sensitivity_x)
 		input_settings.set_value("Gyro", "gyro_sensitivity_y", gyro_sensitivity_y)
 		input_settings.save("user://cfg/input.cfg")
@@ -42,6 +44,7 @@ func _ready():
 	elif input_settings_load == OK:
 		mouse_sensitivity_x = input_settings.get_value("Mouselook", "mouse_sensitivity_x")
 		mouse_sensitivity_y = input_settings.get_value("Mouselook", "mouse_sensitivity_x")
+		gyro_enabled = input_settings.get_value("Gyro", "gyro_enabled")
 		gyro_sensitivity_x = input_settings.get_value("Gyro", "gyro_sensitivity_x")
 		gyro_sensitivity_y = input_settings.get_value("Gyro", "gyro_sensitivity_x")
 		print("Input settings config loaded!")
