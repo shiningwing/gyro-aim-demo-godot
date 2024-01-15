@@ -63,7 +63,7 @@ layout_mode = 2
 text = "Platform: "
 horizontal_alignment = 2
 
-[node name="BottomRight" type="VBoxContainer" parent="Debug"]
+[node name="Calibration" type="VBoxContainer" parent="Debug"]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 1
 anchors_preset = 3
@@ -79,25 +79,35 @@ grow_horizontal = 0
 grow_vertical = 0
 alignment = 2
 
-[node name="GyroCalibrationTimerLabel" type="Label" parent="Debug/BottomRight"]
+[node name="GyroCalibrationOffsetLabel" type="Label" parent="Debug/Calibration"]
+layout_mode = 2
+text = "Calibration Offset: (0, 0, 0)"
+horizontal_alignment = 2
+
+[node name="GyroCalibrationSamplesLabel" type="Label" parent="Debug/Calibration"]
+layout_mode = 2
+text = "Calibration Samples: 0"
+horizontal_alignment = 2
+
+[node name="GyroCalibrationTimerLabel" type="Label" parent="Debug/Calibration"]
 layout_mode = 2
 text = "Calibration Timer: 0"
 horizontal_alignment = 2
 
-[node name="GyroCalibratingLabel" type="Label" parent="Debug/BottomRight"]
+[node name="GyroCalibratingLabel" type="Label" parent="Debug/Calibration"]
 layout_mode = 2
 text = "Calibrating: false"
 horizontal_alignment = 2
 
-[node name="CalibrateButton" type="Button" parent="Debug/BottomRight"]
+[node name="CalibrateButton" type="Button" parent="Debug/Calibration"]
 layout_mode = 2
 text = "Start Timed Gyro Calibration"
 
-[node name="CalibrateHoldButton" type="Button" parent="Debug/BottomRight"]
+[node name="CalibrateHoldButton" type="Button" parent="Debug/Calibration"]
 layout_mode = 2
 text = "Calibrate Gyro"
 
-[node name="UncalibratedGyroButton" type="Button" parent="Debug/BottomRight"]
+[node name="UncalibratedGyroButton" type="Button" parent="Debug/Calibration"]
 layout_mode = 2
 toggle_mode = true
 text = "Use Uncalibrated Gyro"
@@ -120,7 +130,7 @@ label_settings = SubResource("LabelSettings_t0wd7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="button_up" from="Debug/BottomRight/CalibrateButton" to="." method="_on_calibrate_button_button_up"]
-[connection signal="button_down" from="Debug/BottomRight/CalibrateHoldButton" to="." method="_on_calibrate_hold_button_pressed"]
-[connection signal="button_up" from="Debug/BottomRight/CalibrateHoldButton" to="." method="_on_calibrate_hold_button_released"]
-[connection signal="toggled" from="Debug/BottomRight/UncalibratedGyroButton" to="." method="_on_uncalibrated_gyro_button_toggled"]
+[connection signal="button_up" from="Debug/Calibration/CalibrateButton" to="." method="_on_calibrate_button_button_up"]
+[connection signal="button_down" from="Debug/Calibration/CalibrateHoldButton" to="." method="_on_calibrate_hold_button_pressed"]
+[connection signal="button_up" from="Debug/Calibration/CalibrateHoldButton" to="." method="_on_calibrate_hold_button_released"]
+[connection signal="toggled" from="Debug/Calibration/UncalibratedGyroButton" to="." method="_on_uncalibrated_gyro_button_toggled"]

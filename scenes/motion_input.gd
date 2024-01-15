@@ -14,6 +14,9 @@ var calibration_timer_running := false
 var calibration_timer_length: float = 5.0
 var calibration_timer: float = 0.0
 
+var _gyro_velocity := Vector3.ZERO
+var _gyro_calibration := Vector3.ZERO
+
 @onready var is_android := OS.has_feature("android")
 @onready var is_ios := OS.has_feature("ios")
 
@@ -30,26 +33,32 @@ func _process(delta):
 		uncalibrated_gyro.y = rad_to_deg(Input.get_gyroscope().y)
 		uncalibrated_gyro.z = rad_to_deg(Input.get_gyroscope().z)
 	
-	# Run the calibration timer if wanted
+	# When the user requests timed calibration:
 	if calibration_wanted and not calibrating:
+		# Start the timer and reset the previous calibration
 		calibration_timer_running = true
+		reset_calibration()
 	if calibration_timer_running:
-		if calibration_timer < calibration_timer_length:
-			calibrating = true
+		if calibration_timer < 1.0:
 			calibration_timer += delta
-		else:
+		elif calibration_timer >= 1.0 and calibration_timer < calibration_timer_length + 1.0:
+			calibrating = true 
+			calibration_timer += delta
+		elif calibration_timer >= calibration_timer_length + 1.0:
 			calibration_wanted = false
 			calibrating = false
 			calibration_timer_running = false
 			calibration_timer = 0
 	
+	# Get calibration samples
 	if calibrating:
 		num_offset_samples += 1
 		accumulated_offset += uncalibrated_gyro
 	
-	var gyro_velocity := Vector2(uncalibrated_gyro.x, uncalibrated_gyro.y)
-	var gyro_calibration := Vector2(get_calibration_offset().x, get_calibration_offset().y)
-	var calibrated_gyro := gyro_velocity - gyro_calibration
+	# Apply the gyro calibration
+	_gyro_velocity = Vector3(uncalibrated_gyro.x, uncalibrated_gyro.y, uncalibrated_gyro.z)
+	_gyro_calibration = Vector3(get_calibration_offset().x, get_calibration_offset().y, get_calibration_offset().z)
+	calibrated_gyro = _gyro_velocity - _gyro_calibration
 
 
 func get_calibration_offset():

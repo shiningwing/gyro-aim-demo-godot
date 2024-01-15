@@ -7,15 +7,23 @@ var debug_use_uncalibrated_gyro := false
 @onready var gyro_label: Label = $Debug/TopLeft/GyroLabel
 @onready var calibrated_gyro_label: Label = $Debug/TopLeft/CalibratedGyroLabel
 @onready var accel_label: Label = $Debug/TopLeft/AccelLabel
-@onready var gyro_calibration_timer_label: Label = $Debug/BottomRight/GyroCalibrationTimerLabel
-@onready var gyro_calibrating_label: Label = $Debug/BottomRight/GyroCalibratingLabel
-@onready var calibrate_button: Button = $Debug/BottomRight/CalibrateButton
+@onready var gyro_calibration_timer_label: Label = $Debug/Calibration/GyroCalibrationTimerLabel
+@onready var gyro_calibrating_label: Label = $Debug/Calibration/GyroCalibratingLabel
+@onready var gyro_calibration_samples_label: Label = $Debug/Calibration/GyroCalibrationSamplesLabel
+@onready var gyro_calibration_offset_label: Label = $Debug/Calibration/GyroCalibrationOffsetLabel
+@onready var calibrate_button: Button = $Debug/Calibration/CalibrateButton
+@onready var calibrate_hold_button: Button = $Debug/Calibration/CalibrateHoldButton
+@onready var uncalibrated_gyro_button: Button = $Debug/Calibration/UncalibratedGyroButton
 @onready var platform_label: Label = $Debug/TopRight/PlatformLabel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if not GameSettings.debug_mode:
 		debug_hud.visible = false
+	if not OS.has_feature("android") and not OS.has_feature("ios"):
+		calibrate_button.visible = false
+		calibrate_hold_button.visible = false
+		uncalibrated_gyro_button.visible = false
 	
 	platform_label.text = str("Is Android?: ", OS.has_feature("android"))
 
@@ -37,6 +45,8 @@ func update_debug_stats():
 	calibrated_gyro_label.text = str("Calibrated Gyroscope: ", MotionInput.calibrated_gyro)
 	gyro_calibration_timer_label.text = str("Calibration Timer: ", MotionInput.calibration_timer)
 	gyro_calibrating_label.text = str("Calibrating: ", MotionInput.calibrating)
+	gyro_calibration_samples_label.text = str("Calibration Samples: ", MotionInput.num_offset_samples)
+	gyro_calibration_offset_label.text = str("Calibration Offset: ", MotionInput.accumulated_offset)
 
 
 func _on_calibrate_button_button_up():
