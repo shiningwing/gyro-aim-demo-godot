@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=3 uid="uid://ci664etpkldjl"]
+[gd_scene load_steps=9 format=3 uid="uid://ci664etpkldjl"]
 
-[ext_resource type="PackedScene" uid="uid://dxtii2gk75v7s" path="res://scenes/hud_0.tscn" id="1_bun0j"]
 [ext_resource type="PackedScene" uid="uid://cn13pk5kwsiva" path="res://addons/kenney_prototype_tools/scenes/dark/dark_01.tscn" id="2_qa67t"]
 [ext_resource type="PackedScene" uid="uid://dprksnsipfg02" path="res://addons/kenney_prototype_tools/scenes/orange/orange_01.tscn" id="3_wntka"]
 [ext_resource type="PackedScene" uid="uid://b8cqivgm3hxny" path="res://addons/kenney_prototype_tools/scenes/red/red_01.tscn" id="4_bjww2"]
@@ -20,8 +19,6 @@ sky = SubResource("Sky_x3ghe")
 
 [node name="Level0" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-
-[node name="HUD0" parent="." instance=ExtResource("1_bun0j")]
 
 [node name="Blocks" type="Node3D" parent="."]
 

@@ -23,3 +23,17 @@ offset_top = 24.0
 offset_right = 91.0
 offset_bottom = 47.0
 text = "Accelerometer: "
+
+[node name="CameraXAngleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_top = 48.0
+offset_right = 122.0
+offset_bottom = 71.0
+text = "Camera X Angle: "
+
+[node name="CameraYAngleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_top = 72.0
+offset_right = 131.0
+offset_bottom = 95.0
+text = "Camera Y Angle: "
