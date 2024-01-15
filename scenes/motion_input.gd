@@ -26,7 +26,9 @@ func _ready():
 func _process(delta):
 	# Read the gyroscope from Godot if we're running on mobile
 	if is_android or is_ios:
-		uncalibrated_gyro = Input.get_gyroscope()
+		uncalibrated_gyro.x = rad_to_deg(Input.get_gyroscope().x)
+		uncalibrated_gyro.y = rad_to_deg(Input.get_gyroscope().y)
+		uncalibrated_gyro.z = rad_to_deg(Input.get_gyroscope().z)
 	
 	# Run the calibration timer if wanted
 	if calibration_wanted and not calibrating:
@@ -39,6 +41,7 @@ func _process(delta):
 			calibration_wanted = false
 			calibrating = false
 			calibration_timer_running = false
+			calibration_timer = 0
 	
 	if calibrating:
 		num_offset_samples += 1
