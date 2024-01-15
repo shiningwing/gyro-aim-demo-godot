@@ -18,6 +18,7 @@ config/icon="res://icon.png"
 [autoload]
 
 MotionInput="*res://scenes/motion_input.gd"
+GameSettings="*res://scenes/game_settings.gd"
 
 [editor]
 
@@ -67,3 +68,4 @@ player_jump={
 
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/screen_space_aa=1
