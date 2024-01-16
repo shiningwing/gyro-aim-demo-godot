@@ -93,6 +93,45 @@ var vsync_mode: int = 1
 ## Sets the camera's vertical field of view in degrees.
 var camera_fov: float = 59.0
 
+# Config file sections arry
+var general_settings_sections := [
+		"Meta",
+		"Debug",
+		"InputMouse",
+		"InputGyro",
+]
+
+# Arrays of variables in each section
+var Meta := {
+		"config_version": config_version,
+}
+var Debug := {
+		"debug_mode": debug_mode,
+}
+var InputMouse := {
+		"mouse_sensitivity_x": mouse_sensitivity_x,
+		"mouse_sensitivity_y": mouse_sensitivity_y,
+}
+var InputGyro := {
+		"gyro_enabled": gyro_enabled,
+		"gyro_autocalibration_enabled": gyro_autocalibration_enabled,
+		"gyro_sensitivity_x": gyro_sensitivity_x,
+		"gyro_sensitivity_y": gyro_sensitivity_y,
+		"gyro_invert_x": gyro_invert_x,
+		"gyro_invert_y": gyro_invert_y,
+		"gyro_accel_enabled": gyro_accel_enabled,
+		"gyro_accel_multiplier": gyro_accel_multiplier,
+		"gyro_accel_min_threshold": gyro_accel_min_threshold,
+		"gyro_accel_max_threshold": gyro_accel_max_threshold,
+		"gyro_smoothing_enabled": gyro_smoothing_enabled,
+		"gyro_smoothing_threshold": gyro_smoothing_threshold,
+		"gyro_smoothing_buffer": gyro_smoothing_buffer,
+		"gyro_tightening_enabled": gyro_tightening_enabled,
+		"gyro_tightening_threshold": gyro_tightening_threshold,
+		"gyro_space": gyro_space,
+		"gyro_local_yaw_axis": gyro_local_yaw_axis,
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
