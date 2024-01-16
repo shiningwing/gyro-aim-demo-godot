@@ -93,26 +93,58 @@ var vsync_mode: int = 1
 ## Sets the camera's vertical field of view in degrees.
 var camera_fov: float = 59.0
 
+var general_settings_dict := {
+		"Meta": {
+				"config_version": config_version,
+		},
+		"Debug": {
+				"debug_mode": debug_mode,
+		},
+		"InputMouse": {
+				"mouse_sensitivity_x": mouse_sensitivity_x,
+				"mouse_sensitivity_y": mouse_sensitivity_y,
+		},
+		"InputGyro": {
+				"gyro_enabled": gyro_enabled,
+				"gyro_autocalibration_enabled": gyro_autocalibration_enabled,
+				"gyro_sensitivity_x": gyro_sensitivity_x,
+				"gyro_sensitivity_y": gyro_sensitivity_y,
+				"gyro_invert_x": gyro_invert_x,
+				"gyro_invert_y": gyro_invert_y,
+				"gyro_accel_enabled": gyro_accel_enabled,
+				"gyro_accel_multiplier": gyro_accel_multiplier,
+				"gyro_accel_min_threshold": gyro_accel_min_threshold,
+				"gyro_accel_max_threshold": gyro_accel_max_threshold,
+				"gyro_smoothing_enabled": gyro_smoothing_enabled,
+				"gyro_smoothing_threshold": gyro_smoothing_threshold,
+				"gyro_smoothing_buffer": gyro_smoothing_buffer,
+				"gyro_tightening_enabled": gyro_tightening_enabled,
+				"gyro_tightening_threshold": gyro_tightening_threshold,
+				"gyro_space": gyro_space,
+				"gyro_local_yaw_axis": gyro_local_yaw_axis,
+		},
+}
+
 # Config file sections arry
-var general_settings_sections := [
-		"Meta",
-		"Debug",
-		"InputMouse",
-		"InputGyro",
-]
+var general_settings_sections := {
+		"Meta": "general_section_meta",
+		"Debug": "general_section_debug",
+		"InputMouse": "general_section_input_mouse",
+		"InputGyro": "general_section_input_gyro",
+}
 
 # Arrays of variables in each section
-var Meta := {
+var general_section_meta := {
 		"config_version": config_version,
 }
-var Debug := {
+var general_section_debug := {
 		"debug_mode": debug_mode,
 }
-var InputMouse := {
+var general_section_input_mouse := {
 		"mouse_sensitivity_x": mouse_sensitivity_x,
 		"mouse_sensitivity_y": mouse_sensitivity_y,
 }
-var InputGyro := {
+var general_section_input_gyro := {
 		"gyro_enabled": gyro_enabled,
 		"gyro_autocalibration_enabled": gyro_autocalibration_enabled,
 		"gyro_sensitivity_x": gyro_sensitivity_x,
@@ -134,7 +166,8 @@ var InputGyro := {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
+	#debug_dict_sections(general_settings_sections)
+	debug_dict(general_section_input_gyro)
 	print("User data directory is ", OS.get_user_data_dir())
 	
 	# Make config directory if it doesn't exist
@@ -143,6 +176,7 @@ func _ready():
 		user_dir.make_dir("cfg")
 	
 	if general_settings_load == OK:
+		init_config_files(general_settings, general_settings_dict)
 		if general_settings.get_value("Meta", "config_version") == 4:
 			legacy_load_routine()
 
@@ -150,6 +184,28 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+
+func init_config_files(file, file_sections):
+	pass # I'm not even ready yet arghhh
+
+
+func debug_dict_sections(file_sections): # This has been a pain!!
+	print(file_sections)
+	for section in file_sections:
+		var section_key = file_sections.get(section)
+		print(section)
+		print(section_key)
+		#for key in section_key:
+			#var value = section_key.get(key)
+			#print(key)
+			#print(value)
+
+
+func debug_dict(dict): # So has this!!
+	for key in dict:
+		print(key)
+		print(dict.get(key))
 
 
 ## Immediately sets the window resolution to a width and height in pixels. Does 
