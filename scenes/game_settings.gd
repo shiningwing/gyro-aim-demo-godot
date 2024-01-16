@@ -167,7 +167,7 @@ var general_section_input_gyro := {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#debug_dict_sections(general_settings_sections)
-	debug_dict(general_section_input_gyro)
+	debug_nested_dict(general_settings_dict)
 	print("User data directory is ", OS.get_user_data_dir())
 	
 	# Make config directory if it doesn't exist
@@ -206,6 +206,14 @@ func debug_dict(dict): # So has this!!
 	for key in dict:
 		print(key)
 		print(dict.get(key))
+
+
+func debug_nested_dict(dict): # Time to try again!!
+	for section in dict:
+		print(section)
+		for key in dict[section]:
+			print(key)
+			print(dict[section].get(key))
 
 
 ## Immediately sets the window resolution to a width and height in pixels. Does 
