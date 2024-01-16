@@ -18,14 +18,14 @@ var user_dir = DirAccess.open("user://")
 # This allows for potential cloud sync of settings while keeping graphics local
 ## Handles the [b]general.cfg[/b] config file. All reads and writes to 
 ## general.cfg are made through this variable.
-var general_settings = ConfigFile.new()
+var general_config = ConfigFile.new()
 ## Loads the [b]general.cfg[/b] file. Returns [b]OK[/b] if successful.
-var general_settings_load = general_settings.load("user://cfg/general.cfg")
+var general_config_load = general_config.load("user://cfg/general.cfg")
 ## Handles the [b]graphics.cfg[/b] config file. All reads and writes to 
 ## graphics.cfg are made through this variable.
-var graphics_settings = ConfigFile.new()
+var graphics_config = ConfigFile.new()
 ## Loads the [b]graphics.cfg[/b] file. Returns [b]OK[/b] if successful.
-var graphics_settings_load = graphics_settings.load("user://cfg/graphics.cfg")
+var graphics_config_load = graphics_config.load("user://cfg/graphics.cfg")
 
 # Start defining settings here
 # Meta
@@ -93,7 +93,7 @@ var vsync_mode: int = 1
 ## Sets the camera's vertical field of view in degrees.
 var camera_fov: float = 59.0
 
-var general_settings_dict := {
+var general := {
 		"Meta": {
 				"config_version": config_version,
 		},
@@ -125,23 +125,25 @@ var general_settings_dict := {
 		},
 }
 
-var graphics_settings_dict := {
+var graphics := {
+		"Meta": {
+				"config_version": config_version,
+		},
 		"Display": {
-			"resolution_w": resolution_w,
-			"resolution_h": resolution_h,
-			"window_mode": window_mode,
-			"vsync_mode": vsync_mode,
+				"resolution_w": resolution_w,
+				"resolution_h": resolution_h,
+				"window_mode": window_mode,
+				"vsync_mode": vsync_mode,
 		},
 		"View": {
-			"camera_fov": camera_fov
+				"camera_fov": camera_fov
 		},
 }
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#debug_dict_sections(general_settings_sections)
-	debug_nested_dict(general_settings_dict)
+	#debug_dict_sections(general_config_sections)
 	print("User data directory is ", OS.get_user_data_dir())
 	
 	# Make config directory if it doesn't exist
@@ -149,11 +151,16 @@ func _ready():
 		print("Config directory missing, creating...")
 		user_dir.make_dir("cfg")
 	
-	if general_settings_load == OK:
-		if general_settings.get_value("Meta", "config_version") == 4:
+	if general_config_load == OK:
+		if general_config.get_value("Meta", "config_version") == 4:
 			legacy_load_routine()
 		else:
-			load_config(general_settings, general_settings_dict)
+			load_config(general_config, general)
+	else: write_general_config()
+	
+	if graphics_config_load == OK:
+		load_config(graphics_config, graphics)
+	else: write_graphics_config()
 	
 	write_general_config()
 	write_graphics_config()
@@ -171,7 +178,8 @@ func load_config(file, dict):
 			print(section, " - ", key)
 			var loaded_value = file.get_value(section, key)
 			if file.has_section_key(section, key):
-				key = loaded_value
+				#key = loaded_value
+				dict[section][key] = loaded_value
 				print("Loaded: ", loaded_value)
 			else:
 				file.set_value(section, key, value)
@@ -186,19 +194,13 @@ func write_config(file, dict, location):
 
 
 func write_general_config():
-	write_config(general_settings, general_settings_dict, "user://cfg/general.cfg")
+	write_config(general_config, general, "user://cfg/general.cfg")
+	print("Wrote to general config!")
 
 
 func write_graphics_config():
-	write_config(graphics_settings, graphics_settings_dict, "user://cfg/general.cfg")
-
-
-func debug_nested_dict(dict): # Time to try again!!
-	for section in dict:
-		print(section)
-		for key in dict[section]:
-			var value = dict[section].get(key)
-			print(section, " - ", key, " - ", value)
+	write_config(graphics_config, graphics, "user://cfg/graphics.cfg")
+	print("Wrote to graphics config!")
 
 
 ## Immediately sets the window resolution to a width and height in pixels. Does 
@@ -214,8 +216,8 @@ func change_resolution(width: int, height: int):
 ##
 ## @deprecated
 func save_input_setting(section: String, key: String, value):
-	general_settings.set_value(section, key, value)
-	general_settings.save("user://cfg/general_settings.cfg")
+	general_config.set_value(section, key, value)
+	general_config.save("user://cfg/general_config.cfg")
 	print("Input settings config saved!")
 
 
@@ -224,32 +226,32 @@ func save_input_setting(section: String, key: String, value):
 ## @deprecated
 func legacy_load_routine():
 	# Load input settings
-	if general_settings_load != OK:
+	if general_config_load != OK:
 		# Initialize input settings
 		print("Input settings config doesn't exist, creating...")
-		general_settings.set_value("Meta", "config_version", 4)
-		general_settings.set_value("Mouselook", "mouse_sensitivity_x", mouse_sensitivity_x)
-		general_settings.set_value("Mouselook", "mouse_sensivitity_y", mouse_sensitivity_y)
-		general_settings.set_value("Gyro", "gyro_enabled", gyro_enabled)
-		general_settings.set_value("Gyro", "gyro_sensitivity_x", gyro_sensitivity_x)
-		general_settings.set_value("Gyro", "gyro_sensitivity_y", gyro_sensitivity_y)
-		general_settings.save("user://cfg/input.cfg")
+		general_config.set_value("Meta", "config_version", 4)
+		general_config.set_value("Mouselook", "mouse_sensitivity_x", mouse_sensitivity_x)
+		general_config.set_value("Mouselook", "mouse_sensivitity_y", mouse_sensitivity_y)
+		general_config.set_value("Gyro", "gyro_enabled", gyro_enabled)
+		general_config.set_value("Gyro", "gyro_sensitivity_x", gyro_sensitivity_x)
+		general_config.set_value("Gyro", "gyro_sensitivity_y", gyro_sensitivity_y)
+		general_config.save("user://cfg/input.cfg")
 		print("Input settings config created!")
-	elif general_settings_load == OK:
-		mouse_sensitivity_x = general_settings.get_value("Mouselook", "mouse_sensitivity_x")
-		mouse_sensitivity_y = general_settings.get_value("Mouselook", "mouse_sensitivity_x")
-		gyro_enabled = general_settings.get_value("Gyro", "gyro_enabled")
-		gyro_sensitivity_x = general_settings.get_value("Gyro", "gyro_sensitivity_x")
-		gyro_sensitivity_y = general_settings.get_value("Gyro", "gyro_sensitivity_x")
+	elif general_config_load == OK:
+		mouse_sensitivity_x = general_config.get_value("Mouselook", "mouse_sensitivity_x")
+		mouse_sensitivity_y = general_config.get_value("Mouselook", "mouse_sensitivity_x")
+		gyro_enabled = general_config.get_value("Gyro", "gyro_enabled")
+		gyro_sensitivity_x = general_config.get_value("Gyro", "gyro_sensitivity_x")
+		gyro_sensitivity_y = general_config.get_value("Gyro", "gyro_sensitivity_x")
 		print("Input settings config loaded!")
 	
 	# Load general settings
-	if general_settings_load != OK:
+	if general_config_load != OK:
 		print("General settings config doesn't exist, creating...")
-		general_settings.set_value("Meta", "config_version", config_version)
-		general_settings.set_value("Debug", "debug_mode", debug_mode)
-		general_settings.save("user://cfg/general.cfg")
+		general_config.set_value("Meta", "config_version", config_version)
+		general_config.set_value("Debug", "debug_mode", debug_mode)
+		general_config.save("user://cfg/general.cfg")
 		print("General settings config created!")
-	elif general_settings_load == OK:
-		debug_mode = general_settings.get_value("Debug", "debug_mode")
+	elif general_config_load == OK:
+		debug_mode = general_config.get_value("Debug", "debug_mode")
 		print("General settings config loaded!")

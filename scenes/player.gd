@@ -53,7 +53,7 @@ func _physics_process(delta):
 func _process(delta):
 	# Apply mouselook rotation
 	process_mouse_input(delta)
-	if GameSettings.gyro_enabled:
+	if GameSettings.general["InputGyro"]["gyro_enabled"]:
 		process_gyro_input(delta)
 	clamp_camera()
 	
@@ -61,13 +61,15 @@ func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		get_tree().quit()
 	
-	if GameSettings.debug_mode:
+	if GameSettings.general["Debug"]["debug_mode"]:
 		if Input.is_action_just_pressed("debug_startgyrocalibration"):
 			MotionInput.calibration_wanted = true
 		if Input.is_action_pressed("debug_calibrategyro"):
 			MotionInput.calibrating = true
 	#else:
 	#	MotionInput.calibrating = false
+	
+	camera.fov = GameSettings.graphics["View"]["camera_fov"]
 
 
 func _input(event):
@@ -77,10 +79,12 @@ func _input(event):
 
 
 func process_mouse_input(delta):
+	var sens_x: float = GameSettings.general["InputMouse"]["mouse_sensitivity_x"]
+	var sens_y: float = GameSettings.general["InputMouse"]["mouse_sensitivity_y"]
 	# Rotate camera around X axis
-	camera.rotation_degrees.x -= mouse_delta.y * GameSettings.mouse_sensitivity_y * delta
+	camera.rotation_degrees.x -= mouse_delta.y * sens_y * delta
 	# Rotate player around Y axis
-	rotation_degrees.y -= mouse_delta.x * GameSettings.mouse_sensitivity_x * delta
+	rotation_degrees.y -= mouse_delta.x * sens_x * delta
 	
 	# Zero out mouse delta to avoid camera "floating"
 	mouse_delta = Vector2.ZERO
@@ -98,8 +102,10 @@ func process_gyro_input(delta):
 		gyro_delta = Vector2(MotionInput.uncalibrated_gyro.y, MotionInput.uncalibrated_gyro.x)
 	
 	# Rotate camera around X axis
-	camera.rotation_degrees.x += gyro_delta.y * GameSettings.gyro_sensitivity_y * delta
-	rotation_degrees.y += gyro_delta.x * GameSettings.gyro_sensitivity_x * delta
+	var sens_x: float = GameSettings.general["InputGyro"]["gyro_sensitivity_x"]
+	var sens_y: float = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
+	camera.rotation_degrees.x += gyro_delta.y * sens_y * delta
+	rotation_degrees.y += gyro_delta.x * sens_x * delta
 	
 	# Zero out gyro delta to avoid camera "floating"
 	gyro_delta = Vector2.ZERO
