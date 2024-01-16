@@ -168,11 +168,9 @@ func _ready():
 	# If general.cfg is OK, load its values, else write the defaults immediately
 	if general_config_load == OK:
 		load_config(general_config, general)
-	else: write_general_config()
 	# Same with graphics.cfg
 	if graphics_config_load == OK:
 		load_config(graphics_config, graphics)
-	else: write_graphics_config()
 	
 	write_general_config()
 	write_graphics_config()
