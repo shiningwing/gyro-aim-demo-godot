@@ -93,57 +93,71 @@ var vsync_mode: int = 1
 ## Sets the camera's vertical field of view in degrees.
 var camera_fov: float = 59.0
 
+## A dictionary that contains all "general" settings values and sections that 
+## are saved in [b]general.cfg[/b]. This includes nearly everything other than 
+## graphics settings, and should be suitable for potential cloud syncing across 
+## multiple machines, unlike the graphics settings. [br][br]
+## This dictionary should be referenced whenever a setting is needed, by using
+## [code]GameSettings.general[SectionName][key_name][/code]. [br][br]
+## [b]TODO:[/b] Move over the key descriptions from the bespoke variables.
 var general := {
-		"Meta": {
-				"config_version": config_version,
-		},
-		"Debug": {
-				"debug_mode": debug_mode,
-		},
-		"InputMouse": {
-				"mouse_sensitivity_x": mouse_sensitivity_x,
-				"mouse_sensitivity_y": mouse_sensitivity_y,
-		},
-		"InputGyro": {
-				"gyro_enabled": gyro_enabled,
-				"gyro_autocalibration_enabled": gyro_autocalibration_enabled,
-				"gyro_sensitivity_x": gyro_sensitivity_x,
-				"gyro_sensitivity_y": gyro_sensitivity_y,
-				"gyro_invert_x": gyro_invert_x,
-				"gyro_invert_y": gyro_invert_y,
-				"gyro_accel_enabled": gyro_accel_enabled,
-				"gyro_accel_multiplier": gyro_accel_multiplier,
-				"gyro_accel_min_threshold": gyro_accel_min_threshold,
-				"gyro_accel_max_threshold": gyro_accel_max_threshold,
-				"gyro_smoothing_enabled": gyro_smoothing_enabled,
-				"gyro_smoothing_threshold": gyro_smoothing_threshold,
-				"gyro_smoothing_buffer": gyro_smoothing_buffer,
-				"gyro_tightening_enabled": gyro_tightening_enabled,
-				"gyro_tightening_threshold": gyro_tightening_threshold,
-				"gyro_space": gyro_space,
-				"gyro_local_yaw_axis": gyro_local_yaw_axis,
-		},
+	"Meta": {
+		"config_version": config_version,
+	},
+	"Debug": {
+		"debug_mode": debug_mode,
+	},
+	"InputMouse": {
+		"mouse_sensitivity_x": mouse_sensitivity_x,
+		"mouse_sensitivity_y": mouse_sensitivity_y,
+	},
+	"InputGyro": {
+		"gyro_enabled": gyro_enabled,
+		"gyro_autocalibration_enabled": gyro_autocalibration_enabled,
+		"gyro_sensitivity_x": gyro_sensitivity_x,
+		"gyro_sensitivity_y": gyro_sensitivity_y,
+		"gyro_invert_x": gyro_invert_x,
+		"gyro_invert_y": gyro_invert_y,
+		"gyro_accel_enabled": gyro_accel_enabled,
+		"gyro_accel_multiplier": gyro_accel_multiplier,
+		"gyro_accel_min_threshold": gyro_accel_min_threshold,
+		"gyro_accel_max_threshold": gyro_accel_max_threshold,
+		"gyro_smoothing_enabled": gyro_smoothing_enabled,
+		"gyro_smoothing_threshold": gyro_smoothing_threshold,
+		"gyro_smoothing_buffer": gyro_smoothing_buffer,
+		"gyro_tightening_enabled": gyro_tightening_enabled,
+		"gyro_tightening_threshold": gyro_tightening_threshold,
+		"gyro_space": gyro_space,
+		"gyro_local_yaw_axis": gyro_local_yaw_axis,
+	},
 }
 
+## A dictionary containing the graphics and diplay settings contained in
+## [b]graphics.cfg[/b], as a separate config file that can be safely left out of 
+## any cloud sync mechanism. [br][br]
+## This dictionary should be referenced whenever a setting is needed, by using
+## [code]GameSettings.graphics[SectionName][key_name][/code]. Settings in the 
+## [b]Display[/b] section should generally be set with their dedicated methods 
+## rather than directly. [br][br]
+## [b]TODO:[/b] Move over the key descriptions from the bespoke variables.
 var graphics := {
-		"Meta": {
-				"config_version": config_version,
-		},
-		"Display": {
-				"resolution_w": resolution_w,
-				"resolution_h": resolution_h,
-				"window_mode": window_mode,
-				"vsync_mode": vsync_mode,
-		},
-		"View": {
-				"camera_fov": camera_fov
-		},
+	"Meta": {
+		"config_version": config_version,
+	},
+	"Display": {
+		"resolution_w": resolution_w,
+		"resolution_h": resolution_h,
+		"window_mode": window_mode,
+		"vsync_mode": vsync_mode,
+	},
+	"View": {
+		"camera_fov": camera_fov
+	},
 }
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#debug_dict_sections(general_config_sections)
 	print("User data directory is ", OS.get_user_data_dir())
 	
 	# Make config directory if it doesn't exist
@@ -151,19 +165,25 @@ func _ready():
 		print("Config directory missing, creating...")
 		user_dir.make_dir("cfg")
 	
+	# If general.cfg is OK, load its values, else write the defaults immediately
 	if general_config_load == OK:
-		if general_config.get_value("Meta", "config_version") == 4:
-			legacy_load_routine()
-		else:
-			load_config(general_config, general)
+		load_config(general_config, general)
 	else: write_general_config()
-	
+	# Same with graphics.cfg
 	if graphics_config_load == OK:
 		load_config(graphics_config, graphics)
 	else: write_graphics_config()
 	
 	write_general_config()
 	write_graphics_config()
+	
+	# Set the display settings outside of mobile
+	if not OS.has_feature("android") and not OS.has_feature("ios"):
+		DisplayServer.window_set_size(Vector2i(
+				graphics["Display"]["resolution_w"],
+				graphics["Display"]["resolution_h"]), 0)
+		DisplayServer.window_set_mode(graphics["Display"]["window_mode"])
+		DisplayServer.window_set_vsync_mode(graphics["Display"]["vsync_mode"])
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -205,53 +225,20 @@ func write_graphics_config():
 
 ## Immediately sets the window resolution to a width and height in pixels. Does 
 ## not save to the config file on its own.
-func change_resolution(width: int, height: int):
-	resolution_w = width
-	resolution_h = height
-	Window.size = Vector2(resolution_w, resolution_h)
+func set_resolution(width: int, height: int):
+	graphics["Display"]["resolution_h"] = width
+	graphics["Display"]["resolution_w"] = height
+	DisplayServer.window_set_size(Vector2i(width, height), 0)
 
 
-## Sets a setting and saves it. Obsolete, should only be used for config 
-## versions <5
-##
-## @deprecated
-func save_input_setting(section: String, key: String, value):
-	general_config.set_value(section, key, value)
-	general_config.save("user://cfg/general_config.cfg")
-	print("Input settings config saved!")
+## Immediately sets the vertical sync mode. Does not save to the config file on 
+## its own.
+func set_vsync_mode(mode: int):
+	graphics["Display"]["vsync_mode"] = mode
+	DisplayServer.window_set_vsync_mode(mode)
 
+## Immediately sets the window mode. Does not save to the config file on its own.
+func set_window_mode(mode: int):
+	graphics["Display"]["window_mode"] = mode
+	DisplayServer.window_set_mode(mode)
 
-## Obsolete config loading method. Should not be used.
-##
-## @deprecated
-func legacy_load_routine():
-	# Load input settings
-	if general_config_load != OK:
-		# Initialize input settings
-		print("Input settings config doesn't exist, creating...")
-		general_config.set_value("Meta", "config_version", 4)
-		general_config.set_value("Mouselook", "mouse_sensitivity_x", mouse_sensitivity_x)
-		general_config.set_value("Mouselook", "mouse_sensivitity_y", mouse_sensitivity_y)
-		general_config.set_value("Gyro", "gyro_enabled", gyro_enabled)
-		general_config.set_value("Gyro", "gyro_sensitivity_x", gyro_sensitivity_x)
-		general_config.set_value("Gyro", "gyro_sensitivity_y", gyro_sensitivity_y)
-		general_config.save("user://cfg/input.cfg")
-		print("Input settings config created!")
-	elif general_config_load == OK:
-		mouse_sensitivity_x = general_config.get_value("Mouselook", "mouse_sensitivity_x")
-		mouse_sensitivity_y = general_config.get_value("Mouselook", "mouse_sensitivity_x")
-		gyro_enabled = general_config.get_value("Gyro", "gyro_enabled")
-		gyro_sensitivity_x = general_config.get_value("Gyro", "gyro_sensitivity_x")
-		gyro_sensitivity_y = general_config.get_value("Gyro", "gyro_sensitivity_x")
-		print("Input settings config loaded!")
-	
-	# Load general settings
-	if general_config_load != OK:
-		print("General settings config doesn't exist, creating...")
-		general_config.set_value("Meta", "config_version", config_version)
-		general_config.set_value("Debug", "debug_mode", debug_mode)
-		general_config.save("user://cfg/general.cfg")
-		print("General settings config created!")
-	elif general_config_load == OK:
-		debug_mode = general_config.get_value("Debug", "debug_mode")
-		print("General settings config loaded!")

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Gyro Aim Demo 1"
-config/version="0.0.0-18"
+config/version="0.0.0-19"
 run/main_scene="res://scenes/level_0.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.png"
@@ -25,8 +25,6 @@ GameSettings="*res://scenes/game_settings.gd"
 
 window/size/viewport_width=854
 window/size/viewport_height=480
-window/size/window_width_override=1280
-window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 
 [editor]
