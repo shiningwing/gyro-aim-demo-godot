@@ -1,4 +1,5 @@
 extends Node
+## Provides motion vectors to be used for gameplay.
 # Shout out to Jibb Smart for the gyro guides, and for pioneering so much of this
 
 
@@ -58,7 +59,10 @@ func _process(delta):
 	# Apply the gyro calibration
 	_gyro_velocity = Vector3(uncalibrated_gyro.x, uncalibrated_gyro.y, uncalibrated_gyro.z)
 	_gyro_calibration = Vector3(get_calibration_offset().x, get_calibration_offset().y, get_calibration_offset().z)
-	calibrated_gyro = _gyro_velocity - _gyro_calibration
+	if not calibrating:
+		calibrated_gyro = _gyro_velocity - _gyro_calibration
+	else:
+		calibrated_gyro = Vector3.ZERO
 
 
 func get_calibration_offset():
