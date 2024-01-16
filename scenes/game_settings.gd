@@ -125,44 +125,18 @@ var general_settings_dict := {
 		},
 }
 
-# Config file sections arry
-var general_settings_sections := {
-		"Meta": "general_section_meta",
-		"Debug": "general_section_debug",
-		"InputMouse": "general_section_input_mouse",
-		"InputGyro": "general_section_input_gyro",
+var graphics_settings_dict := {
+		"Display": {
+			"resolution_w": resolution_w,
+			"resolution_h": resolution_h,
+			"window_mode": window_mode,
+			"vsync_mode": vsync_mode,
+		},
+		"View": {
+			"camera_fov": camera_fov
+		},
 }
 
-# Arrays of variables in each section
-var general_section_meta := {
-		"config_version": config_version,
-}
-var general_section_debug := {
-		"debug_mode": debug_mode,
-}
-var general_section_input_mouse := {
-		"mouse_sensitivity_x": mouse_sensitivity_x,
-		"mouse_sensitivity_y": mouse_sensitivity_y,
-}
-var general_section_input_gyro := {
-		"gyro_enabled": gyro_enabled,
-		"gyro_autocalibration_enabled": gyro_autocalibration_enabled,
-		"gyro_sensitivity_x": gyro_sensitivity_x,
-		"gyro_sensitivity_y": gyro_sensitivity_y,
-		"gyro_invert_x": gyro_invert_x,
-		"gyro_invert_y": gyro_invert_y,
-		"gyro_accel_enabled": gyro_accel_enabled,
-		"gyro_accel_multiplier": gyro_accel_multiplier,
-		"gyro_accel_min_threshold": gyro_accel_min_threshold,
-		"gyro_accel_max_threshold": gyro_accel_max_threshold,
-		"gyro_smoothing_enabled": gyro_smoothing_enabled,
-		"gyro_smoothing_threshold": gyro_smoothing_threshold,
-		"gyro_smoothing_buffer": gyro_smoothing_buffer,
-		"gyro_tightening_enabled": gyro_tightening_enabled,
-		"gyro_tightening_threshold": gyro_tightening_threshold,
-		"gyro_space": gyro_space,
-		"gyro_local_yaw_axis": gyro_local_yaw_axis,
-}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -176,9 +150,13 @@ func _ready():
 		user_dir.make_dir("cfg")
 	
 	if general_settings_load == OK:
-		init_config_files(general_settings, general_settings_dict)
 		if general_settings.get_value("Meta", "config_version") == 4:
 			legacy_load_routine()
+		else:
+			load_config(general_settings, general_settings_dict)
+	
+	write_general_config()
+	write_graphics_config()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -186,34 +164,41 @@ func _ready():
 #	pass
 
 
-func init_config_files(file, file_sections):
-	pass # I'm not even ready yet arghhh
+func load_config(file, dict):
+	for section in dict:
+		for key in dict[section]:
+			var value = dict[section].get(key)
+			print(section, " - ", key)
+			var loaded_value = file.get_value(section, key)
+			if file.has_section_key(section, key):
+				key = loaded_value
+				print("Loaded: ", loaded_value)
+			else:
+				file.set_value(section, key, value)
 
 
-func debug_dict_sections(file_sections): # This has been a pain!!
-	print(file_sections)
-	for section in file_sections:
-		var section_key = file_sections.get(section)
-		print(section)
-		print(section_key)
-		#for key in section_key:
-			#var value = section_key.get(key)
-			#print(key)
-			#print(value)
+func write_config(file, dict, location):
+	for section in dict:
+		for key in dict[section]:
+			var value = dict[section].get(key)
+			file.set_value(section, key, value)
+	file.save(location)
 
 
-func debug_dict(dict): # So has this!!
-	for key in dict:
-		print(key)
-		print(dict.get(key))
+func write_general_config():
+	write_config(general_settings, general_settings_dict, "user://cfg/general.cfg")
+
+
+func write_graphics_config():
+	write_config(graphics_settings, graphics_settings_dict, "user://cfg/general.cfg")
 
 
 func debug_nested_dict(dict): # Time to try again!!
 	for section in dict:
 		print(section)
 		for key in dict[section]:
-			print(key)
-			print(dict[section].get(key))
+			var value = dict[section].get(key)
+			print(section, " - ", key, " - ", value)
 
 
 ## Immediately sets the window resolution to a width and height in pixels. Does 
