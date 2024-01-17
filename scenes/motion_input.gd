@@ -66,8 +66,8 @@ func _process(delta):
 	else:
 		calibrated_gyro = Vector3.ZERO
 	
-	processed_gyro = process_gyro_input(calibrated_gyro)
-	processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro)
+	processed_gyro = process_gyro_input(calibrated_gyro, delta)
+	processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro, delta)
 
 
 func get_calibration_offset():
@@ -81,16 +81,64 @@ func reset_calibration():
 	accumulated_offset = Vector3.ZERO
 
 
-func process_gyro_input(gyro: Vector3):
+func process_gyro_input(gyro: Vector3, delta: float):
 	# Get base sensitivity from settings config
-	var sens_x: float = GameSettings.general["InputGyro"]["gyro_sensitivity_x"]
-	var sens_y: float = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
-	var processed := Vector2()
-	# If local space gyro is set to use the yaw axis
-	if GameSettings.general["InputGyro"]["gyro_local_yaw_axis"] == 1:
-		# Multiply gyro vector by sensitivity
-		processed = Vector2(gyro.z * sens_x, gyro.x * sens_y)
-	else:
-		processed = Vector2(gyro.y * sens_x, gyro.x * sens_y)
+	var sens: Vector2
+	var gyro_delta: Vector2
 	
+	# Set gyro axes based on yaw/roll setting
+	if GameSettings.general["InputGyro"]["gyro_local_yaw_axis"] == 1:
+		gyro_delta.x = gyro.z
+		gyro_delta.y = gyro.x
+	else:
+		gyro_delta.x = gyro.y
+		gyro_delta.y = gyro.x
+	
+	# Set sensitivity based on acceleration setting
+	if GameSettings.general["InputGyro"]["gyro_accel_enabled"]:
+		sens = process_gyro_acceleration(gyro_delta)
+	else:
+		sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_x"]
+		sens.y = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
+	
+	# Process gyro Vector2 using calculated axes and sensitivity
+	var processed := Vector2(gyro_delta.x * sens.x * delta, gyro_delta.y * sens.y * delta)
 	return processed
+
+## Calculates the sensitivity used for gyro aim when acceleration is on. 
+## Takes a [Vector2] containing a gyroscope X and Y, which should be the one 
+## obtained after the 3DOF to 2DOF conversion in [method process_gyro_input].
+func process_gyro_acceleration(gyro: Vector2):
+	var sens: Vector2
+	sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
+	sens.y = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
+	
+	var min_threshold: float = GameSettings.general["InputGyro"]["gyro_accel_min_threshold"]
+	var max_threshold: float = GameSettings.general["InputGyro"]["gyro_accel_max_threshold"]
+	var sens_multiplier: float = GameSettings.general["InputGyro"]["gyro_accel_multiplier"]
+	
+	# How fast are we turning?
+	var speed: float = sqrt(gyro.x * gyro.x + gyro.y * gyro.y)
+	
+	# How much are we between the acceleration thresholds?
+	var slow_fast_factor: float = (speed - min_threshold) / (max_threshold - min_threshold)
+	# We're at 0.0 if we're at or below the minimum threshold, and
+	# we're at 1.0 if we're at or above the maximum threshold.
+	slow_fast_factor = clamp(slow_fast_factor, 0.0, 1.0)
+	
+	# Get the new sensitivity 
+	var new_sens: Vector2
+	new_sens.x = (
+			# Multiply the slow sens by how low we are in the threshold
+			sens.x * (1.0 - slow_fast_factor)
+			# And then the fast sens by how high we are in it, then add it up
+			+ (sens.x * sens_multiplier) * (slow_fast_factor)
+	)
+	new_sens.y = (
+			# Multiply the slow sens by how low we are in the threshold
+			sens.y * (1.0 - slow_fast_factor)
+			# And then the fast sens by how high we are in it, then add it up
+			+ (sens.y * sens_multiplier) * (slow_fast_factor)
+	)
+	
+	return new_sens
