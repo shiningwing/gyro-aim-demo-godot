@@ -89,7 +89,7 @@ func process_gyro_input(gyro: Vector3):
 	# If local space gyro is set to use the yaw axis
 	if GameSettings.general["InputGyro"]["gyro_local_yaw_axis"] == 1:
 		# Multiply gyro vector by sensitivity
-		processed = Vector2(gyro.y * sens_x, gyro.x * sens_y)
+		processed = Vector2(gyro.z * sens_x, gyro.x * sens_y)
 	else:
 		processed = Vector2(gyro.y * sens_x, gyro.x * sens_y)
 	
