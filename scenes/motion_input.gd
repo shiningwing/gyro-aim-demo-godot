@@ -96,7 +96,7 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	
 	# Set sensitivity based on acceleration setting
 	if GameSettings.general["InputGyro"]["gyro_accel_enabled"]:
-		pass
+		sens = process_gyro_acceleration(gyro_delta)
 	else:
 		sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_x"]
 		sens.y = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
@@ -105,10 +105,40 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	var processed := Vector2(gyro_delta.x * sens.x * delta, gyro_delta.y * sens.y * delta)
 	return processed
 
-func process_gyro_acceleration(gyro: Vector2, delta: float):
+## Calculates the sensitivity used for gyro aim when acceleration is on. 
+## Takes a [Vector2] containing a gyroscope X and Y, which should be the one 
+## obtained after the 3DOF to 2DOF conversion in [method process_gyro_input].
+func process_gyro_acceleration(gyro: Vector2):
+	var sens: Vector2
+	sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
+	sens.y = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
+	
+	var min_threshold: float = GameSettings.general["InputGyro"]["gyro_accel_min_threshold"]
+	var max_threshold: float = GameSettings.general["InputGyro"]["gyro_accel_max_threshold"]
+	var sens_multiplier: float = GameSettings.general["InputGyro"]["gyro_accel_multiplier"]
+	
+	# How fast are we turning?
+	var speed: float = sqrt(gyro.x * gyro.x + gyro.y * gyro.y)
+	
+	# How much are we between the acceleration thresholds?
+	var slow_fast_factor: float = (speed - min_threshold) / (max_threshold - min_threshold)
+	# We're at 0.0 if we're at or below the minimum threshold, and
+	# we're at 1.0 if we're at or above the maximum threshold.
+	slow_fast_factor = clamp(slow_fast_factor, 0.0, 1.0)
+	
+	# Get the new sensitivity 
 	var new_sens: Vector2
-	# Just give back the old sensitivity until you're ready okay?
-	new_sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_x"]
-	new_sens.y = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
+	new_sens.x = (
+			# Multiply the slow sens by how low we are in the threshold
+			sens.x * (1.0 - slow_fast_factor)
+			# And then the fast sens by how high we are in it, then add it up
+			+ (sens.x * sens_multiplier) * (slow_fast_factor)
+	)
+	new_sens.y = (
+			# Multiply the slow sens by how low we are in the threshold
+			sens.y * (1.0 - slow_fast_factor)
+			# And then the fast sens by how high we are in it, then add it up
+			+ (sens.y * sens_multiplier) * (slow_fast_factor)
+	)
 	
 	return new_sens
