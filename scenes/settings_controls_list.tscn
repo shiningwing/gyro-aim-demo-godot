@@ -7,6 +7,7 @@ font_size = 20
 font_color = Color(0.956863, 0.560784, 0.694118, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_5usrh"]
+font_size = 18
 font_color = Color(1, 0.843137, 0.25098, 1)
 
 [node name="ControlsList" type="VBoxContainer"]
