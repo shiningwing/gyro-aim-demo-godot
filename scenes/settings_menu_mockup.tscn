@@ -1,0 +1,279 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwcse3i6rcj6y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xbw60"]
+bg_color = Color(0.125911, 0.125911, 0.125911, 1)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_fgche"]
+size = Vector2(24, 24)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0rj5u"]
+font_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfath"]
+bg_color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kjaj4"]
+font_size = 20
+font_color = Color(0.380392, 0.823529, 1, 1)
+
+[node name="SettingsMenu" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HeaderBar" type="PanelContainer" parent="SettingsContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xbw60")
+
+[node name="HeaderContainer" type="HBoxContainer" parent="SettingsContainer/HeaderBar"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Padding0" type="Control" parent="SettingsContainer/HeaderBar/HeaderContainer"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="SettingsContainer/HeaderBar/HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+text = "Go Back"
+icon = SubResource("PlaceholderTexture2D_fgche")
+
+[node name="Padding1" type="Control" parent="SettingsContainer/HeaderBar/HeaderContainer"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsContainer/HeaderBar/HeaderContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Settings"
+label_settings = SubResource("LabelSettings_0rj5u")
+vertical_alignment = 1
+
+[node name="SettingsContainer" type="PanelContainer" parent="SettingsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_rfath")
+
+[node name="SettingsScrollContainer" type="ScrollContainer" parent="SettingsContainer/SettingsContainer"]
+layout_mode = 2
+follow_focus = true
+scroll_vertical = 40
+
+[node name="SettingsListContainer" type="HBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="PaddingLeft" type="Control" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="SettingsList" type="VBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="PaddingTop" type="Control" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Subheader0" type="HBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/Subheader0"]
+layout_mode = 2
+text = "Gyro Aim
+"
+label_settings = SubResource("LabelSettings_kjaj4")
+
+[node name="ListItem2" type="HBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Enable Gyro Aim
+"
+
+[node name="CheckButton0" type="CheckButton" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem2"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "
+"
+
+[node name="ListItem3" type="HBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Calibrate Gyroscope Automatically"
+
+[node name="CheckButton0" type="CheckButton" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem3"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "
+"
+
+[node name="ListItem0" type="HBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem0"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Horizontal Sensitivity"
+
+[node name="Label2" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem0"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "2.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem0"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+max_value = 20.0
+step = 0.1
+value = 2.0
+
+[node name="ListItem1" type="HBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Vertical Sensitivity"
+
+[node name="Label2" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem1"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "2.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem1"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+max_value = 20.0
+step = 0.1
+value = 2.0
+
+[node name="ListItem4" type="HBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem4"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Invert Horizontal Aim"
+
+[node name="CheckButton0" type="CheckButton" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem4"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "
+"
+
+[node name="ListItem5" type="HBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem5"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Invert Vertical Aim"
+
+[node name="CheckButton0" type="CheckButton" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem5"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "
+"
+
+[node name="ListItem6" type="HBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem6"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Enable Acceleration
+"
+
+[node name="CheckButton0" type="CheckButton" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem6"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "
+"
+
+[node name="ListItem7" type="HBoxContainer" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem7"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Enable Acceleration
+"
+
+[node name="CheckButton0" type="CheckButton" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList/ListItem7"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "
+"
+
+[node name="PaddingBottom" type="Control" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="PaddingRight" type="Control" parent="SettingsContainer/SettingsContainer/SettingsScrollContainer/SettingsListContainer"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
