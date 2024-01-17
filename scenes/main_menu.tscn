@@ -44,19 +44,34 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 24
 
-[node name="Title" type="Label" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
 layout_mode = 2
-text = "Gyro Aim Demo by Shining Wing"
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header/VBoxContainer"]
+layout_mode = 2
+text = "Gyro Aim Demo"
 label_settings = SubResource("LabelSettings_buhpd")
+
+[node name="Title2" type="Label" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header/VBoxContainer"]
+layout_mode = 2
+text = "From Shiny's Hideout!"
+
+[node name="ToggleDebugButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+size_flags_vertical = 4
+toggle_mode = true
+text = "Toggle Debug"
+
+[node name="SaveSettingsButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Save Settings"
 
 [node name="GameStartButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Get in the game"
-
-[node name="SaveSettingsButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
-layout_mode = 2
-text = "Save Settings"
 
 [node name="PaddingEnd" type="Control" parent="MainMenuPanel/VBoxContainer/HeaderContainer"]
 custom_minimum_size = Vector2(24, 0)
@@ -70,5 +85,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/GameStartButton" to="." method="_on_game_start_button_pressed"]
+[connection signal="toggled" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/ToggleDebugButton" to="." method="_on_toggle_debug_button_toggled"]
 [connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/SaveSettingsButton" to="." method="_on_save_settings_button_pressed"]
+[connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/GameStartButton" to="." method="_on_game_start_button_pressed"]
