@@ -10,11 +10,15 @@ font_color = Color(0.956863, 0.560784, 0.694118, 1)
 font_color = Color(1, 0.843137, 0.25098, 1)
 
 [node name="ControlsList" type="VBoxContainer"]
-custom_minimum_size = Vector2(640, 0)
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_horizontal = 3
 theme_override_constants/separation = 0
 script = ExtResource("1_rxotu")
+
+[node name="PaddingTop" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
 
 [node name="MouseTouchHeader" type="Label" parent="."]
 custom_minimum_size = Vector2(0, 56)
@@ -453,3 +457,9 @@ placeholder_text = "5.0"
 alignment = 1
 max_length = 5
 virtual_keyboard_type = 3
+
+[node name="PaddingBottom" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[connection signal="drag_ended" from="MouseHoriSensitivity/HSlider" to="." method="_on_mouse_hori_sensitivity_slider_drag_ended"]
