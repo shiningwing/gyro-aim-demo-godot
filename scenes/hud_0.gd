@@ -18,7 +18,9 @@ var debug_use_uncalibrated_gyro := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if not GameSettings.debug_mode:
+	#if not GameSettings.debug_mode:
+	print(GameSettings.general["Debug"]["debug_mode"])
+	if not GameSettings.general["Debug"]["debug_mode"]:
 		debug_hud.visible = false
 	if not OS.has_feature("android") and not OS.has_feature("ios"):
 		calibrate_button.visible = false
@@ -32,7 +34,7 @@ func _ready():
 func _process(delta):
 	
 	# Every frame, update the motion labels with raw motion data
-	if GameSettings.debug_mode:
+	if GameSettings.general["Debug"]["debug_mode"]:
 		if not debug_hud.visible:
 			debug_hud.visible
 		update_debug_stats()

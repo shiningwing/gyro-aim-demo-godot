@@ -1,9 +1,12 @@
 extends Node
+## Provides motion vectors to be used for gameplay.
 # Shout out to Jibb Smart for the gyro guides, and for pioneering so much of this
 
 
 var uncalibrated_gyro := Vector3.ZERO
 var calibrated_gyro := Vector3.ZERO
+var processed_gyro := Vector2.ZERO
+var processed_uncalibrated_gyro := Vector2.ZERO
 
 # Calibration variables
 var num_offset_samples: int = 0
@@ -58,7 +61,13 @@ func _process(delta):
 	# Apply the gyro calibration
 	_gyro_velocity = Vector3(uncalibrated_gyro.x, uncalibrated_gyro.y, uncalibrated_gyro.z)
 	_gyro_calibration = Vector3(get_calibration_offset().x, get_calibration_offset().y, get_calibration_offset().z)
-	calibrated_gyro = _gyro_velocity - _gyro_calibration
+	if not calibrating:
+		calibrated_gyro = _gyro_velocity - _gyro_calibration
+	else:
+		calibrated_gyro = Vector3.ZERO
+	
+	processed_gyro = process_gyro_input(calibrated_gyro)
+	processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro)
 
 
 func get_calibration_offset():
@@ -70,3 +79,18 @@ func get_calibration_offset():
 func reset_calibration():
 	num_offset_samples = 0
 	accumulated_offset = Vector3.ZERO
+
+
+func process_gyro_input(gyro: Vector3):
+	# Get base sensitivity from settings config
+	var sens_x: float = GameSettings.general["InputGyro"]["gyro_sensitivity_x"]
+	var sens_y: float = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
+	var processed := Vector2()
+	# If local space gyro is set to use the yaw axis
+	if GameSettings.general["InputGyro"]["gyro_local_yaw_axis"] == 1:
+		# Multiply gyro vector by sensitivity
+		processed = Vector2(gyro.y * sens_x, gyro.x * sens_y)
+	else:
+		processed = Vector2(gyro.y * sens_x, gyro.x * sens_y)
+	
+	return processed

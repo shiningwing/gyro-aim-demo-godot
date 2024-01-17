@@ -52,22 +52,24 @@ func _physics_process(delta):
 
 func _process(delta):
 	# Apply mouselook rotation
-	process_mouse_input(delta)
-	if GameSettings.gyro_enabled:
-		process_gyro_input(delta)
+	process_mouse_look(delta)
+	if GameSettings.general["InputGyro"]["gyro_enabled"]:
+		process_gyro_look(delta)
 	clamp_camera()
 	
 	# Exit game when Esc is pressed
 	if Input.is_action_just_pressed("ui_cancel"):
 		get_tree().quit()
 	
-	if GameSettings.debug_mode:
+	if GameSettings.general["Debug"]["debug_mode"]:
 		if Input.is_action_just_pressed("debug_startgyrocalibration"):
 			MotionInput.calibration_wanted = true
 		if Input.is_action_pressed("debug_calibrategyro"):
 			MotionInput.calibrating = true
 	#else:
 	#	MotionInput.calibrating = false
+	
+	camera.fov = GameSettings.graphics["View"]["camera_fov"]
 
 
 func _input(event):
@@ -76,11 +78,13 @@ func _input(event):
 		mouse_delta = event.relative
 
 
-func process_mouse_input(delta):
+func process_mouse_look(delta):
+	var sens_x: float = GameSettings.general["InputMouse"]["mouse_sensitivity_x"]
+	var sens_y: float = GameSettings.general["InputMouse"]["mouse_sensitivity_y"]
 	# Rotate camera around X axis
-	camera.rotation_degrees.x -= mouse_delta.y * GameSettings.mouse_sensitivity_y * delta
+	camera.rotation_degrees.x -= mouse_delta.y * sens_y * delta
 	# Rotate player around Y axis
-	rotation_degrees.y -= mouse_delta.x * GameSettings.mouse_sensitivity_x * delta
+	rotation_degrees.y -= mouse_delta.x * sens_x * delta
 	
 	# Zero out mouse delta to avoid camera "floating"
 	mouse_delta = Vector2.ZERO
@@ -88,18 +92,19 @@ func process_mouse_input(delta):
 	
 
 
-func process_gyro_input(delta):
+func process_gyro_look(delta):
 	# Prepare gyro delta from X and Y of the global calibrated gyro
 	debug_use_uncalibrated_gyro = $HUD0.debug_use_uncalibrated_gyro
 	if not debug_use_uncalibrated_gyro:
-		gyro_delta = Vector2(MotionInput.calibrated_gyro.y, MotionInput.calibrated_gyro.x)
+		gyro_delta = MotionInput.processed_gyro
 	# Use uncalibrated gyro if it's enabled
 	else:
-		gyro_delta = Vector2(MotionInput.uncalibrated_gyro.y, MotionInput.uncalibrated_gyro.x)
+		gyro_delta = MotionInput.processed_uncalibrated_gyro
 	
 	# Rotate camera around X axis
-	camera.rotation_degrees.x += gyro_delta.y * GameSettings.gyro_sensitivity_y * delta
-	rotation_degrees.y += gyro_delta.x * GameSettings.gyro_sensitivity_x * delta
+	camera.rotation_degrees.x += gyro_delta.y * delta
+	# Rotate player around Y axis
+	rotation_degrees.y += gyro_delta.x * delta
 	
 	# Zero out gyro delta to avoid camera "floating"
 	gyro_delta = Vector2.ZERO
