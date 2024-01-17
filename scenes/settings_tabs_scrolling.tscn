@@ -28,3 +28,7 @@ layout_mode = 2
 [node name="PaddingRight" type="Control" parent="Controls/ControlsListContainer"]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
+
+[node name="Display" type="Control" parent="."]
+visible = false
+layout_mode = 2

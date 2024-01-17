@@ -463,3 +463,10 @@ custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 
 [connection signal="drag_ended" from="MouseHoriSensitivity/HSlider" to="." method="_on_mouse_hori_sensitivity_slider_drag_ended"]
+[connection signal="drag_ended" from="MouseVertSensitivity/HSlider" to="." method="_on_mouse_vert_sensitivity_slider_drag_ended"]
+[connection signal="toggled" from="GyroAimEnable/CheckButton" to="." method="_on_gyro_aim_enabled_toggled"]
+[connection signal="toggled" from="GyroAutocalibrationEnable/CheckButton" to="." method="_on_gyro_autocalibration_enabled_toggled"]
+[connection signal="drag_ended" from="GyroHoriSensitivity/HSlider" to="." method="_on_gyro_hori_sensitivity_slider_drag_ended"]
+[connection signal="drag_ended" from="GyroVertSensitivity/HSlider" to="." method="_on_gyro_vert_sensitivity_slider_drag_ended"]
+[connection signal="toggled" from="GyroInvertHori/CheckButton" to="." method="_on_gyro_invert_hori_toggled"]
+[connection signal="toggled" from="GyroInvertVert/CheckButton" to="." method="_on_invert_vert_toggled"]

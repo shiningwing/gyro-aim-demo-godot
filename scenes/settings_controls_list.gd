@@ -22,8 +22,8 @@ func _ready():
 	else:
 		$GyroAimEnable/CheckButton.text = "Off"
 	
-	#$GyroAuocalibrationEnable/CheckButton.button_pressed = (
-	#		GameSettings.general["InputGyro"]["gyro_autocalibration_enabled"])
+	$GyroAutocalibrationEnable/CheckButton.button_pressed = (
+			GameSettings.general["InputGyro"]["gyro_autocalibration_enabled"])
 	if $GyroAutocalibrationEnable/CheckButton.button_pressed:
 		$GyroAutocalibrationEnable/CheckButton.text = "On"
 	else:
@@ -79,8 +79,63 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	$MouseHoriSensitivity/LineEdit.text = str($MouseHoriSensitivity/HSlider.value)
+	$MouseVertSensitivity/LineEdit.text = str($MouseVertSensitivity/HSlider.value)
+	$GyroHoriSensitivity/LineEdit.text = str($GyroHoriSensitivity/HSlider.value)
+	$GyroVertSensitivity/LineEdit.text = str($GyroVertSensitivity/HSlider.value)
 
 
 func _on_mouse_hori_sensitivity_slider_drag_ended(value_changed):
-	pass # Replace with function body.
+	GameSettings.general["InputMouse"]["mouse_sensitivity_x"] = (
+			$MouseHoriSensitivity/HSlider.value)
+
+
+func _on_mouse_vert_sensitivity_slider_drag_ended(value_changed):
+	GameSettings.general["InputMouse"]["mouse_sensitivity_y"] = (
+			$MouseVertSensitivity/HSlider.value)
+
+
+func _on_gyro_aim_enabled_toggled(toggled_on):
+	if toggled_on:
+		GameSettings.general["InputGyro"]["gyro_enabled"] = true
+		$GyroAimEnable/CheckButton.text = "On"
+	else:
+		GameSettings.general["InputGyro"]["gyro_enabled"] = false
+		$GyroAimEnable/CheckButton.text = "Off"
+
+
+func _on_gyro_autocalibration_enabled_toggled(toggled_on):
+	if toggled_on:
+		GameSettings.general["InputGyro"]["gyro_autocalibration_enabled"] = true
+		$GyroAutocalibrationEnable/CheckButton.text = "On"
+	else:
+		GameSettings.general["InputGyro"]["gyro_autocalibration_enabled"] = false
+		$GyroAutocalibrationEnable/CheckButton.text = "Off"
+
+
+func _on_gyro_hori_sensitivity_slider_drag_ended(value_changed):
+	GameSettings.general["InputGyro"]["gyro_sensitivity_x"] = (
+			$GyroHoriSensitivity/HSlider.value)
+
+
+func _on_gyro_vert_sensitivity_slider_drag_ended(value_changed):
+	GameSettings.general["InputGyro"]["gyro_sensitivity_y"] = (
+			$GyroVertSensitivity/HSlider.value)
+
+
+func _on_gyro_invert_hori_toggled(toggled_on):
+	if toggled_on:
+		GameSettings.general["InputGyro"]["gyro_invert_x"] = true
+		$GyroInvertHori/CheckButton.text = "On"
+	else:
+		GameSettings.general["InputGyro"]["gyro_invert_x"] = false
+		$GyroInvertHori/CheckButton.text = "Off"
+
+
+func _on_invert_vert_toggled(toggled_on):
+	if toggled_on:
+		GameSettings.general["InputGyro"]["gyro_invert_y"] = true
+		$GyroInvertVert/CheckButton.text = "On"
+	else:
+		GameSettings.general["InputGyro"]["gyro_invert_y"] = false
+		$GyroInvertVert/CheckButton.text = "Off"

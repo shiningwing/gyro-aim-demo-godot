@@ -54,6 +54,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Get in the game"
 
+[node name="SaveSettingsButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+text = "Save Settings"
+
 [node name="PaddingEnd" type="Control" parent="MainMenuPanel/VBoxContainer/HeaderContainer"]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
@@ -67,3 +71,4 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/GameStartButton" to="." method="_on_game_start_button_pressed"]
+[connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/SaveSettingsButton" to="." method="_on_save_settings_button_pressed"]
