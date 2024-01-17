@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://dq7k322hhtav6"]
+
+[ext_resource type="StyleBox" uid="uid://xcl2mxedgsds" path="res://themes/hideout_style_box_flat_background.tres" id="1_ki2ry"]
+[ext_resource type="StyleBox" uid="uid://ci7k7piidq8in" path="res://themes/hideout_style_box_flat_highlight.tres" id="2_2mmdl"]
+
+[resource]
+PanelContainer/styles/panel = ExtResource("1_ki2ry")
+TabContainer/constants/side_margin = 0
+TabContainer/font_sizes/font_size = 20
+TabContainer/styles/panel = ExtResource("2_2mmdl")

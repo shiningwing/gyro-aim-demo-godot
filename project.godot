@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Gyro Aim Demo 1"
-config/version="0.0.0-26"
+config/version="0.0.0-31"
 run/main_scene="res://scenes/level_0.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.png"
@@ -31,6 +31,10 @@ window/stretch/mode="canvas_items"
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+
+[gui]
+
+theme/custom="res://themes/hideout.tres"
 
 [input]
 
