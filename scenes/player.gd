@@ -101,10 +101,11 @@ func process_gyro_look(delta):
 	else:
 		gyro_delta = MotionInput.processed_uncalibrated_gyro
 	
+	# DON'T use delta time for gyro because that's handled by MotionInput!
 	# Rotate camera around X axis
-	camera.rotation_degrees.x += gyro_delta.y * delta
+	camera.rotation_degrees.x += gyro_delta.y
 	# Rotate player around Y axis
-	rotation_degrees.y += gyro_delta.x * delta
+	rotation_degrees.y += gyro_delta.x
 	
 	# Zero out gyro delta to avoid camera "floating"
 	gyro_delta = Vector2.ZERO
