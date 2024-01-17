@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=3 uid="uid://coqst8u6i5nwm"]
+
+[ext_resource type="PackedScene" uid="uid://blsu60w3ijadc" path="res://scenes/settings_tabs_scrolling.tscn" id="1_ocvcx"]
+[ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_pl8at"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_buhpd"]
+font_size = 24
+font_color = Color(0.956863, 0.560784, 0.694118, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pl8at")
+
+[node name="MainMenuPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuPanel"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PaddingStart" type="Control" parent="MainMenuPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="HeaderContainer" type="HBoxContainer" parent="MainMenuPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="PaddingStart" type="Control" parent="MainMenuPanel/VBoxContainer/HeaderContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+
+[node name="Header" type="VBoxContainer" parent="MainMenuPanel/VBoxContainer/HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+text = "Gyro Aim Demo by Shining Wing"
+label_settings = SubResource("LabelSettings_buhpd")
+
+[node name="GameStartButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+text = "Get in the game"
+
+[node name="PaddingEnd" type="Control" parent="MainMenuPanel/VBoxContainer/HeaderContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+
+[node name="PaddingMiddle" type="Control" parent="MainMenuPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="SettingsTabs" parent="MainMenuPanel/VBoxContainer" instance=ExtResource("1_ocvcx")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/GameStartButton" to="." method="_on_game_start_button_pressed"]

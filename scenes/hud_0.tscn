@@ -26,6 +26,7 @@ offset_left = 32.0
 offset_top = 32.0
 offset_right = 163.0
 offset_bottom = 136.0
+theme_override_constants/separation = 4
 
 [node name="CameraXAngleLabel" type="Label" parent="Debug/TopLeft"]
 layout_mode = 2
@@ -57,6 +58,7 @@ offset_top = 32.0
 offset_right = -32.0
 offset_bottom = 72.0
 grow_horizontal = 0
+theme_override_constants/separation = 4
 
 [node name="PlatformLabel" type="Label" parent="Debug/TopRight"]
 layout_mode = 2
@@ -77,6 +79,7 @@ offset_right = -32.0
 offset_bottom = -32.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_override_constants/separation = 4
 alignment = 2
 
 [node name="GyroCalibrationOffsetLabel" type="Label" parent="Debug/Calibration"]
