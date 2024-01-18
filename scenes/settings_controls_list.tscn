@@ -96,6 +96,12 @@ label = "Invert Vertical Aim"
 config_section = "InputGyro"
 config_key = "gyro_invert_y"
 
+[node name="GyroUseRoll" parent="." instance=ExtResource("2_sp0s8")]
+layout_mode = 2
+label = "Use Roll Instead Of Yaw"
+config_section = "InputGyro"
+config_key = "gyro_local_use_roll"
+
 [node name="GyroAccel" type="VBoxContainer" parent="."]
 layout_mode = 2
 theme_override_constants/separation = 0
