@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=16 format=3 uid="uid://dq7k322hhtav6"]
+[gd_resource type="Theme" load_steps=20 format=3 uid="uid://dq7k322hhtav6"]
 
 [ext_resource type="StyleBox" uid="uid://xcl2mxedgsds" path="res://themes/hideout_style_box_flat_background.tres" id="1_ki2ry"]
 [ext_resource type="StyleBox" uid="uid://clq4fxt1bsvtk" path="res://themes/hideout_style_box_flat_button_focus.tres" id="1_ncdqs"]
@@ -15,6 +15,24 @@
 [ext_resource type="StyleBox" uid="uid://dqcto2gx5aplt" path="res://themes/hideout_style_box_flat_lineedit_disabled.tres" id="9_xqils"]
 [ext_resource type="StyleBox" uid="uid://cc1qdat25xihc" path="res://themes/hideout_style_box_flat_tab_selected_focus.tres" id="12_nff45"]
 [ext_resource type="StyleBox" uid="uid://dr7llhu3fid5e" path="res://themes/hideout_style_box_flat_tab_unselected_hover.tres" id="13_3tsfb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o168y"]
+bg_color = Color(0.92549, 0.25098, 0.478431, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3hfiv"]
+bg_color = Color(0.956863, 0.560784, 0.694118, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4gpx"]
+bg_color = Color(0.411765, 0.941176, 0.682353, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_peycd"]
+content_margin_left = 2.0
+content_margin_top = 0.0
+content_margin_right = 2.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0)
+corner_radius_bottom_right = 10
+corner_detail = 1
 
 [resource]
 BoxContainer/constants/separation = 0
@@ -41,3 +59,7 @@ TabContainer/styles/tab_unselected = ExtResource("4_8607e")
 TextEdit/styles/focus = ExtResource("7_5qe3m")
 TextEdit/styles/normal = ExtResource("8_ev8sa")
 TextEdit/styles/read_only = ExtResource("9_xqils")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_o168y")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_3hfiv")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_h4gpx")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_peycd")
