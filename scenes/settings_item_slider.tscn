@@ -20,6 +20,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 max_value = 99.0
 step = 0.1
+allow_greater = true
 
 [node name="LineEdit" type="LineEdit" parent="."]
 layout_mode = 2
