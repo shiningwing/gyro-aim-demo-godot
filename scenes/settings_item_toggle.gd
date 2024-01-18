@@ -17,11 +17,6 @@ func _ready():
 		$CheckButton.button_pressed = false
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
-
 func _on_check_button_toggled(toggled_on):
 	if toggled_on:
 		GameSettings.general[config_section][config_key] = true
