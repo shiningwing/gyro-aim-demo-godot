@@ -93,6 +93,11 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	else:
 		gyro_delta.x = gyro.y
 		gyro_delta.y = gyro.x
+	# Set gyro axis inversion based on settings
+	if GameSettings.general["InputGyro"]["gyro_invert_x"]:
+		gyro_delta.x = -gyro_delta.x
+	if GameSettings.general["InputGyro"]["gyro_invert_y"]:
+		gyro_delta.y = -gyro_delta.y
 	
 	# Set sensitivity based on acceleration setting
 	if GameSettings.general["InputGyro"]["gyro_accel_enabled"]:
