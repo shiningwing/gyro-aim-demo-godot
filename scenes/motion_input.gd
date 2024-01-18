@@ -99,6 +99,10 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	if GameSettings.general["InputGyro"]["gyro_invert_y"]:
 		gyro_delta.y = -gyro_delta.y
 	
+	if GameSettings.general["InputGyro"]["gyro_tightening_enabled"]:
+		gyro_delta = get_tightened_input(gyro_delta,
+				GameSettings.general["InputGyro"]["gyro_tightening_threshold"])
+	
 	# Set sensitivity based on acceleration setting
 	if GameSettings.general["InputGyro"]["gyro_accel_enabled"]:
 		sens = process_gyro_acceleration(gyro_delta)
@@ -147,3 +151,20 @@ func process_gyro_acceleration(gyro: Vector2):
 	)
 	
 	return new_sens
+
+
+func get_direct_input(input: Vector2):
+	return input
+
+func get_smoothed_input(input: Vector2):
+	var input_buffer: Vector2
+	var current_input_index
+	#current_input_index = (current_input_index + 1) % input_buffer.length()
+	#input_buffer[current_input_index] = input
+
+func get_tightened_input(input: Vector2, threshold: float):
+	var input_magnitude: float = sqrt(input.x * input.x + input.y * input.y)
+	if input_magnitude < threshold:
+		var input_scale: float = input_magnitude / threshold
+		return input * input_scale
+	return input
