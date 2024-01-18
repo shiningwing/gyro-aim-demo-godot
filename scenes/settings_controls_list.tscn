@@ -1,0 +1,213 @@
+[gd_scene load_steps=6 format=3 uid="uid://hbrmgukjrybr"]
+
+[ext_resource type="Script" path="res://scenes/settings_controls_list.gd" id="1_6aqb5"]
+[ext_resource type="PackedScene" uid="uid://bvda0utgyeows" path="res://scenes/settings_item_slider.tscn" id="1_ul8ib"]
+[ext_resource type="PackedScene" uid="uid://dbv5yqje5sisk" path="res://scenes/settings_item_toggle.tscn" id="2_sp0s8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_efxs5"]
+font_size = 20
+font_color = Color(1, 0.843137, 0.25098, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5usrh"]
+font_size = 18
+font_color = Color(0.956863, 0.560784, 0.694118, 1)
+
+[node name="ControlsList" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+script = ExtResource("1_6aqb5")
+
+[node name="PaddingTop" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="MouseTouchHeader" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Mouse + Touch"
+label_settings = SubResource("LabelSettings_efxs5")
+vertical_alignment = 1
+
+[node name="MouseHoriSens" parent="." instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Horizontal Sensitivity"
+config_section = "InputMouse"
+config_key = "mouse_sensitivity_x"
+max_value = 99.0
+step = 0.1
+max_length = 4
+
+[node name="MouseVertSens" parent="." instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Vertical Sensitivity"
+config_section = "InputMouse"
+config_key = "mouse_sensitivity_x"
+max_value = 99.0
+step = 0.1
+max_length = 4
+
+[node name="GyroHeader" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Gyro Aim
+"
+label_settings = SubResource("LabelSettings_efxs5")
+vertical_alignment = 1
+
+[node name="GyroAimEnable" parent="." instance=ExtResource("2_sp0s8")]
+layout_mode = 2
+label = "Enable Gyro Aim"
+config_section = "InputGyro"
+config_key = "gyro_enabled"
+
+[node name="GyroSettings" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="GyroAutocalibrationEnable" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
+layout_mode = 2
+label = "Calibrate Gyroscope Automatically"
+config_section = "InputGyro"
+config_key = "gyro_autocalibration_enabled"
+
+[node name="GyroHoriSens" parent="GyroSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Horizontal Sensitivity"
+config_section = "InputGyro"
+config_key = "gyro_sensitivity_x"
+max_value = 20.0
+step = 0.1
+max_length = 4
+
+[node name="GyroVertSens" parent="GyroSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Vertical Sensitivity"
+config_section = "InputGyro"
+config_key = "gyro_sensitivity_y"
+max_value = 20.0
+step = 0.1
+max_length = 4
+
+[node name="GyroInvertHori" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
+layout_mode = 2
+label = "Invert Horizontal Aim"
+config_section = "InputGyro"
+config_key = "gyro_invert_x"
+
+[node name="GyroInvertVert" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
+layout_mode = 2
+label = "Invert Vertical Aim"
+config_section = "InputGyro"
+config_key = "gyro_invert_y"
+
+[node name="GyroUseRoll" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
+layout_mode = 2
+label = "Use Roll Instead Of Yaw"
+config_section = "InputGyro"
+config_key = "gyro_local_use_roll"
+
+[node name="AccelSubheader" type="Label" parent="GyroSettings"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Gyro Acceleration"
+label_settings = SubResource("LabelSettings_5usrh")
+vertical_alignment = 1
+
+[node name="GyroAccelEnable" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
+layout_mode = 2
+label = "Enable Acceleration"
+config_section = "InputGyro"
+config_key = "gyro_accel_enabled"
+
+[node name="GyroAccelSettings" type="VBoxContainer" parent="GyroSettings"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Multiplier" parent="GyroSettings/GyroAccelSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Acceleration Multiplier"
+config_section = "InputGyro"
+config_key = "gyro_accel_multiplier"
+min_value = 1.0
+max_value = 16.0
+step = 0.1
+max_length = 4
+
+[node name="MinThreshold" parent="GyroSettings/GyroAccelSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Slow Threshold"
+config_section = "InputGyro"
+config_key = "gyro_accel_min_threshold"
+max_value = 180.0
+step = 1.0
+max_length = 4
+
+[node name="MaxThreshold" parent="GyroSettings/GyroAccelSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Fast Threshold"
+config_section = "InputGyro"
+config_key = "gyro_accel_max_threshold"
+max_value = 180.0
+step = 1.0
+max_length = 4
+
+[node name="GyroSteadyingSubheader" type="Label" parent="GyroSettings"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Gyro Steadying
+"
+label_settings = SubResource("LabelSettings_5usrh")
+vertical_alignment = 1
+
+[node name="GyroSmoothingEnable" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
+layout_mode = 2
+label = "Enable Smoothing"
+config_section = "InputGyro"
+config_key = "gyro_smoothing_enabled"
+
+[node name="GyroSmoothingSettings" type="VBoxContainer" parent="GyroSettings"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Threshold" parent="GyroSettings/GyroSmoothingSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Smoothing Threshold"
+config_section = "InputGyro"
+config_key = "gyro_smoothing_threshold"
+max_value = 45.0
+step = 0.1
+max_length = 4
+
+[node name="Buffer" parent="GyroSettings/GyroSmoothingSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Smoothing Buffer"
+config_section = "InputGyro"
+config_key = "gyro_smoothing_buffer"
+max_value = 500.0
+step = 1.0
+max_length = 4
+
+[node name="GyroTighteningEnable" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
+layout_mode = 2
+label = "Enable Tightening"
+config_section = "InputGyro"
+config_key = "gyro_tightening_enabled"
+
+[node name="GyroTighteningSettings" type="VBoxContainer" parent="GyroSettings"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Threshold" parent="GyroSettings/GyroTighteningSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Tightening Threshold"
+config_section = "InputGyro"
+config_key = "gyro_tightening_threshold"
+max_value = 45.0
+step = 0.1
+max_length = 4
+
+[node name="PaddingBottom" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2

@@ -13,8 +13,6 @@ var debug_use_uncalibrated_gyro := false
 @onready var gyro_calibration_offset_label: Label = $Debug/Calibration/GyroCalibrationOffsetLabel
 @onready var calibrate_button: Button = $Debug/Calibration/CalibrateButton
 @onready var calibrate_hold_button: Button = $Debug/Calibration/CalibrateHoldButton
-@onready var uncalibrated_gyro_button: Button = $Debug/Calibration/UncalibratedGyroButton
-@onready var roll_button: Button = $Debug/Calibration/RollButton
 @onready var platform_label: Label = $Debug/TopRight/PlatformLabel
 
 # Called when the node enters the scene tree for the first time.
@@ -26,8 +24,6 @@ func _ready():
 	if not OS.has_feature("android") and not OS.has_feature("ios"):
 		calibrate_button.visible = false
 		calibrate_hold_button.visible = false
-		uncalibrated_gyro_button.visible = false
-		roll_button.visible = false
 	
 	platform_label.text = str("Is Android?: ", OS.has_feature("android"))
 
@@ -65,15 +61,5 @@ func _on_calibrate_hold_button_released():
 	MotionInput.calibrating = false
 
 
-func _on_uncalibrated_gyro_button_toggled(toggled_on):
-	if toggled_on:
-		debug_use_uncalibrated_gyro = true
-	else:
-		debug_use_uncalibrated_gyro = false
-
-
-func _on_roll_button_toggled(toggled_on):
-	if toggled_on:
-		GameSettings.general["InputGyro"]["gyro_local_yaw_axis"] = 1
-	else:
-		GameSettings.general["InputGyro"]["gyro_local_yaw_axis"] = 0
+func _on_quit_button_pressed():
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
