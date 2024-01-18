@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://hbrmgukjrybr"]
+[gd_scene load_steps=6 format=3 uid="uid://hbrmgukjrybr"]
 
+[ext_resource type="Script" path="res://scenes/settings_controls_list.gd" id="1_6aqb5"]
 [ext_resource type="PackedScene" uid="uid://bvda0utgyeows" path="res://scenes/settings_item_slider.tscn" id="1_ul8ib"]
 [ext_resource type="PackedScene" uid="uid://dbv5yqje5sisk" path="res://scenes/settings_item_toggle.tscn" id="2_sp0s8"]
 
@@ -16,6 +17,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
+script = ExtResource("1_6aqb5")
 
 [node name="PaddingTop" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 8)
@@ -60,13 +62,17 @@ label = "Enable Gyro Aim"
 config_section = "InputGyro"
 config_key = "gyro_enabled"
 
-[node name="GyroAutocalibrationEnable" parent="." instance=ExtResource("2_sp0s8")]
+[node name="GyroSettings" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="GyroAutocalibrationEnable" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
 layout_mode = 2
 label = "Calibrate Gyroscope Automatically"
 config_section = "InputGyro"
 config_key = "gyro_autocalibration_enabled"
 
-[node name="GyroHoriSens" parent="." instance=ExtResource("1_ul8ib")]
+[node name="GyroHoriSens" parent="GyroSettings" instance=ExtResource("1_ul8ib")]
 layout_mode = 2
 label = "Horizontal Sensitivity"
 config_section = "InputGyro"
@@ -75,7 +81,7 @@ max_value = 20.0
 step = 0.1
 max_length = 4
 
-[node name="GyroVertSens" parent="." instance=ExtResource("1_ul8ib")]
+[node name="GyroVertSens" parent="GyroSettings" instance=ExtResource("1_ul8ib")]
 layout_mode = 2
 label = "Vertical Sensitivity"
 config_section = "InputGyro"
@@ -84,142 +90,70 @@ max_value = 20.0
 step = 0.1
 max_length = 4
 
-[node name="GyroInvertHori" parent="." instance=ExtResource("2_sp0s8")]
+[node name="GyroInvertHori" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
 layout_mode = 2
 label = "Invert Horizontal Aim"
 config_section = "InputGyro"
 config_key = "gyro_invert_x"
 
-[node name="GyroInvertVert" parent="." instance=ExtResource("2_sp0s8")]
+[node name="GyroInvertVert" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
 layout_mode = 2
 label = "Invert Vertical Aim"
 config_section = "InputGyro"
 config_key = "gyro_invert_y"
 
-[node name="GyroUseRoll" parent="." instance=ExtResource("2_sp0s8")]
+[node name="GyroUseRoll" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
 layout_mode = 2
 label = "Use Roll Instead Of Yaw"
 config_section = "InputGyro"
 config_key = "gyro_local_use_roll"
 
-[node name="GyroAccel" type="VBoxContainer" parent="."]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Subheader" type="Label" parent="GyroAccel"]
+[node name="AccelSubheader" type="Label" parent="GyroSettings"]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 text = "Gyro Acceleration"
 label_settings = SubResource("LabelSettings_5usrh")
 vertical_alignment = 1
 
-[node name="Enable" type="HBoxContainer" parent="GyroAccel"]
+[node name="GyroAccelEnable" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
 layout_mode = 2
-theme_override_constants/separation = 16
+label = "Enable Acceleration"
+config_section = "InputGyro"
+config_key = "gyro_accel_enabled"
 
-[node name="Label" type="Label" parent="GyroAccel/Enable"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Enable Acceleration"
-vertical_alignment = 1
-
-[node name="CheckButton" type="CheckButton" parent="GyroAccel/Enable"]
-layout_mode = 2
-text = "Off"
-
-[node name="Multiplier" type="HBoxContainer" parent="GyroAccel"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="GyroAccel/Multiplier"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Acceleration Multiplier"
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="GyroAccel/Multiplier"]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-min_value = 1.0
-max_value = 16.0
-step = 0.1
-value = 2.0
-
-[node name="LineEdit" type="LineEdit" parent="GyroAccel/Multiplier"]
-layout_mode = 2
-size_flags_vertical = 4
-text = "2.0"
-placeholder_text = "2.0"
-alignment = 1
-max_length = 4
-virtual_keyboard_type = 3
-
-[node name="MinThreshold" type="HBoxContainer" parent="GyroAccel"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="GyroAccel/MinThreshold"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Slow Threshold"
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="GyroAccel/MinThreshold"]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-max_value = 180.0
-step = 0.1
-
-[node name="LineEdit" type="LineEdit" parent="GyroAccel/MinThreshold"]
-layout_mode = 2
-size_flags_vertical = 4
-text = "0.0"
-placeholder_text = "0.0"
-alignment = 1
-max_length = 5
-virtual_keyboard_type = 3
-
-[node name="MaxThreshold" type="HBoxContainer" parent="GyroAccel"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="GyroAccel/MaxThreshold"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Fast Threshold"
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="GyroAccel/MaxThreshold"]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-max_value = 180.0
-step = 0.1
-value = 75.0
-
-[node name="LineEdit" type="LineEdit" parent="GyroAccel/MaxThreshold"]
-layout_mode = 2
-size_flags_vertical = 4
-text = "75.0"
-placeholder_text = "75.0"
-alignment = 1
-max_length = 5
-virtual_keyboard_type = 3
-
-[node name="GyroSteadying" type="VBoxContainer" parent="."]
+[node name="GyroAccelSettings" type="VBoxContainer" parent="GyroSettings"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Subheader" type="Label" parent="GyroSteadying"]
+[node name="Multiplier" parent="GyroSettings/GyroAccelSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Acceleration Multiplier"
+config_section = "InputGyro"
+config_key = "gyro_accel_multiplier"
+min_value = 1.0
+max_value = 16.0
+step = 0.1
+max_length = 4
+
+[node name="MinThreshold" parent="GyroSettings/GyroAccelSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Slow Threshold"
+config_section = "InputGyro"
+config_key = "gyro_accel_min_threshold"
+max_value = 180.0
+step = 1.0
+max_length = 4
+
+[node name="MaxThreshold" parent="GyroSettings/GyroAccelSettings" instance=ExtResource("1_ul8ib")]
+layout_mode = 2
+label = "Fast Threshold"
+config_section = "InputGyro"
+config_key = "gyro_accel_max_threshold"
+max_value = 180.0
+step = 1.0
+max_length = 4
+
+[node name="GyroSteadyingSubheader" type="Label" parent="GyroSettings"]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 text = "Gyro Steadying
@@ -227,125 +161,52 @@ text = "Gyro Steadying
 label_settings = SubResource("LabelSettings_5usrh")
 vertical_alignment = 1
 
-[node name="Enable" type="HBoxContainer" parent="GyroSteadying"]
+[node name="GyroSmoothingEnable" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
 layout_mode = 2
-theme_override_constants/separation = 16
+label = "Enable Smoothing"
+config_section = "InputGyro"
+config_key = "gyro_smoothing_enabled"
 
-[node name="Label" type="Label" parent="GyroSteadying/Enable"]
-custom_minimum_size = Vector2(0, 48)
+[node name="GyroSmoothingSettings" type="VBoxContainer" parent="GyroSettings"]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Enable Smoothing"
-vertical_alignment = 1
+theme_override_constants/separation = 0
 
-[node name="CheckButton" type="CheckButton" parent="GyroSteadying/Enable"]
+[node name="Threshold" parent="GyroSettings/GyroSmoothingSettings" instance=ExtResource("1_ul8ib")]
 layout_mode = 2
-text = "Off"
-
-[node name="SmoothingThreshold" type="HBoxContainer" parent="GyroSteadying"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="GyroSteadying/SmoothingThreshold"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Smoothing Threshold
-"
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="GyroSteadying/SmoothingThreshold"]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-min_value = 0.1
-max_value = 180.0
+label = "Smoothing Threshold"
+config_section = "InputGyro"
+config_key = "gyro_smoothing_threshold"
+max_value = 45.0
 step = 0.1
-value = 5.0
+max_length = 4
 
-[node name="LineEdit" type="LineEdit" parent="GyroSteadying/SmoothingThreshold"]
+[node name="Buffer" parent="GyroSettings/GyroSmoothingSettings" instance=ExtResource("1_ul8ib")]
 layout_mode = 2
-size_flags_vertical = 4
-text = "5.0"
-placeholder_text = "5.0"
-alignment = 1
-max_length = 5
-virtual_keyboard_type = 3
-
-[node name="SmoothingBuffer" type="HBoxContainer" parent="GyroSteadying"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="GyroSteadying/SmoothingBuffer"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Smoothing Buffer
-"
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="GyroSteadying/SmoothingBuffer"]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
+label = "Smoothing Buffer"
+config_section = "InputGyro"
+config_key = "gyro_smoothing_buffer"
 max_value = 500.0
-value = 125.0
+step = 1.0
+max_length = 4
 
-[node name="LineEdit" type="LineEdit" parent="GyroSteadying/SmoothingBuffer"]
+[node name="GyroTighteningEnable" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
 layout_mode = 2
-size_flags_vertical = 4
-text = "125"
-placeholder_text = "125"
-alignment = 1
-max_length = 3
-virtual_keyboard_type = 3
+label = "Enable Tightening"
+config_section = "InputGyro"
+config_key = "gyro_tightening_enabled"
 
-[node name="TighteningEnable" type="HBoxContainer" parent="GyroSteadying"]
+[node name="GyroTighteningSettings" type="VBoxContainer" parent="GyroSettings"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="GyroSteadying/TighteningEnable"]
-custom_minimum_size = Vector2(0, 48)
+[node name="Threshold" parent="GyroSettings/GyroTighteningSettings" instance=ExtResource("1_ul8ib")]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Enable Tightening"
-vertical_alignment = 1
-
-[node name="CheckButton" type="CheckButton" parent="GyroSteadying/TighteningEnable"]
-layout_mode = 2
-text = "Off"
-
-[node name="TighteningThreshold" type="HBoxContainer" parent="GyroSteadying"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="GyroSteadying/TighteningThreshold"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Tightening Threshold"
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="GyroSteadying/TighteningThreshold"]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-min_value = 0.1
-max_value = 180.0
+label = "Tightening Threshold"
+config_section = "InputGyro"
+config_key = "gyro_tightening_threshold"
+max_value = 45.0
 step = 0.1
-value = 5.0
-
-[node name="LineEdit" type="LineEdit" parent="GyroSteadying/TighteningThreshold"]
-layout_mode = 2
-size_flags_vertical = 4
-text = "5.0"
-placeholder_text = "5.0"
-alignment = 1
-max_length = 5
-virtual_keyboard_type = 3
+max_length = 4
 
 [node name="PaddingBottom" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 8)
