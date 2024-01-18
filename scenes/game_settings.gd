@@ -29,8 +29,10 @@ var graphics_config_load = graphics_config.load("user://cfg/graphics.cfg")
 
 # Start defining settings here
 # Meta
-## The version of the configuration files, to be written to every .cfg file.
-var config_version: int = 5
+## The version of the [b]general.cfg[/b] file.
+var general_config_version: int = 6
+## The version of the [b]general.cfg[/b] file.
+var graphics_config_version: int = 5
 
 # Settings in general.cfg
 # Debug
@@ -73,8 +75,8 @@ var gyro_tightening_threshold: float = 5.0
 ## [br][br][b]TODO:[/b] Write descriptions for the gyro space options.
 var gyro_space: int = 0 # 0 is local, 1 is player, 2 is world
 ## Sets which gyroscope axis is used for camera yaw when gyro aim is enabled. 
-## 0 is yaw, 1 is roll.
-var gyro_local_yaw_axis: int = 0 # 0 is yaw, 1 is roll
+## False is yaw, true is roll.
+var gyro_local_use_roll := false
 
 # Settings in graphics.cfg
 # Display
@@ -102,7 +104,7 @@ var camera_fov: float = 59.0
 ## [b]TODO:[/b] Move over the key descriptions from the bespoke variables.
 var general := {
 	"Meta": {
-		"config_version": config_version,
+		"config_version": general_config_version,
 	},
 	"Debug": {
 		"debug_mode": debug_mode,
@@ -128,7 +130,7 @@ var general := {
 		"gyro_tightening_enabled": gyro_tightening_enabled,
 		"gyro_tightening_threshold": gyro_tightening_threshold,
 		"gyro_space": gyro_space,
-		"gyro_local_yaw_axis": gyro_local_yaw_axis,
+		"gyro_local_use_roll": gyro_local_use_roll,
 	},
 }
 
@@ -142,7 +144,7 @@ var general := {
 ## [b]TODO:[/b] Move over the key descriptions from the bespoke variables.
 var graphics := {
 	"Meta": {
-		"config_version": config_version,
+		"config_version": graphics_config_version,
 	},
 	"Display": {
 		"resolution_w": resolution_w,
@@ -165,11 +167,23 @@ func _ready():
 		print("Config directory missing, creating...")
 		user_dir.make_dir("cfg")
 	
-	# If general.cfg is OK, load its values, else write the defaults immediately
+	# If general.cfg is OK, load its values, else write the defaults
 	if general_config_load == OK:
+		# Check the version and upgrade if necessary
+		var version: int = general_config.get_value("Meta", "config_version")
+		if version < general_config_version:
+			if version == 5:
+				upgrade_general_v5_to_v6()
+			general_config.set_value("Meta", "config_version", general_config_version)
+		# Then load all settings
 		load_config(general_config, general)
 	# Same with graphics.cfg
 	if graphics_config_load == OK:
+		# Check the version and upgrade if necessary
+		var version: int = graphics_config.get_value("Meta", "config_version")
+		if version < general_config_version:
+			graphics_config.set_value("Meta", "config_version", graphics_config_version)
+		# Then load all settings
 		load_config(graphics_config, graphics)
 	
 	write_general_config()
@@ -240,3 +254,12 @@ func set_window_mode(mode: int):
 	graphics["Display"]["window_mode"] = mode
 	DisplayServer.window_set_mode(mode)
 
+
+## Upgrades [b]general.cfg[/b] from version 5 to 6. Does not save to the file on 
+## its own.
+func upgrade_general_v5_to_v6():
+	if general_config.get_value("InputGyro", "gyro_local_yaw_axis") == 0:
+		general["InputGyro"]["gyro_local_use_roll"] = false
+	elif general_config.get_value("InputGyro", "gyro_local_yaw_axis") == 1:
+		general["InputGyro"]["gyro_local_use_roll"] = true
+	general_config.erase_section_key("InputGyro", "gyro_local_yaw_axis")

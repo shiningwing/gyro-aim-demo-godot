@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvda0utgyeows"]
+
+[ext_resource type="Script" path="res://scenes/settings_item_slider.gd" id="1_tgsea"]
+
+[node name="SettingsItemSlider" type="HBoxContainer"]
+theme_override_constants/separation = 16
+script = ExtResource("1_tgsea")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Setting Label
+"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="."]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+max_value = 99.0
+step = 0.1
+allow_greater = true
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+text = "15.0"
+placeholder_text = "0.0"
+alignment = 1
+max_length = 4
+expand_to_text_length = true
+virtual_keyboard_type = 3
+select_all_on_focus = true
+
+[connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]

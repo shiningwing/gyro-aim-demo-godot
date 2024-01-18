@@ -87,12 +87,17 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	var gyro_delta: Vector2
 	
 	# Set gyro axes based on yaw/roll setting
-	if GameSettings.general["InputGyro"]["gyro_local_yaw_axis"] == 1:
+	if GameSettings.general["InputGyro"]["gyro_local_use_roll"]:
 		gyro_delta.x = gyro.z
 		gyro_delta.y = gyro.x
 	else:
 		gyro_delta.x = gyro.y
 		gyro_delta.y = gyro.x
+	# Set gyro axis inversion based on settings
+	if GameSettings.general["InputGyro"]["gyro_invert_x"]:
+		gyro_delta.x = -gyro_delta.x
+	if GameSettings.general["InputGyro"]["gyro_invert_y"]:
+		gyro_delta.y = -gyro_delta.y
 	
 	# Set sensitivity based on acceleration setting
 	if GameSettings.general["InputGyro"]["gyro_accel_enabled"]:

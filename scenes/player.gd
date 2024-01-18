@@ -9,7 +9,6 @@ const JUMP_VELOCITY = 4.5
 
 var mouse_delta := Vector2.ZERO
 var gyro_delta := Vector2.ZERO
-var debug_use_uncalibrated_gyro := false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -59,7 +58,8 @@ func _process(delta):
 	
 	# Exit game when Esc is pressed
 	if Input.is_action_just_pressed("ui_cancel"):
-		get_tree().quit()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 	
 	if GameSettings.general["Debug"]["debug_mode"]:
 		if Input.is_action_just_pressed("debug_startgyrocalibration"):
@@ -94,18 +94,13 @@ func process_mouse_look(delta):
 
 func process_gyro_look(delta):
 	# Prepare gyro delta from X and Y of the global calibrated gyro
-	debug_use_uncalibrated_gyro = $HUD0.debug_use_uncalibrated_gyro
-	if not debug_use_uncalibrated_gyro:
-		gyro_delta = MotionInput.processed_gyro
-	# Use uncalibrated gyro if it's enabled
-	else:
-		gyro_delta = MotionInput.processed_uncalibrated_gyro
+	gyro_delta = MotionInput.processed_gyro
 	
 	# DON'T use delta time for gyro because that's handled by MotionInput!
 	# Rotate camera around X axis
-	camera.rotation_degrees.x += gyro_delta.y
+	camera.rotation_degrees.x += MotionInput.processed_gyro.y
 	# Rotate player around Y axis
-	rotation_degrees.y += gyro_delta.x
+	rotation_degrees.y += MotionInput.processed_gyro.x
 	
 	# Zero out gyro delta to avoid camera "floating"
 	gyro_delta = Vector2.ZERO
