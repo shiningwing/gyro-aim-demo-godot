@@ -156,11 +156,32 @@ func process_gyro_acceleration(gyro: Vector2):
 func get_direct_input(input: Vector2):
 	return input
 
-func get_smoothed_input(input: Vector2):
-	var input_buffer: Vector2
-	var current_input_index
-	#current_input_index = (current_input_index + 1) % input_buffer.length()
-	#input_buffer[current_input_index] = input
+
+func get_smoothed_input(input: Vector2, buffer_length: int):
+	var input_buffer: PackedVector2Array = []
+	var current_input_index: int
+	current_input_index = (current_input_index + 1) % buffer_length
+	input_buffer[current_input_index] = input
+	
+	var average := Vector2.ZERO
+	for sample in input_buffer:
+		average += sample
+	
+	return average
+
+
+func get_tiered_smoothed_input(input: Vector2, max_threshold: float, 
+		buffer_length: int):
+	var input_magnitude: float = sqrt(input.x * input.x + input.y * input.y)
+	var min_threshold: float = max_threshold / 2
+	
+	var direct_weight: float = ((input_magnitude - min_threshold) /
+			(max_threshold - min_threshold))
+	direct_weight = clamp(direct_weight, 0.0, 1.0)
+	
+	return (get_direct_input(input * direct_weight)
+			+ get_smoothed_input(input * (1.0 - direct_weight), buffer_length))
+
 
 func get_tightened_input(input: Vector2, threshold: float):
 	var input_magnitude: float = sqrt(input.x * input.x + input.y * input.y)
