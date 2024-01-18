@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://hbrmgukjrybr"]
+[gd_scene load_steps=5 format=3 uid="uid://hbrmgukjrybr"]
 
-[ext_resource type="Script" path="res://scenes/settings_controls_list.gd" id="1_rxotu"]
+[ext_resource type="PackedScene" uid="uid://bvda0utgyeows" path="res://scenes/settings_item_slider.tscn" id="1_ul8ib"]
+[ext_resource type="PackedScene" uid="uid://dbv5yqje5sisk" path="res://scenes/settings_item_toggle.tscn" id="2_sp0s8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_efxs5"]
 font_size = 20
@@ -15,7 +16,6 @@ offset_right = 40.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
-script = ExtResource("1_rxotu")
 
 [node name="PaddingTop" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 8)
@@ -28,62 +28,23 @@ text = "Mouse + Touch"
 label_settings = SubResource("LabelSettings_efxs5")
 vertical_alignment = 1
 
-[node name="MouseHoriSensitivity" type="HBoxContainer" parent="."]
+[node name="MouseHoriSens" parent="." instance=ExtResource("1_ul8ib")]
 layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="MouseHoriSensitivity"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Horizontal Sensitivity"
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="MouseHoriSensitivity"]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
+label = "Horizontal Sensitivity"
+config_section = "InputMouse"
+config_key = "mouse_sensitivity_x"
 max_value = 99.0
 step = 0.1
-
-[node name="LineEdit" type="LineEdit" parent="MouseHoriSensitivity"]
-layout_mode = 2
-size_flags_vertical = 4
-text = "15.0"
-placeholder_text = "0.0"
-alignment = 1
 max_length = 4
-virtual_keyboard_type = 3
 
-[node name="MouseVertSensitivity" type="HBoxContainer" parent="."]
+[node name="MouseVertSens" parent="." instance=ExtResource("1_ul8ib")]
 layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="MouseVertSensitivity"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Vertical Sensitivity
-"
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="MouseVertSensitivity"]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
+label = "Vertical Sensitivity"
+config_section = "InputMouse"
+config_key = "mouse_sensitivity_x"
 max_value = 99.0
 step = 0.1
-
-[node name="LineEdit" type="LineEdit" parent="MouseVertSensitivity"]
-layout_mode = 2
-size_flags_vertical = 4
-text = "15.0"
-placeholder_text = "0.0"
-alignment = 1
 max_length = 4
-virtual_keyboard_type = 3
 
 [node name="GyroHeader" type="Label" parent="."]
 custom_minimum_size = Vector2(0, 56)
@@ -93,126 +54,47 @@ text = "Gyro Aim
 label_settings = SubResource("LabelSettings_efxs5")
 vertical_alignment = 1
 
-[node name="GyroAimEnable" type="HBoxContainer" parent="."]
+[node name="GyroAimEnable" parent="." instance=ExtResource("2_sp0s8")]
 layout_mode = 2
-theme_override_constants/separation = 16
+label = "Enable Gyro Aim"
+config_section = "InputGyro"
+config_key = "gyro_enabled"
 
-[node name="Label" type="Label" parent="GyroAimEnable"]
-custom_minimum_size = Vector2(0, 48)
+[node name="GyroAutocalibrationEnable" parent="." instance=ExtResource("2_sp0s8")]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Enable Gyro Aim"
-vertical_alignment = 1
+label = "Calibrate Gyroscope Automatically"
+config_section = "InputGyro"
+config_key = "gyro_autocalibration_enabled"
 
-[node name="CheckButton" type="CheckButton" parent="GyroAimEnable"]
+[node name="GyroHoriSens" parent="." instance=ExtResource("1_ul8ib")]
 layout_mode = 2
-button_pressed = true
-text = "On"
-
-[node name="GyroAutocalibrationEnable" type="HBoxContainer" parent="."]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="GyroAutocalibrationEnable"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Calibrate Gyro Automatically"
-vertical_alignment = 1
-
-[node name="CheckButton" type="CheckButton" parent="GyroAutocalibrationEnable"]
-layout_mode = 2
-text = "Off"
-
-[node name="GyroHoriSensitivity" type="HBoxContainer" parent="."]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="GyroHoriSensitivity"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Horizontal Sensitivity"
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="GyroHoriSensitivity"]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-min_value = 0.1
+label = "Horizontal Sensitivity"
+config_section = "InputGyro"
+config_key = "gyro_sensitivity_x"
 max_value = 20.0
 step = 0.1
-value = 2.0
-
-[node name="LineEdit" type="LineEdit" parent="GyroHoriSensitivity"]
-layout_mode = 2
-size_flags_vertical = 4
-text = "2.0"
-placeholder_text = "0.0"
-alignment = 1
 max_length = 4
-virtual_keyboard_type = 3
 
-[node name="GyroVertSensitivity" type="HBoxContainer" parent="."]
+[node name="GyroVertSens" parent="." instance=ExtResource("1_ul8ib")]
 layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="GyroVertSensitivity"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Vertical Sensitivity"
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="GyroVertSensitivity"]
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-min_value = 0.1
+label = "Vertical Sensitivity"
+config_section = "InputGyro"
+config_key = "gyro_sensitivity_y"
 max_value = 20.0
 step = 0.1
-value = 2.0
-
-[node name="LineEdit" type="LineEdit" parent="GyroVertSensitivity"]
-layout_mode = 2
-size_flags_vertical = 4
-text = "2.0"
-placeholder_text = "0.0"
-alignment = 1
 max_length = 4
-virtual_keyboard_type = 3
 
-[node name="GyroInvertHori" type="HBoxContainer" parent="."]
+[node name="GyroInvertHori" parent="." instance=ExtResource("2_sp0s8")]
 layout_mode = 2
-theme_override_constants/separation = 16
+label = "Invert Horizontal Aim"
+config_section = "InputGyro"
+config_key = "gyro_invert_x"
 
-[node name="Label" type="Label" parent="GyroInvertHori"]
-custom_minimum_size = Vector2(0, 48)
+[node name="GyroInvertVert" parent="." instance=ExtResource("2_sp0s8")]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Invert Horizontal Aim"
-vertical_alignment = 1
-
-[node name="CheckButton" type="CheckButton" parent="GyroInvertHori"]
-layout_mode = 2
-text = "Off"
-
-[node name="GyroInvertVert" type="HBoxContainer" parent="."]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="GyroInvertVert"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Invert Vertical Aim"
-vertical_alignment = 1
-
-[node name="CheckButton" type="CheckButton" parent="GyroInvertVert"]
-layout_mode = 2
-text = "Off"
+label = "Invert Vertical Aim"
+config_section = "InputGyro"
+config_key = "gyro_invert_y"
 
 [node name="GyroAccel" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -462,12 +344,3 @@ virtual_keyboard_type = 3
 [node name="PaddingBottom" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
-
-[connection signal="drag_ended" from="MouseHoriSensitivity/HSlider" to="." method="_on_mouse_hori_sensitivity_slider_drag_ended"]
-[connection signal="drag_ended" from="MouseVertSensitivity/HSlider" to="." method="_on_mouse_vert_sensitivity_slider_drag_ended"]
-[connection signal="toggled" from="GyroAimEnable/CheckButton" to="." method="_on_gyro_aim_enabled_toggled"]
-[connection signal="toggled" from="GyroAutocalibrationEnable/CheckButton" to="." method="_on_gyro_autocalibration_enabled_toggled"]
-[connection signal="drag_ended" from="GyroHoriSensitivity/HSlider" to="." method="_on_gyro_hori_sensitivity_slider_drag_ended"]
-[connection signal="drag_ended" from="GyroVertSensitivity/HSlider" to="." method="_on_gyro_vert_sensitivity_slider_drag_ended"]
-[connection signal="toggled" from="GyroInvertHori/CheckButton" to="." method="_on_gyro_invert_hori_toggled"]
-[connection signal="toggled" from="GyroInvertVert/CheckButton" to="." method="_on_invert_vert_toggled"]

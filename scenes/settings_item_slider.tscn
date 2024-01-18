@@ -10,7 +10,8 @@ script = ExtResource("1_tgsea")
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Horizontal Sensitivity"
+text = "Setting Label
+"
 vertical_alignment = 1
 
 [node name="HSlider" type="HSlider" parent="."]
