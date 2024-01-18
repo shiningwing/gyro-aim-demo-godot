@@ -30,7 +30,9 @@ text = "15.0"
 placeholder_text = "0.0"
 alignment = 1
 max_length = 4
+expand_to_text_length = true
 virtual_keyboard_type = 3
+select_all_on_focus = true
 
 [connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]

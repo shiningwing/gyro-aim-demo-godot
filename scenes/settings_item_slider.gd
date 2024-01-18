@@ -50,4 +50,7 @@ func _on_h_slider_value_changed(value):
 
 
 func _on_line_edit_text_submitted(new_text):
-	pass
+	if new_text == "":
+		$LineEdit.text = str(GameSettings.general[config_section][config_key])
+	else:
+		$HSlider.value = str_to_var(new_text)

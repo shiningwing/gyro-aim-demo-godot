@@ -10,8 +10,9 @@ config_version=5
 
 [application]
 
-config/name="Gyro Aim Demo 1"
-config/version="0.0.0-48"
+config/name="Gyro Aim Demo"
+config/description="A basic gyro aim demo."
+config/version="0.1.0"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.png"
