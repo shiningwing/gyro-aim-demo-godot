@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://blsu60w3ijadc"]
+[gd_scene load_steps=4 format=3 uid="uid://blsu60w3ijadc"]
 
 [ext_resource type="PackedScene" uid="uid://hbrmgukjrybr" path="res://scenes/settings_controls_list.tscn" id="1_3xl7e"]
 [ext_resource type="Theme" uid="uid://dq7k322hhtav6" path="res://themes/hideout.tres" id="1_8q32k"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rx8bw"]
+font_size = 24
 
 [node name="SettingsTabs" type="TabContainer"]
 offset_right = 40.0
@@ -29,6 +32,10 @@ layout_mode = 2
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="Display" type="Control" parent="."]
-visible = false
+[node name="Display" type="CenterContainer" parent="."]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="Display"]
+layout_mode = 2
+text = "Coming soon..."
+label_settings = SubResource("LabelSettings_rx8bw")

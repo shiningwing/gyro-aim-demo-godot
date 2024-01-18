@@ -72,12 +72,5 @@ func _on_uncalibrated_gyro_button_toggled(toggled_on):
 		debug_use_uncalibrated_gyro = false
 
 
-func _on_roll_button_toggled(toggled_on):
-	if toggled_on:
-		GameSettings.general["InputGyro"]["gyro_local_yaw_axis"] = 1
-	else:
-		GameSettings.general["InputGyro"]["gyro_local_yaw_axis"] = 0
-
-
 func _on_quit_button_pressed():
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
