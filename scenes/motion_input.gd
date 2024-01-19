@@ -22,6 +22,10 @@ var _gyro_calibration := Vector3.ZERO
 
 var _debug_gyro_timer: float = 0.0
 
+# Smoothing variables
+var _current_smoothing_buffer_index: int
+var _smoothing_input_buffer: PackedVector2Array
+
 @onready var is_android := OS.has_feature("android")
 @onready var is_ios := OS.has_feature("ios")
 
@@ -110,18 +114,16 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	
 	# Apply gyro smoothing if enabled
 	if GameSettings.general["InputGyro"]["gyro_smoothing_enabled"]:
-		gyro_delta = get_smoothed_input(gyro_delta, roundi(GameSettings.general["InputGyro"]["gyro_smoothing_buffer"]
-				* 0.001 * Engine.get_frames_per_second()))
-	#	gyro_delta = get_tiered_smoothed_input(
-	#			gyro_delta, 
-	#			GameSettings.general["InputGyro"]["gyro_smoothing_threshold"] / 2, 
-	#			GameSettings.general["InputGyro"]["gyro_smoothing_threshold"], 
-	#			# Get buffer length by multiplying the config files's saved 
-	#			# length, which is usually a whole number in milliseconds, 
-	#			# by 0.001 and then the game's framerate.
-	#			roundi(GameSettings.general["InputGyro"]["gyro_smoothing_buffer"]
-	#			* 0.001 * Engine.get_frames_per_second())
-	#	)
+		gyro_delta = get_tiered_smoothed_input(
+				gyro_delta, 
+				GameSettings.general["InputGyro"]["gyro_smoothing_threshold"] / 2, 
+				GameSettings.general["InputGyro"]["gyro_smoothing_threshold"], 
+				# Get buffer length by multiplying the config files's saved 
+				# length, which is usually a whole number in milliseconds, 
+				# by 0.001 and then the game's framerate, and rounding it up.
+				ceili(GameSettings.general["InputGyro"]["gyro_smoothing_buffer"]
+				* 0.001 * Engine.get_frames_per_second())
+		)
 	
 	# Apply gyro tightening if enabled
 	if GameSettings.general["InputGyro"]["gyro_tightening_enabled"]:
@@ -183,15 +185,16 @@ func get_direct_input(input: Vector2):
 
 
 func get_smoothed_input(input: Vector2, buffer_length: int):
-	var input_buffer: PackedVector2Array = []
-	var current_input_index: int
-	current_input_index = (current_input_index + 1) % buffer_length
-	input_buffer.resize(buffer_length)
-	input_buffer[current_input_index] = input
+	_current_smoothing_buffer_index = (_current_smoothing_buffer_index + 1) % buffer_length
+	_smoothing_input_buffer.resize(buffer_length)
+	_smoothing_input_buffer[_current_smoothing_buffer_index] = input
+	print(str(_current_smoothing_buffer_index))
+	print(str(_smoothing_input_buffer))
 	
 	var average := Vector2.ZERO
-	for sample in input_buffer:
+	for sample in _smoothing_input_buffer:
 		average += sample
+	average /= _smoothing_input_buffer.size()
 	
 	return average
 
