@@ -55,8 +55,8 @@ func _process(delta):
 	# Apply mouselook rotation
 	process_mouse_look(delta)
 	
-	# Set what the gyro modifier button does
-	match GameSettings.general["InputGyro"]["gyro_enabled"]:
+	# Set what the gyro modifier button does when pressed
+	match GameSettings.general["InputGyro"]["gyro_modifier_mode"]:
 		0:	# Gyro modifer turns gyro off when held (typical "ratcheting")
 			if Input.is_action_pressed("player_gyro_modifier"):
 				is_gyro_active = false
