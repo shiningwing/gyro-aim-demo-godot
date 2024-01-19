@@ -7,6 +7,8 @@ var uncalibrated_gyro := Vector3.ZERO
 var calibrated_gyro := Vector3.ZERO
 var processed_gyro := Vector2.ZERO
 var processed_uncalibrated_gyro := Vector2.ZERO
+var accelerometer := Vector3.ZERO
+var gravity_vector := Vector3.ZERO
 
 # Calibration variables
 var num_offset_samples: int = 0
@@ -36,18 +38,17 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	# Read the gyroscope from Godot if we're running on mobile
+	# Read the motion from Godot if we're running on mobile
 	if is_android or is_ios:
 		uncalibrated_gyro.x = rad_to_deg(Input.get_gyroscope().x)
 		uncalibrated_gyro.y = rad_to_deg(Input.get_gyroscope().y)
 		uncalibrated_gyro.z = rad_to_deg(Input.get_gyroscope().z)
+		accelerometer = Input.get_accelerometer()
 	
 	# If we're in debug mode and not on mobile, oscillate the gyro
 	if GameSettings.general["Debug"]["debug_mode"] and not is_android and not is_ios:
 		_debug_gyro_timer += 1 * delta
 		uncalibrated_gyro.y = sin(_debug_gyro_timer * 32) * 50 # sine wave
-		
-		
 	
 	# When the user requests timed calibration:
 	if calibration_wanted and not calibrating:
@@ -78,6 +79,9 @@ func _process(delta):
 		calibrated_gyro = _gyro_velocity - _gyro_calibration
 	else:
 		calibrated_gyro = Vector3.ZERO
+	
+	# Update gravity vector
+	calculate_simple_gravity(calibrated_gyro.normalized(), accelerometer.normalized(), delta)
 	
 	processed_gyro = process_gyro_input(calibrated_gyro, delta)
 	processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro, delta)
@@ -215,3 +219,16 @@ func get_tightened_input(input: Vector2, threshold: float):
 		var input_scale: float = input_magnitude / threshold
 		return input * input_scale
 	return input
+
+
+func calculate_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
+	# Convert gyro input to reverse rotation
+	var rotation := Quaternion(-gyro, gyro.length() * delta)
+	
+	# Rotate gravity vector
+	gravity_vector *= rotation
+	
+	# Nudge towards gravity according to current acceleration
+	var new_gravity: Vector3 = -accel
+	gravity_vector += (new_gravity - gravity_vector) * 0.02
+	print(gravity_vector)
