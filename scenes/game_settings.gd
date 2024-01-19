@@ -59,6 +59,10 @@ var gyro_sensitivity_y: float = 2.0
 var gyro_invert_x := false
 ## Toggles whether vertical camera rotation is inverted when using gyro aim.
 var gyro_invert_y := false
+## Sets what happens when the "gyro modifier" button is pressed. 
+## 0 makes it turn gyro off when held, 1 makes it turn gyro on when held, 
+## 2 makes it toggle gyro when pressed.
+var gyro_modifier_mode: int = 0 # 0 is OFF on hold, 1 is ON on hold, 2 is toggle
 # TODO: Document remaining gyro variables as these features are added.
 var gyro_accel_enabled := false
 var gyro_accel_multiplier: float = 2.0
@@ -120,6 +124,7 @@ var general := {
 		"gyro_sensitivity_y": gyro_sensitivity_y,
 		"gyro_invert_x": gyro_invert_x,
 		"gyro_invert_y": gyro_invert_y,
+		"gyro_modifier_mode": gyro_modifier_mode,
 		"gyro_accel_enabled": gyro_accel_enabled,
 		"gyro_accel_multiplier": gyro_accel_multiplier,
 		"gyro_accel_min_threshold": gyro_accel_min_threshold,
