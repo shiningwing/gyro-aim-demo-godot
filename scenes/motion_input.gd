@@ -20,6 +20,8 @@ var calibration_timer: float = 0.0
 var _gyro_velocity := Vector3.ZERO
 var _gyro_calibration := Vector3.ZERO
 
+var _debug_gyro_timer: float = 0.0
+
 @onready var is_android := OS.has_feature("android")
 @onready var is_ios := OS.has_feature("ios")
 
@@ -35,6 +37,13 @@ func _process(delta):
 		uncalibrated_gyro.x = rad_to_deg(Input.get_gyroscope().x)
 		uncalibrated_gyro.y = rad_to_deg(Input.get_gyroscope().y)
 		uncalibrated_gyro.z = rad_to_deg(Input.get_gyroscope().z)
+	
+	# If we're in debug mode and not on mobile, oscillate the gyro
+	if GameSettings.general["Debug"]["debug_mode"] and not is_android and not is_ios:
+		_debug_gyro_timer += 1 * delta
+		uncalibrated_gyro.y = sin(_debug_gyro_timer * 32) * 50 # sine wave
+		
+		
 	
 	# When the user requests timed calibration:
 	if calibration_wanted and not calibrating:
@@ -99,6 +108,22 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	if GameSettings.general["InputGyro"]["gyro_invert_y"]:
 		gyro_delta.y = -gyro_delta.y
 	
+	# Apply gyro smoothing if enabled
+	if GameSettings.general["InputGyro"]["gyro_smoothing_enabled"]:
+		gyro_delta = get_smoothed_input(gyro_delta, roundi(GameSettings.general["InputGyro"]["gyro_smoothing_buffer"]
+				* 0.001 * Engine.get_frames_per_second()))
+	#	gyro_delta = get_tiered_smoothed_input(
+	#			gyro_delta, 
+	#			GameSettings.general["InputGyro"]["gyro_smoothing_threshold"] / 2, 
+	#			GameSettings.general["InputGyro"]["gyro_smoothing_threshold"], 
+	#			# Get buffer length by multiplying the config files's saved 
+	#			# length, which is usually a whole number in milliseconds, 
+	#			# by 0.001 and then the game's framerate.
+	#			roundi(GameSettings.general["InputGyro"]["gyro_smoothing_buffer"]
+	#			* 0.001 * Engine.get_frames_per_second())
+	#	)
+	
+	# Apply gyro tightening if enabled
 	if GameSettings.general["InputGyro"]["gyro_tightening_enabled"]:
 		gyro_delta = get_tightened_input(gyro_delta,
 				GameSettings.general["InputGyro"]["gyro_tightening_threshold"])
@@ -161,6 +186,7 @@ func get_smoothed_input(input: Vector2, buffer_length: int):
 	var input_buffer: PackedVector2Array = []
 	var current_input_index: int
 	current_input_index = (current_input_index + 1) % buffer_length
+	input_buffer.resize(buffer_length)
 	input_buffer[current_input_index] = input
 	
 	var average := Vector2.ZERO
@@ -170,10 +196,9 @@ func get_smoothed_input(input: Vector2, buffer_length: int):
 	return average
 
 
-func get_tiered_smoothed_input(input: Vector2, max_threshold: float, 
-		buffer_length: int):
+func get_tiered_smoothed_input(input: Vector2, min_threshold: float, 
+		max_threshold: float, buffer_length: int):
 	var input_magnitude: float = sqrt(input.x * input.x + input.y * input.y)
-	var min_threshold: float = max_threshold / 2
 	
 	var direct_weight: float = ((input_magnitude - min_threshold) /
 			(max_threshold - min_threshold))
