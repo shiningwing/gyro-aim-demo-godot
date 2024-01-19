@@ -188,8 +188,6 @@ func get_smoothed_input(input: Vector2, buffer_length: int):
 	_current_smoothing_buffer_index = (_current_smoothing_buffer_index + 1) % buffer_length
 	_smoothing_input_buffer.resize(buffer_length)
 	_smoothing_input_buffer[_current_smoothing_buffer_index] = input
-	print(str(_current_smoothing_buffer_index))
-	print(str(_smoothing_input_buffer))
 	
 	var average := Vector2.ZERO
 	for sample in _smoothing_input_buffer:
