@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://hbrmgukjrybr"]
+[gd_scene load_steps=7 format=3 uid="uid://hbrmgukjrybr"]
 
 [ext_resource type="Script" path="res://scenes/settings_controls_list.gd" id="1_6aqb5"]
 [ext_resource type="PackedScene" uid="uid://bvda0utgyeows" path="res://scenes/settings_item_slider.tscn" id="1_ul8ib"]
 [ext_resource type="PackedScene" uid="uid://dbv5yqje5sisk" path="res://scenes/settings_item_toggle.tscn" id="2_sp0s8"]
+[ext_resource type="PackedScene" uid="uid://djnkrsg7qcmdr" path="res://scenes/settings_item_dropdown.tscn" id="4_uh851"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_efxs5"]
 font_size = 20
@@ -107,6 +108,13 @@ layout_mode = 2
 label = "Use Roll Instead Of Yaw"
 config_section = "InputGyro"
 config_key = "gyro_local_use_roll"
+
+[node name="GyroModifierMode" parent="GyroSettings" instance=ExtResource("4_uh851")]
+layout_mode = 2
+label = "Gyro Modifier Action"
+config_section = "InputGyro"
+config_key = "gyro_modifier_mode"
+menu_items = ["Hold for Gyro Off", "Hold for Gyro On", "Press to Toggle Gyro"]
 
 [node name="AccelSubheader" type="Label" parent="GyroSettings"]
 custom_minimum_size = Vector2(0, 56)
