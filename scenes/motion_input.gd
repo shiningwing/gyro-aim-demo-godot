@@ -184,7 +184,7 @@ func get_world_space_gyro(gyro: Vector3, gravity: Vector3):
 ## obtained after the 3DOF to 2DOF conversion in [method process_gyro_input].
 func get_gyro_acceleration(gyro: Vector2):
 	var sens: Vector2
-	sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
+	sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_x"]
 	sens.y = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
 	
 	var min_threshold: float = GameSettings.general["InputGyro"]["gyro_accel_min_threshold"]
