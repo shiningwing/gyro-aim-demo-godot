@@ -4,17 +4,19 @@ extends MarginContainer
 var view_size
 var safe_area
 var scale_factor
+var is_android
 
 
 # Called when the node enters the scene tree for the first time.
-#func _ready():
-#	pass
+func _ready():
+	is_android = OS.has_feature("android")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if DisplayServer.get_display_cutouts() != []:
-		calculate_safe_areas()
+	if is_android:
+		if DisplayServer.get_display_cutouts() != []:
+			calculate_safe_areas()
 
 
 func calculate_safe_areas():
