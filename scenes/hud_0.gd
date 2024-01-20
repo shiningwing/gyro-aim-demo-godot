@@ -7,6 +7,7 @@ var debug_use_uncalibrated_gyro := false
 @onready var gyro_label: Label = $Debug/TopLeft/GyroLabel
 @onready var calibrated_gyro_label: Label = $Debug/TopLeft/CalibratedGyroLabel
 @onready var accel_label: Label = $Debug/TopLeft/AccelLabel
+@onready var gravity_label: Label = $Debug/TopLeft/GravityLabel
 @onready var gyro_calibration_timer_label: Label = $Debug/Calibration/GyroCalibrationTimerLabel
 @onready var gyro_calibrating_label: Label = $Debug/Calibration/GyroCalibratingLabel
 @onready var gyro_calibration_samples_label: Label = $Debug/Calibration/GyroCalibrationSamplesLabel
@@ -42,6 +43,7 @@ func _process(delta):
 func update_debug_stats():
 	gyro_label.text = str("Gyroscope: ", MotionInput.uncalibrated_gyro)
 	accel_label.text = str("Accelerometer: ", Input.get_accelerometer())
+	gravity_label.text = str("Sensor Fusion Gravity: ", MotionInput.gravity_vector)
 	calibrated_gyro_label.text = str("Calibrated Gyroscope: ", MotionInput.calibrated_gyro)
 	gyro_calibration_timer_label.text = str("Calibration Timer: ", MotionInput.calibration_timer)
 	gyro_calibrating_label.text = str("Calibrating: ", MotionInput.calibrating)
