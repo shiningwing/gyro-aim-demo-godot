@@ -48,6 +48,10 @@ text = "Calibrated Gyroscope: "
 layout_mode = 2
 text = "Accelerometer: "
 
+[node name="GravityLabel" type="Label" parent="Debug/TopLeft"]
+layout_mode = 2
+text = "Accelerometer: "
+
 [node name="TopRight" type="VBoxContainer" parent="Debug"]
 layout_mode = 1
 anchors_preset = 1

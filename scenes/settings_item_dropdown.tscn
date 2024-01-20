@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://djnkrsg7qcmdr"]
+
+[ext_resource type="Script" path="res://scenes/settings_item_dropdown.gd" id="1_7aggv"]
+[ext_resource type="Texture2D" uid="uid://cao7yeqbg3vwk" path="res://textures/ui/menu-down-custom.png" id="3_jcayh"]
+
+[node name="SettingsItemToggle" type="HBoxContainer"]
+theme_override_constants/separation = 16
+script = ExtResource("1_7aggv")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Setting Label"
+vertical_alignment = 1
+
+[node name="MenuButton" type="MenuButton" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Value"
+icon = ExtResource("3_jcayh")
+flat = false
+icon_alignment = 2
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+
+[connection signal="about_to_popup" from="MenuButton" to="." method="_on_menu_button_about_to_popup"]

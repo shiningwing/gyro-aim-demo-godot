@@ -10,6 +10,8 @@ const JUMP_VELOCITY = 4.5
 var mouse_delta := Vector2.ZERO
 var gyro_delta := Vector2.ZERO
 
+var is_gyro_active := true
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -52,8 +54,26 @@ func _physics_process(delta):
 func _process(delta):
 	# Apply mouselook rotation
 	process_mouse_look(delta)
-	if GameSettings.general["InputGyro"]["gyro_enabled"]:
+	
+	# Set what the gyro modifier button does when pressed
+	match GameSettings.general["InputGyro"]["gyro_modifier_mode"]:
+		0:	# Gyro modifer turns gyro off when held (typical "ratcheting")
+			if Input.is_action_pressed("player_gyro_modifier"):
+				is_gyro_active = false
+			else: is_gyro_active = true
+		1:	# Gyro modifer turns gyro on when held
+			if Input.is_action_pressed("player_gyro_modifier"):
+				is_gyro_active = true
+			else: is_gyro_active = false
+		2:	# Gyro modifier toggles gyro on or off when pressed
+			if Input.is_action_just_pressed("player_gyro_modifier"):
+				is_gyro_active = !is_gyro_active
+	
+	# Apply gyro aim rotation if gyro should be active
+	if (GameSettings.general["InputGyro"]["gyro_enabled"]
+		and is_gyro_active):
 		process_gyro_look(delta)
+	
 	clamp_camera()
 	
 	# Exit game when Esc is pressed

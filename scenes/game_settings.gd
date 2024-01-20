@@ -59,6 +59,10 @@ var gyro_sensitivity_y: float = 2.0
 var gyro_invert_x := false
 ## Toggles whether vertical camera rotation is inverted when using gyro aim.
 var gyro_invert_y := false
+## Sets what happens when the "gyro modifier" button is pressed. 
+## 0 makes it turn gyro off when held, 1 makes it turn gyro on when held, 
+## 2 makes it toggle gyro when pressed.
+var gyro_modifier_mode: int = 0 # 0 is OFF on hold, 1 is ON on hold, 2 is toggle
 # TODO: Document remaining gyro variables as these features are added.
 var gyro_accel_enabled := false
 var gyro_accel_multiplier: float = 2.0
@@ -120,6 +124,7 @@ var general := {
 		"gyro_sensitivity_y": gyro_sensitivity_y,
 		"gyro_invert_x": gyro_invert_x,
 		"gyro_invert_y": gyro_invert_y,
+		"gyro_modifier_mode": gyro_modifier_mode,
 		"gyro_accel_enabled": gyro_accel_enabled,
 		"gyro_accel_multiplier": gyro_accel_multiplier,
 		"gyro_accel_min_threshold": gyro_accel_min_threshold,
@@ -238,9 +243,10 @@ func write_graphics_config():
 ## Immediately sets the window resolution to a width and height in pixels. Does 
 ## not save to the config file on its own.
 func set_resolution(width: int, height: int):
-	graphics["Display"]["resolution_h"] = width
-	graphics["Display"]["resolution_w"] = height
-	DisplayServer.window_set_size(Vector2i(width, height), 0)
+	graphics["Display"]["resolution_w"] = width
+	graphics["Display"]["resolution_h"] = height
+	ProjectSettings.set_setting("display/windows/size/viewport_width", width)
+	ProjectSettings.set_setting("display/windows/size/viewport_height", height)
 
 
 ## Immediately sets the vertical sync mode. Does not save to the config file on 

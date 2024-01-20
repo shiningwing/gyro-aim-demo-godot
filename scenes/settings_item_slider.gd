@@ -23,13 +23,9 @@ extends HBoxContainer
 ## Sets the [LineEdit]'s maximum length.
 @export var max_length: int = 5
 
-var _debounce_timer := Timer.new()
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_debounce_timer.wait_time = 0.1
-	_debounce_timer.one_shot = true
 	$Label.text = label
 	$HSlider.editable = editable
 	$HSlider.value = GameSettings.general[config_section][config_key]
@@ -43,10 +39,8 @@ func _ready():
 
 
 func _on_h_slider_value_changed(value):
-	if _debounce_timer.time_left == 0:
-		_debounce_timer.start()
-		$LineEdit.text = str($HSlider.value)
-		GameSettings.general[config_section][config_key] = $HSlider.value
+	$LineEdit.text = str($HSlider.value)
+	GameSettings.general[config_section][config_key] = $HSlider.value
 
 
 func _on_line_edit_text_submitted(new_text):
