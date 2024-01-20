@@ -12,8 +12,8 @@ config_version=5
 
 config/name="Gyro Aim Demo"
 config/description="A basic gyro aim demo."
-config/version="0.5.2"
-run/main_scene="res://scenes/main_menu.tscn"
+config/version="0.6.0"
+run/main_scene="res://scenes/main_menu_container.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.png"
 
@@ -27,6 +27,8 @@ GameSettings="*res://scenes/game_settings.gd"
 window/size/viewport_width=854
 window/size/viewport_height=480
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=6
 
 [editor]
 
