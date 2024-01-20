@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyqnujmid4xn4"]
+
+[ext_resource type="PackedScene" uid="uid://dbv5yqje5sisk" path="res://scenes/settings_item_toggle.tscn" id="3_lne6f"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_efxs5"]
+font_size = 20
+font_color = Color(1, 0.843137, 0.25098, 1)
+
+[node name="DeveloperList" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="PaddingTop" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="MouseTouchHeader" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Debug"
+label_settings = SubResource("LabelSettings_efxs5")
+vertical_alignment = 1
+
+[node name="SettingsItemToggle" parent="." instance=ExtResource("3_lne6f")]
+layout_mode = 2
+label = "Debug Mode"
+config_section = "Debug"
+config_key = "debug_mode"
+
+[node name="PaddingBottom" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
