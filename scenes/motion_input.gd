@@ -285,4 +285,4 @@ func get_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
 	
 	# Nudge towards gravity according to current acceleration
 	var new_gravity: Vector3 = -accel
-	gravity_vector += (new_gravity - gravity_vector) * 0.2
+	gravity_vector += (new_gravity - gravity_vector) * 0.02
