@@ -10,11 +10,9 @@ font_size = 24
 [node name="SettingsTabs" type="TabContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
-current_tab = 2
 use_hidden_tabs_for_min_size = true
 
 [node name="Controls" type="ScrollContainer" parent="."]
-visible = false
 custom_minimum_size = Vector2(640, 240)
 layout_mode = 2
 theme = ExtResource("1_8q32k")
@@ -46,6 +44,7 @@ text = "Coming soon..."
 label_settings = SubResource("LabelSettings_rx8bw")
 
 [node name="Developer" type="ScrollContainer" parent="."]
+visible = false
 custom_minimum_size = Vector2(640, 240)
 layout_mode = 2
 theme = ExtResource("1_8q32k")

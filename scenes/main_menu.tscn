@@ -57,11 +57,10 @@ label_settings = SubResource("LabelSettings_buhpd")
 layout_mode = 2
 text = "From Shiny's Hideout!"
 
-[node name="ToggleDebugButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+[node name="CalibrateGyroButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
 layout_mode = 2
 size_flags_vertical = 4
-toggle_mode = true
-text = "Toggle Debug"
+text = "Calibrate Gyro"
 
 [node name="SaveSettingsButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
 layout_mode = 2
@@ -85,6 +84,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[connection signal="toggled" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/ToggleDebugButton" to="." method="_on_toggle_debug_button_toggled"]
+[connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/CalibrateGyroButton" to="." method="_on_calibrate_gyro_button_pressed"]
 [connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/SaveSettingsButton" to="." method="_on_save_settings_button_pressed"]
 [connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/GameStartButton" to="." method="_on_game_start_button_pressed"]
