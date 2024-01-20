@@ -103,18 +103,32 @@ label = "Invert Vertical Aim"
 config_section = "InputGyro"
 config_key = "gyro_invert_y"
 
-[node name="GyroUseRoll" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
-layout_mode = 2
-label = "Use Roll Instead Of Yaw"
-config_section = "InputGyro"
-config_key = "gyro_local_use_roll"
-
 [node name="GyroModifierMode" parent="GyroSettings" instance=ExtResource("4_uh851")]
 layout_mode = 2
 label = "Gyro Modifier Action"
 config_section = "InputGyro"
 config_key = "gyro_modifier_mode"
 menu_items = ["Hold for Gyro Off", "Hold for Gyro On", "Press to Toggle Gyro"]
+
+[node name="OrientationSubheader" type="Label" parent="GyroSettings"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Gyro Orientation"
+label_settings = SubResource("LabelSettings_5usrh")
+vertical_alignment = 1
+
+[node name="GyroSpace" parent="GyroSettings" instance=ExtResource("4_uh851")]
+layout_mode = 2
+label = "Gyro Space (3DOF to 2DOF Conversion)"
+config_section = "InputGyro"
+config_key = "gyro_space"
+menu_items = ["Local Space", "Player Space", "World Space"]
+
+[node name="GyroLocalUseRoll" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
+layout_mode = 2
+label = "Use Roll Instead Of Yaw"
+config_section = "InputGyro"
+config_key = "gyro_local_use_roll"
 
 [node name="AccelSubheader" type="Label" parent="GyroSettings"]
 custom_minimum_size = Vector2(0, 56)

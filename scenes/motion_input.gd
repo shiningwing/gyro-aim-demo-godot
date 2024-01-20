@@ -81,7 +81,7 @@ func _process(delta):
 		calibrated_gyro = Vector3.ZERO
 	
 	# Update gravity vector
-	calculate_simple_gravity(calibrated_gyro.normalized(), accelerometer.normalized(), delta)
+	get_simple_gravity(calibrated_gyro.normalized(), accelerometer.normalized(), delta)
 	
 	processed_gyro = process_gyro_input(calibrated_gyro, delta)
 	processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro, delta)
@@ -103,13 +103,20 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	var sens: Vector2
 	var gyro_delta: Vector2
 	
-	# Set gyro axes based on yaw/roll setting
-	if GameSettings.general["InputGyro"]["gyro_local_use_roll"]:
-		gyro_delta.x = gyro.z
-		gyro_delta.y = gyro.x
-	else:
-		gyro_delta.x = gyro.y
-		gyro_delta.y = gyro.x
+	# Convert 3DOF gyro input to 2DOF mouse-like aim input based on user setting
+	match GameSettings.general["InputGyro"]["gyro_space"]:
+		0:	# Local space
+			# Set gyro axes based on yaw/roll setting
+			if GameSettings.general["InputGyro"]["gyro_local_use_roll"]:
+				gyro_delta.x = gyro.z
+				gyro_delta.y = gyro.x
+			else:
+				gyro_delta.x = gyro.y
+				gyro_delta.y = gyro.x
+		#1:	# Player space
+		2:	# World space
+			gyro_delta = get_world_space_gyro(gyro, gravity_vector)
+	
 	# Set gyro axis inversion based on settings
 	if GameSettings.general["InputGyro"]["gyro_invert_x"]:
 		gyro_delta.x = -gyro_delta.x
@@ -136,7 +143,7 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	
 	# Set sensitivity based on acceleration setting
 	if GameSettings.general["InputGyro"]["gyro_accel_enabled"]:
-		sens = process_gyro_acceleration(gyro_delta)
+		sens = get_gyro_acceleration(gyro_delta)
 	else:
 		sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_x"]
 		sens.y = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
@@ -145,10 +152,37 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	var processed := Vector2(gyro_delta.x * sens.x * delta, gyro_delta.y * sens.y * delta)
 	return processed
 
+
+func get_world_space_gyro(gyro: Vector3, gravity: Vector3):
+	# Our output, remaining comments are Jibb's
+	var processed: Vector2
+	
+	# Some info about the devices's orientation that we'll use to smooth over boundaries
+	var flatness: float = abs(gravity.y) # 1 when device is flat
+	var upness: float = abs(gravity.z) # 1 when device
+	var side_reduction: float = clamp((max(flatness, upness) - 0.125) / 0.125, 0, 1)
+	
+	# World space yaw velocity (negative because gravity points down)
+	processed.x += gyro.dot(gravity)
+	
+	# Project pitch axis onto gravity plane
+	var gravity_dot_pitch_axis: float = gravity.x
+	var pitch_vector: Vector3 = Vector3(1, 0, 0) - gravity * gravity_dot_pitch_axis
+	
+	# Normalize, it'll be zero if pitch and gravity are parallel, which we ignore
+	if (!pitch_vector.is_zero_approx()):
+		pitch_vector = pitch_vector.normalized()
+		# Camera pitch velocity just like yaw velocity at the beginning
+		# (But squish to 0 when device is on its side)
+		processed.y += side_reduction * gyro.dot(pitch_vector)
+	
+	return processed
+
+
 ## Calculates the sensitivity used for gyro aim when acceleration is on. 
 ## Takes a [Vector2] containing a gyroscope X and Y, which should be the one 
 ## obtained after the 3DOF to 2DOF conversion in [method process_gyro_input].
-func process_gyro_acceleration(gyro: Vector2):
+func get_gyro_acceleration(gyro: Vector2):
 	var sens: Vector2
 	sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
 	sens.y = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
@@ -221,7 +255,7 @@ func get_tightened_input(input: Vector2, threshold: float):
 	return input
 
 
-func calculate_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
+func get_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
 	# Convert gyro input to reverse rotation
 	var rotation := Quaternion(-gyro, gyro.length() * delta)
 	
@@ -231,4 +265,3 @@ func calculate_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
 	# Nudge towards gravity according to current acceleration
 	var new_gravity: Vector3 = -accel
 	gravity_vector += (new_gravity - gravity_vector) * 0.02
-	print(gravity_vector)
