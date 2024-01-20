@@ -243,9 +243,10 @@ func write_graphics_config():
 ## Immediately sets the window resolution to a width and height in pixels. Does 
 ## not save to the config file on its own.
 func set_resolution(width: int, height: int):
-	graphics["Display"]["resolution_h"] = width
-	graphics["Display"]["resolution_w"] = height
-	DisplayServer.window_set_size(Vector2i(width, height), 0)
+	graphics["Display"]["resolution_w"] = width
+	graphics["Display"]["resolution_h"] = height
+	ProjectSettings.set_setting("display/windows/size/viewport_width", width)
+	ProjectSettings.set_setting("display/windows/size/viewport_height", height)
 
 
 ## Immediately sets the vertical sync mode. Does not save to the config file on 
