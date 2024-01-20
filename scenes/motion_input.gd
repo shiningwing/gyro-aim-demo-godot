@@ -113,7 +113,8 @@ func process_gyro_input(gyro: Vector3, delta: float):
 			else:
 				gyro_delta.x = gyro.y
 				gyro_delta.y = gyro.x
-		#1:	# Player space
+		1:	# Player space
+			gyro_delta = get_player_space_gyro(gyro, gravity_vector)
 		2:	# World space
 			gyro_delta = get_world_space_gyro(gyro, gravity_vector)
 	
@@ -175,6 +176,26 @@ func get_world_space_gyro(gyro: Vector3, gravity: Vector3):
 		# Camera pitch velocity just like yaw velocity at the beginning
 		# (But squish to 0 when device is on its side)
 		processed.y += side_reduction * gyro.dot(pitch_vector)
+	
+	return processed
+
+
+func get_player_space_gyro(gyro: Vector3, gravity: Vector3):
+	# Our output
+	var processed: Vector2
+	
+	# Use world yaw for yaw direction, local combined yaw for magnitude
+	# Dot product but just yaw and roll
+	var world_yaw: float = gyro.y * gravity.y + gyro.z * gravity.z
+	var yaw_relax_factor: float = 2
+	processed.x += (
+			sign(world_yaw) 
+			* min(abs(world_yaw) * yaw_relax_factor, 
+			Vector2(gyro.y, gyro.z).length())
+	)
+	
+	# Local pitch, just give back the starting pitch
+	processed.y = gyro.x
 	
 	return processed
 
