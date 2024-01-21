@@ -62,11 +62,11 @@ func _process(delta):
 		uncalibrated_gyro.y = sin(_debug_gyro_timer * 32) * 50 # sine wave
 	
 	# Run legacy calibration code for now if needed
-	legacy_calibration(delta)
+	legacy_calibration_process(delta)
 	
 	# If a noise threshold calibration is requested, run it until it's done
 	if noise_threshold_calibration_wanted:
-		calibrate_noise_thresholds(delta)
+		get_noise_thresholds(delta)
 	
 	# Apply the gyro calibration
 	_gyro_velocity = Vector3(uncalibrated_gyro.x, uncalibrated_gyro.y, uncalibrated_gyro.z)
@@ -88,13 +88,12 @@ func get_calibration_offset():
 		return Vector3.ZERO
 	return accumulated_offset / num_offset_samples
 
-
 func reset_calibration():
 	num_offset_samples = 0
 	accumulated_offset = Vector3.ZERO
 
 
-func legacy_calibration(delta: float):
+func legacy_calibration_process(delta: float):
 	# When the user requests timed calibration:
 	if calibration_wanted and not calibrating:
 		# Start the timer and reset the previous calibration
@@ -118,12 +117,39 @@ func legacy_calibration(delta: float):
 		accumulated_offset += uncalibrated_gyro
 
 
-func new_calibration_process(delta: float):
+func calibration_process(delta: float):
 	pass
 
 
-func calibrate_noise_thresholds(delta: float):
-	pass
+func calibrate_noise_thresholds():
+	reset_noise_thresholds()
+	noise_threshold_timer = 0.0
+	noise_threshold_calibration_wanted = true
+
+
+func reset_noise_thresholds():
+	gyro_noise_threshold = 0.0
+	accel_noise_threshold = 0.0
+
+
+func get_noise_thresholds(delta: float):
+	if noise_threshold_timer < noise_threshold_timer_length:
+		noise_threshold_timer += delta
+		# Set initial threshold to uncalibrated gyro length
+		if gyro_noise_threshold == 0.0:
+			gyro_noise_threshold = uncalibrated_gyro.length()
+		# Then, only update the threshold to the length if it's smaller
+		elif gyro_noise_threshold < uncalibrated_gyro.length():
+			# If the gyro length if over triple the current threshold, 
+			# it's probably a sudden spike, so start over
+			if gyro_noise_threshold * 3 > uncalibrated_gyro.length():
+				reset_noise_thresholds()
+				noise_threshold_timer = 0.0
+			else:
+				gyro_noise_threshold = uncalibrated_gyro.length()
+	else:
+		noise_threshold_calibration_wanted = false
+		noise_threshold_timer = 0.0
 
 
 func process_gyro_input(gyro: Vector3, delta: float):
