@@ -1,5 +1,7 @@
 extends Node
-## Provides motion vectors to be used for gameplay.
+## A script intended to be used as an autoloaded singleton, which takes in motion 
+## data from controllers or mobile devices and provides all functionality needed 
+## for gyro aim.
 # Shout out to Jibb Smart for the gyro guides, and for pioneering so much of this
 
 
@@ -13,11 +15,20 @@ var gravity_vector := Vector3.ZERO
 # Calibration variables
 var num_offset_samples: int = 0
 var accumulated_offset := Vector3.ZERO
+var accumulated_offset_temporary := Vector3.ZERO
+
 var calibrating := false
 var calibration_wanted := false
 var calibration_timer_running := false
 var calibration_timer_length: float = 5.0
 var calibration_timer: float = 0.0
+
+var noise_threshold_calibration_wanted := true
+var gyro_noise_threshold: float = 0.0
+var accel_noise_threshold: float = 0.0
+var noise_threshold_timer_running := true
+var noise_threshold_timer_length: float = 5.0
+var noise_threshold_timer: float = 0.0
 
 var _gyro_velocity := Vector3.ZERO
 var _gyro_calibration := Vector3.ZERO
@@ -47,30 +58,15 @@ func _process(delta):
 	
 	# If we're in debug mode and not on mobile, oscillate the gyro
 	if GameSettings.general["Debug"]["debug_mode"] and not is_android and not is_ios:
-		_debug_gyro_timer += 1 * delta
+		_debug_gyro_timer += 1.0 * delta
 		uncalibrated_gyro.y = sin(_debug_gyro_timer * 32) * 50 # sine wave
 	
-	# When the user requests timed calibration:
-	if calibration_wanted and not calibrating:
-		# Start the timer and reset the previous calibration
-		calibration_timer_running = true
-		reset_calibration()
-	if calibration_timer_running:
-		if calibration_timer < 1.0:
-			calibration_timer += delta
-		elif calibration_timer >= 1.0 and calibration_timer < calibration_timer_length + 1.0:
-			calibrating = true 
-			calibration_timer += delta
-		elif calibration_timer >= calibration_timer_length + 1.0:
-			calibration_wanted = false
-			calibrating = false
-			calibration_timer_running = false
-			calibration_timer = 0
+	# Run legacy calibration code for now if needed
+	legacy_calibration(delta)
 	
-	# Get calibration samples
-	if calibrating:
-		num_offset_samples += 1
-		accumulated_offset += uncalibrated_gyro
+	# If a noise threshold calibration is requested, run it until it's done
+	if noise_threshold_calibration_wanted:
+		calibrate_noise_thresholds(delta)
 	
 	# Apply the gyro calibration
 	_gyro_velocity = Vector3(uncalibrated_gyro.x, uncalibrated_gyro.y, uncalibrated_gyro.z)
@@ -96,6 +92,38 @@ func get_calibration_offset():
 func reset_calibration():
 	num_offset_samples = 0
 	accumulated_offset = Vector3.ZERO
+
+
+func legacy_calibration(delta: float):
+	# When the user requests timed calibration:
+	if calibration_wanted and not calibrating:
+		# Start the timer and reset the previous calibration
+		calibration_timer_running = true
+		reset_calibration()
+	if calibration_timer_running:
+		if calibration_timer < 1.0:
+			calibration_timer += delta
+		elif calibration_timer >= 1.0 and calibration_timer < calibration_timer_length + 1.0:
+			calibrating = true 
+			calibration_timer += delta
+		elif calibration_timer >= calibration_timer_length + 1.0:
+			calibration_wanted = false
+			calibrating = false
+			calibration_timer_running = false
+			calibration_timer = 0.0
+	
+	# Get calibration samples
+	if calibrating:
+		num_offset_samples += 1
+		accumulated_offset += uncalibrated_gyro
+
+
+func new_calibration_process(delta: float):
+	pass
+
+
+func calibrate_noise_thresholds(delta: float):
+	pass
 
 
 func process_gyro_input(gyro: Vector3, delta: float):
