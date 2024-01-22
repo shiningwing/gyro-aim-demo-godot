@@ -30,6 +30,12 @@ var noise_threshold_timer_running := true
 var noise_threshold_timer_length: float = 5.0
 var noise_threshold_timer: float = 0.0
 
+var gyro_sample_array: PackedFloat64Array
+var gyro_noise: float = 0.0
+var accel_sample_array: PackedFloat64Array
+var accel_noise: float = 0.0
+var motion_sample_array_index: int
+
 var _gyro_velocity := Vector3.ZERO
 var _gyro_calibration := Vector3.ZERO
 
@@ -63,6 +69,9 @@ func _process(delta):
 	
 	# Run legacy calibration code for now if needed
 	legacy_calibration_process(delta)
+	
+	# Process motion arrays
+	process_motion_sample_arrays(16)
 	
 	# If a noise threshold calibration is requested, run it until it's done
 	if noise_threshold_calibration_wanted:
@@ -150,6 +159,18 @@ func get_noise_thresholds(delta: float):
 	else:
 		noise_threshold_calibration_wanted = false
 		noise_threshold_timer = 0.0
+
+
+func process_motion_sample_arrays(buffer_length: int):
+	# Get the sample array for gyroscope input
+	motion_sample_array_index = (motion_sample_array_index + 1) % buffer_length
+	gyro_sample_array.resize(buffer_length)
+	gyro_sample_array[motion_sample_array_index] = uncalibrated_gyro.length()
+	gyro_noise = standard_deviation(gyro_sample_array)
+	# The the same for accelerometer
+	accel_sample_array.resize(buffer_length)
+	accel_sample_array[motion_sample_array_index] = accelerometer.z
+	accel_noise = standard_deviation(accel_sample_array)
 
 
 func process_gyro_input(gyro: Vector3, delta: float):
@@ -340,3 +361,22 @@ func get_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
 	# Nudge towards gravity according to current acceleration
 	var new_gravity: Vector3 = -accel
 	gravity_vector += (new_gravity - gravity_vector) * 0.02
+
+
+func standard_deviation(data: Array):
+	var sum: float
+	var mean: float
+	var sd: float
+	
+	var index: int = 0
+	for i in data:
+		sum += data[index]
+		index += 1
+	mean = sum / index
+	
+	index = 0
+	for i in data:
+		sd += pow(data[index] - mean, 2)
+		index += 1
+	
+	return sqrt(sd / index)

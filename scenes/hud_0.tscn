@@ -50,7 +50,15 @@ text = "Accelerometer: "
 
 [node name="GravityLabel" type="Label" parent="Debug/TopLeft"]
 layout_mode = 2
-text = "Accelerometer: "
+text = "Sensor Fusion Gravity: "
+
+[node name="GyroNoiseLabel" type="Label" parent="Debug/TopLeft"]
+layout_mode = 2
+text = "Gyroscope Noise: "
+
+[node name="AccelNoiseLabel" type="Label" parent="Debug/TopLeft"]
+layout_mode = 2
+text = "Accelerometer Noise: "
 
 [node name="TopRight" type="VBoxContainer" parent="Debug"]
 layout_mode = 1
