@@ -144,18 +144,27 @@ func reset_noise_thresholds():
 func get_noise_thresholds(delta: float):
 	if noise_threshold_timer < noise_threshold_timer_length:
 		noise_threshold_timer += delta
-		# Set initial threshold to uncalibrated gyro length
+		# Set initial threshold to gyro noise
 		if gyro_noise_threshold == 0.0:
-			gyro_noise_threshold = uncalibrated_gyro.length()
-		# Then, only update the threshold to the length if it's smaller
-		elif gyro_noise_threshold < uncalibrated_gyro.length():
-			# If the gyro length if over triple the current threshold, 
-			# it's probably a sudden spike, so start over
-			if gyro_noise_threshold * 3 > uncalibrated_gyro.length():
+			gyro_noise_threshold = gyro_noise
+		# Then, only update the threshold to the noise value if it's smaller
+		elif gyro_noise_threshold < gyro_noise:
+			# If the gyro noise if over triple the current threshold, 
+			# it's probably a sudden movement spike, so start over
+			if gyro_noise_threshold * 3 > gyro_noise:
 				reset_noise_thresholds()
 				noise_threshold_timer = 0.0
 			else:
-				gyro_noise_threshold = uncalibrated_gyro.length()
+				gyro_noise_threshold = gyro_noise
+		# Now the same for accelerometer
+		if accel_noise_threshold == 0.0:
+			accel_noise_threshold = accel_noise
+		elif accel_noise_threshold < accel_noise:
+			if accel_noise_threshold * 3 > accel_noise:
+				reset_noise_thresholds()
+				noise_threshold_timer = 0.0
+			else:
+				accel_noise_threshold = accel_noise
 	else:
 		noise_threshold_calibration_wanted = false
 		noise_threshold_timer = 0.0
