@@ -47,8 +47,7 @@ var _debug_gyro_timer: float = 0.0
 var _current_smoothing_buffer_index: int
 var _smoothing_input_buffer: PackedVector2Array
 
-@onready var is_android := OS.has_feature("android")
-@onready var is_ios := OS.has_feature("ios")
+@onready var is_mobile := OS.has_feature("mobile")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -58,14 +57,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	# Read the motion from Godot if we're running on mobile
-	if is_android or is_ios:
+	if is_mobile:
 		uncalibrated_gyro.x = rad_to_deg(Input.get_gyroscope().x)
 		uncalibrated_gyro.y = rad_to_deg(Input.get_gyroscope().y)
 		uncalibrated_gyro.z = rad_to_deg(Input.get_gyroscope().z)
 		accelerometer = Input.get_accelerometer()
 	
 	# If we're in debug mode and not on mobile, oscillate the gyro
-	if GameSettings.general["Debug"]["debug_mode"] and not is_android and not is_ios:
+	if GameSettings.general["Debug"]["debug_mode"] and not is_mobile:
 		_debug_gyro_timer += 1.0 * delta
 		uncalibrated_gyro.y = sin(_debug_gyro_timer * 32) * 50 # sine wave
 	
