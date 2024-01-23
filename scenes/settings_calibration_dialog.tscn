@@ -1,6 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dg7dbxnl8erwe"]
+[gd_scene load_steps=9 format=3 uid="uid://dg7dbxnl8erwe"]
 
 [ext_resource type="Script" path="res://scenes/settings_calibration_dialog.gd" id="1_mwfnk"]
+[ext_resource type="Texture2D" uid="uid://fb2sj280itmf" path="res://textures/ui/rotate-orbit-custom.png" id="2_bqu6n"]
+[ext_resource type="Texture2D" uid="uid://b1wyo0v1q8dah" path="res://textures/ui/horizontal-rotate-clockwise-custom.png" id="2_cfba1"]
+[ext_resource type="Texture2D" uid="uid://b7qf0sjm71r8h" path="res://textures/ui/axis-arrow-custom.png" id="3_nnuh4"]
+[ext_resource type="Texture2D" uid="uid://xpq6xscd2sng" path="res://textures/ui/axis-z-rotate-clockwise-custom.png" id="3_xyotq"]
+[ext_resource type="Texture2D" uid="uid://dmr0t5ytxnbjp" path="res://textures/ui/axis-x-rotate-clockwise-custom.png" id="4_b5aaj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xesg8"]
 content_margin_left = 24.0
@@ -25,9 +30,6 @@ shadow_offset = Vector2(0, 4)
 font_size = 24
 font_color = Color(1, 0.843137, 0.25098, 1)
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wbkc4"]
-size = Vector2(24, 24)
-
 [node name="CalibrationDialog" type="PanelContainer"]
 custom_minimum_size = Vector2(576, 0)
 offset_right = 40.0
@@ -46,6 +48,7 @@ label_settings = SubResource("LabelSettings_xe4po")
 vertical_alignment = 1
 
 [node name="StartBox" type="VBoxContainer" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 16
 
@@ -70,7 +73,6 @@ layout_mode = 2
 text = "Cancel"
 
 [node name="NoiseThresholdBox" type="VBoxContainer" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 16
 
@@ -84,7 +86,7 @@ theme_override_constants/separation = 24
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/NoiseThresholdBox/GyroNoiseContainer"]
 layout_mode = 2
-texture = SubResource("PlaceholderTexture2D_wbkc4")
+texture = ExtResource("2_bqu6n")
 
 [node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/NoiseThresholdBox/GyroNoiseContainer"]
 custom_minimum_size = Vector2(0, 8)
@@ -101,7 +103,7 @@ theme_override_constants/separation = 24
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/NoiseThresholdBox/AccelNoiseContainer"]
 layout_mode = 2
-texture = SubResource("PlaceholderTexture2D_wbkc4")
+texture = ExtResource("3_nnuh4")
 
 [node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/NoiseThresholdBox/AccelNoiseContainer"]
 custom_minimum_size = Vector2(0, 8)
@@ -147,7 +149,7 @@ theme_override_constants/separation = 24
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/CalibrationBox/GyroXContainer"]
 layout_mode = 2
-texture = SubResource("PlaceholderTexture2D_wbkc4")
+texture = ExtResource("2_cfba1")
 
 [node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/CalibrationBox/GyroXContainer"]
 custom_minimum_size = Vector2(0, 8)
@@ -170,7 +172,7 @@ theme_override_constants/separation = 24
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/CalibrationBox/GyroYContainer"]
 layout_mode = 2
-texture = SubResource("PlaceholderTexture2D_wbkc4")
+texture = ExtResource("3_xyotq")
 
 [node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/CalibrationBox/GyroYContainer"]
 custom_minimum_size = Vector2(0, 8)
@@ -193,7 +195,7 @@ theme_override_constants/separation = 24
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/CalibrationBox/GyroZContainer"]
 layout_mode = 2
-texture = SubResource("PlaceholderTexture2D_wbkc4")
+texture = ExtResource("4_b5aaj")
 
 [node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/CalibrationBox/GyroZContainer"]
 custom_minimum_size = Vector2(0, 8)
