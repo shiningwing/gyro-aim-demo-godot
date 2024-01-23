@@ -114,14 +114,6 @@ layout_mode = 2
 text = "Calibrating: false"
 horizontal_alignment = 2
 
-[node name="CalibrateButton" type="Button" parent="Debug/Calibration"]
-layout_mode = 2
-text = "Start Timed Gyro Calibration"
-
-[node name="CalibrateHoldButton" type="Button" parent="Debug/Calibration"]
-layout_mode = 2
-text = "Calibrate Gyro"
-
 [node name="ShittyCrosshair" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -148,7 +140,4 @@ offset_right = 164.0
 offset_bottom = 71.0
 text = "Exit To Menu"
 
-[connection signal="button_up" from="Debug/Calibration/CalibrateButton" to="." method="_on_calibrate_button_button_up"]
-[connection signal="button_down" from="Debug/Calibration/CalibrateHoldButton" to="." method="_on_calibrate_hold_button_pressed"]
-[connection signal="button_up" from="Debug/Calibration/CalibrateHoldButton" to="." method="_on_calibrate_hold_button_released"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]

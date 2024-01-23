@@ -69,19 +69,18 @@ func _process(delta):
 		_debug_gyro_timer += 1.0 * delta
 		uncalibrated_gyro.y = sin(_debug_gyro_timer * 32) * 50 # sine wave
 	
-	# Run legacy calibration code for now if needed
-	#legacy_calibration_process(delta)
-	
 	# Process motion arrays
 	process_motion_sample_arrays(16)
-	
-	if (GameSettings.general["InputGyro"]["gyro_autocalibration_enabled"] 
-			and not interrupt_calibration):
-		calibration_wanted = true
 	
 	# If a noise threshold calibration is requested, run it until it's done
 	if noise_threshold_calibration_wanted:
 		get_noise_thresholds(delta)
+	
+	# Signal that calibration is wanted if autocalibration is on and is not 
+	# being interrupted.
+	if (GameSettings.general["InputGyro"]["gyro_autocalibration_enabled"] 
+			and not interrupt_calibration):
+		calibration_wanted = true
 	
 	if calibration_wanted:
 		calibration_process(delta)
@@ -106,30 +105,6 @@ func get_calibration_offset():
 func reset_calibration():
 	num_offset_samples = 0
 	accumulated_offset = Vector3.ZERO
-
-
-func legacy_calibration_process(delta: float):
-	# When the user requests timed calibration:
-	if calibration_wanted and not calibrating:
-		# Start the timer and reset the previous calibration
-		calibration_timer_running = true
-		reset_calibration()
-	if calibration_timer_running:
-		if calibration_timer < 1.0:
-			calibration_timer += delta
-		elif calibration_timer >= 1.0 and calibration_timer < calibration_timer_length + 1.0:
-			calibrating = true 
-			calibration_timer += delta
-		elif calibration_timer >= calibration_timer_length + 1.0:
-			calibration_wanted = false
-			calibrating = false
-			calibration_timer_running = false
-			calibration_timer = 0.0
-	
-	# Get calibration samples
-	if calibrating:
-		num_offset_samples += 1
-		accumulated_offset += uncalibrated_gyro
 
 
 func reset_temporary_calibration():
