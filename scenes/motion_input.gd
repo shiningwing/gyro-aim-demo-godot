@@ -15,18 +15,20 @@ var gravity_vector := Vector3.ZERO
 # Calibration variables
 var num_offset_samples: int = 0
 var accumulated_offset := Vector3.ZERO
+var num_offset_samples_temporary: int = 0
 var accumulated_offset_temporary := Vector3.ZERO
 
 var calibrating := false
 var calibration_wanted := false
+var interrupt_calibration := false
 var calibration_timer_running := false
 var calibration_timer_length: float = 5.0
 var calibration_timer: float = 0.0
 
-var noise_threshold_calibration_wanted := true
+var noise_threshold_calibration_wanted := false
 var gyro_noise_threshold: float = 0.0
 var accel_noise_threshold: float = 0.0
-var noise_threshold_timer_running := true
+var noise_threshold_timer_running := false
 var noise_threshold_timer_length: float = 5.0
 var noise_threshold_timer: float = 0.0
 
@@ -68,22 +70,26 @@ func _process(delta):
 		uncalibrated_gyro.y = sin(_debug_gyro_timer * 32) * 50 # sine wave
 	
 	# Run legacy calibration code for now if needed
-	legacy_calibration_process(delta)
+	#legacy_calibration_process(delta)
 	
 	# Process motion arrays
 	process_motion_sample_arrays(16)
+	
+	if (GameSettings.general["InputGyro"]["gyro_autocalibration_enabled"] 
+			and not interrupt_calibration):
+		calibration_wanted = true
 	
 	# If a noise threshold calibration is requested, run it until it's done
 	if noise_threshold_calibration_wanted:
 		get_noise_thresholds(delta)
 	
+	if calibration_wanted:
+		calibration_process(delta)
+	
 	# Apply the gyro calibration
 	_gyro_velocity = Vector3(uncalibrated_gyro.x, uncalibrated_gyro.y, uncalibrated_gyro.z)
 	_gyro_calibration = Vector3(get_calibration_offset().x, get_calibration_offset().y, get_calibration_offset().z)
-	if not calibrating:
-		calibrated_gyro = _gyro_velocity - _gyro_calibration
-	else:
-		calibrated_gyro = Vector3.ZERO
+	calibrated_gyro = _gyro_velocity - _gyro_calibration
 	
 	# Update gravity vector
 	get_simple_gravity(calibrated_gyro.normalized(), accelerometer.normalized(), delta)
@@ -126,8 +132,31 @@ func legacy_calibration_process(delta: float):
 		accumulated_offset += uncalibrated_gyro
 
 
+func reset_temporary_calibration():
+	num_offset_samples_temporary = 0
+	accumulated_offset_temporary = Vector3.ZERO
+
+
 func calibration_process(delta: float):
-	pass
+	if calibration_timer < 5:
+		calibration_timer += delta
+		calibrating = true
+		# If we're above the noise threshold, start over
+		if (gyro_noise > gyro_noise_threshold * 1.25
+				or accel_noise > accel_noise_threshold * 1.25):
+			calibration_timer = 0
+			reset_temporary_calibration()
+	# Once we're successful, apply the calibration
+	else:
+		calibrating = false
+		calibration_timer = 0
+		num_offset_samples = num_offset_samples_temporary
+		accumulated_offset = accumulated_offset_temporary
+		reset_temporary_calibration()
+		
+	if calibrating:
+		num_offset_samples_temporary += 1
+		accumulated_offset_temporary += uncalibrated_gyro
 
 
 func calibrate_noise_thresholds():
@@ -149,21 +178,21 @@ func get_noise_thresholds(delta: float):
 			gyro_noise_threshold = gyro_noise
 		# Then, only update the threshold to the noise value if it's smaller
 		elif gyro_noise_threshold < gyro_noise:
-			# If the gyro noise if over triple the current threshold, 
+			# If the gyro noise if over a certain times the current threshold, 
 			# it's probably a sudden movement spike, so start over
-			if gyro_noise_threshold * 3 > gyro_noise:
-				reset_noise_thresholds()
-				noise_threshold_timer = 0.0
-			else:
+			#if gyro_noise_threshold * 10000 > gyro_noise:
+			#	reset_noise_thresholds()
+			#	noise_threshold_timer = 0.0
+			#else:
 				gyro_noise_threshold = gyro_noise
 		# Now the same for accelerometer
 		if accel_noise_threshold == 0.0:
 			accel_noise_threshold = accel_noise
 		elif accel_noise_threshold < accel_noise:
-			if accel_noise_threshold * 3 > accel_noise:
-				reset_noise_thresholds()
-				noise_threshold_timer = 0.0
-			else:
+			#if accel_noise_threshold * 1000000000 > accel_noise:
+			#	reset_noise_thresholds()
+			#	noise_threshold_timer = 0.0
+			#else:
 				accel_noise_threshold = accel_noise
 	else:
 		noise_threshold_calibration_wanted = false
