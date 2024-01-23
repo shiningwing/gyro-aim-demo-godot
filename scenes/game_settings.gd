@@ -195,7 +195,7 @@ func _ready():
 	write_graphics_config()
 	
 	# Set the display settings outside of mobile
-	if not OS.has_feature("android") and not OS.has_feature("ios"):
+	if not OS.has_feature("mobile"):
 		DisplayServer.window_set_size(Vector2i(
 				graphics["Display"]["resolution_w"],
 				graphics["Display"]["resolution_h"]), 0)
