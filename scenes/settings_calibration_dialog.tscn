@@ -48,7 +48,6 @@ label_settings = SubResource("LabelSettings_xe4po")
 vertical_alignment = 1
 
 [node name="StartBox" type="VBoxContainer" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 16
 
@@ -73,6 +72,7 @@ layout_mode = 2
 text = "Cancel"
 
 [node name="NoiseThresholdBox" type="VBoxContainer" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 16
 
