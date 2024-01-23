@@ -52,7 +52,7 @@ func _process(delta):
 			MotionInput.reset_calibration()
 			MotionInput.calibration_timer = 0.0
 		
-		if $VBoxContainer/CalibrationBox.visible:
+		if $VBoxContainer/CalibrationBox.visible and MotionInput.calibrating:
 			gyro_x_bar.value = MotionInput.uncalibrated_gyro.x
 			gyro_y_bar.value = MotionInput.uncalibrated_gyro.y
 			gyro_z_bar.value = MotionInput.uncalibrated_gyro.z
@@ -67,6 +67,15 @@ func _process(delta):
 				and MotionInput.calibrating == false 
 				and MotionInput.num_offset_samples > 0):
 			MotionInput.calibration_wanted = false
+			
+			gyro_x_bar.value = MotionInput.calibrated_gyro.x
+			gyro_y_bar.value = MotionInput.calibrated_gyro.y
+			gyro_z_bar.value = MotionInput.calibrated_gyro.z
+			
+			gyro_x_label.text = str(snapped(MotionInput.calibrated_gyro.x, 0.01), "°/s")
+			gyro_y_label.text = str(snapped(MotionInput.calibrated_gyro.y, 0.01), "°/s")
+			gyro_z_label.text = str(snapped(MotionInput.calibrated_gyro.z, 0.01), "°/s")
+			
 			calibration_progress.value = 5.0
 			$VBoxContainer/CalibrationBox/Description.text = "Finished. Press the button to exit."
 			$VBoxContainer/CalibrationBox/FinishButton.text = "Finish"
