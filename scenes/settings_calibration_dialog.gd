@@ -36,7 +36,7 @@ func _process(delta):
 			if start_timer < 1.0:
 				start_timer += delta
 			else:
-				MotionInput.noise_threshold_calibration_wanted = true
+				MotionInput.calibrate_noise_thresholds()
 				$VBoxContainer/StartBox.visible = false
 				$VBoxContainer/NoiseThresholdBox.visible = true
 				$VBoxContainer/StartBox/StartButton.disabled = false
