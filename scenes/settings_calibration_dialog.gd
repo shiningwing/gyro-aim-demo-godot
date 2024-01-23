@@ -39,6 +39,8 @@ func _process(delta):
 				MotionInput.noise_threshold_calibration_wanted = true
 				$VBoxContainer/StartBox.visible = false
 				$VBoxContainer/NoiseThresholdBox.visible = true
+				$VBoxContainer/StartBox/StartButton.disabled = false
+				$VBoxContainer/StartBox/StartButton.text = "Start Calibration"
 				start_timer_running = false
 				start_timer = 0.0
 		
@@ -66,6 +68,7 @@ func _process(delta):
 				and MotionInput.num_offset_samples > 0):
 			MotionInput.calibration_wanted = false
 			calibration_progress.value = 5.0
+			$VBoxContainer/CalibrationBox/Description.text = "Finished. Press the button to exit."
 			$VBoxContainer/CalibrationBox/FinishButton.text = "Finish"
 			$VBoxContainer/CalibrationBox/FinishButton.disabled = false
 
@@ -80,11 +83,19 @@ func _on_start_button_pressed():
 
 func _on_finish_button_pressed():
 	visible = false
+	$VBoxContainer/CalibrationBox/Description.text = "Calibrating gyroscope. Please do not move the device."
 	$VBoxContainer/CalibrationBox/FinishButton.text = "Calibrating..."
 	$VBoxContainer/CalibrationBox/FinishButton.disabled = true
 	$VBoxContainer/CalibrationBox.visible = false
 	$VBoxContainer/NoiseThresholdBox.visible = false
 	$VBoxContainer/StartBox.visible = true
+	MotionInput.interrupt_calibration = false
+
+
+func _on_early_cancel_button_pressed():
+	visible = false
+	# Reset the start button if the user canceled before the timer finished
 	$VBoxContainer/StartBox/StartButton.disabled = false
 	$VBoxContainer/StartBox/StartButton.text = "Start Calibration"
-	MotionInput.interrupt_calibration = false
+	start_timer_running
+	start_timer = 0

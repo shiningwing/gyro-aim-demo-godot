@@ -55,9 +55,19 @@ layout_mode = 2
 text = "Place the device still on a flat, solid surface, then press the button to calibrate the gyroscope. Please do not move the device while it is calibrating."
 autowrap_mode = 3
 
+[node name="Description2" type="Label" parent="VBoxContainer/StartBox"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+text = "Calibration will occur in two stages. Either stage may reset a few times before finishing. Please be patient and allow it to finish."
+autowrap_mode = 3
+
 [node name="StartButton" type="Button" parent="VBoxContainer/StartBox"]
 layout_mode = 2
 text = "Start Calibration"
+
+[node name="EarlyCancelButton" type="Button" parent="VBoxContainer/StartBox"]
+layout_mode = 2
+text = "Cancel"
 
 [node name="NoiseThresholdBox" type="VBoxContainer" parent="VBoxContainer"]
 visible = false
@@ -221,4 +231,5 @@ disabled = true
 text = "Calibrating..."
 
 [connection signal="pressed" from="VBoxContainer/StartBox/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/StartBox/EarlyCancelButton" to="." method="_on_early_cancel_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/CalibrationBox/FinishButton" to="." method="_on_finish_button_pressed"]
