@@ -15,6 +15,7 @@ radial_segments = 32
 [sub_resource type="SphereShape3D" id="SphereShape3D_0a3k3"]
 
 [node name="Target" type="Area3D" groups=["target"]]
+monitoring = false
 script = ExtResource("1_8kseb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

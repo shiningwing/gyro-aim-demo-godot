@@ -14,6 +14,7 @@ func _ready():
 func _process(delta):
 	if destroyed:
 		visible = false
+		monitorable = false
 		if not played_sound:
 			$BreakSound.play()
 			played_sound = true
