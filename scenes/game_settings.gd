@@ -253,8 +253,9 @@ func write_graphics_config():
 func set_resolution(width: int, height: int):
 	graphics["Display"]["resolution_w"] = width
 	graphics["Display"]["resolution_h"] = height
-	ProjectSettings.set_setting("display/windows/size/viewport_width", width)
-	ProjectSettings.set_setting("display/windows/size/viewport_height", height)
+	DisplayServer.window_set_size(Vector2i(
+			graphics["Display"]["resolution_w"],
+			graphics["Display"]["resolution_h"]), 0)
 
 
 ## Immediately sets the vertical sync mode. Does not save to the config file on 
