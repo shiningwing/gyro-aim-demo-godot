@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b4vyd5r0wwemy"]
+[gd_scene load_steps=12 format=3 uid="uid://b4vyd5r0wwemy"]
 
 [ext_resource type="Texture2D" uid="uid://b1wyo0v1q8dah" path="res://textures/ui/horizontal-rotate-clockwise-custom.png" id="1_66pj1"]
 [ext_resource type="Script" path="res://scenes/settings_calibration_list.gd" id="1_ccwn5"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dbv5yqje5sisk" path="res://scenes/settings_item_toggle.tscn" id="4_wewy7"]
 [ext_resource type="Texture2D" uid="uid://fb2sj280itmf" path="res://textures/ui/rotate-orbit-custom.png" id="5_88k8n"]
 [ext_resource type="Texture2D" uid="uid://b7qf0sjm71r8h" path="res://textures/ui/axis-arrow-custom.png" id="6_wj35g"]
+[ext_resource type="PackedScene" uid="uid://chblq7ob3o6f2" path="res://scenes/settings_item_slider_alone.tscn" id="7_7783b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s54jl"]
 content_margin_left = 24.0
@@ -187,6 +188,21 @@ step = 0.0
 value = 1.0
 show_percentage = false
 
+[node name="GyroNoiseSliderContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Padding" type="Control" parent="ListContainer/CalibrationBox/NoiseThresholds/GyroNoiseSliderContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+
+[node name="GyroNoiseSlider" parent="ListContainer/CalibrationBox/NoiseThresholds/GyroNoiseSliderContainer" instance=ExtResource("7_7783b")]
+layout_mode = 2
+size_flags_horizontal = 3
+config_section = "InputGyro"
+config_key = "gyro_noise_threshold"
+max_value = 1.0
+
 [node name="AccelNoiseContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds"]
 layout_mode = 2
 theme_override_constants/separation = 24
@@ -204,6 +220,21 @@ max_value = 0.1
 step = 0.0
 value = 0.1
 show_percentage = false
+
+[node name="AccelNoiseSliderContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Padding" type="Control" parent="ListContainer/CalibrationBox/NoiseThresholds/AccelNoiseSliderContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+
+[node name="AccelNoiseSlider" parent="ListContainer/CalibrationBox/NoiseThresholds/AccelNoiseSliderContainer" instance=ExtResource("7_7783b")]
+layout_mode = 2
+size_flags_horizontal = 3
+config_section = "InputGyro"
+config_key = "accel_noise_threshold"
+max_value = 0.1
 
 [node name="CalibrationSettingsContainer" type="VBoxContainer" parent="ListContainer"]
 layout_mode = 2

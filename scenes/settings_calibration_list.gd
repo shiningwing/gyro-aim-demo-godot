@@ -35,9 +35,14 @@ func _process(delta):
 	if GameSettings.general["InputGyro"]["gyro_autocalibration_enabled"]:
 		autocalibration_container.visible = true
 		noise_thresholds_container.visible = true
-		autocalibration_progress.value = MotionInput.calibration_timer
-		gyro_noise_bar.value = MotionInput.gyro_noise
-		accel_noise_bar.value = MotionInput.accel_noise
+		if calibrate_button_pressed:
+			autocalibration_progress.value = 0.0
+			gyro_noise_bar.value = 0.0
+			accel_noise_bar.value = 0.0
+		else:
+			autocalibration_progress.value = MotionInput.calibration_timer
+			gyro_noise_bar.value = MotionInput.gyro_noise
+			accel_noise_bar.value = MotionInput.accel_noise
 	else:
 		autocalibration_container.visible = false
 		noise_thresholds_container.visible = false

@@ -51,8 +51,7 @@ var _smoothing_input_buffer: PackedVector2Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -74,6 +73,9 @@ func _process(delta):
 	# If a noise threshold calibration is requested, run it until it's done
 	if noise_threshold_calibration_wanted:
 		get_noise_thresholds(delta)
+	else:
+		gyro_noise_threshold = GameSettings.general["InputGyro"]["gyro_noise_threshold"]
+		accel_noise_threshold = GameSettings.general["InputGyro"]["accel_noise_threshold"]
 	
 	# Signal that calibration is wanted if autocalibration is on and is not 
 	# being interrupted.
@@ -169,6 +171,8 @@ func get_noise_thresholds(delta: float):
 			#else:
 				accel_noise_threshold = accel_noise
 	else:
+		GameSettings.general["InputGyro"]["gyro_noise_threshold"] = gyro_noise_threshold
+		GameSettings.general["InputGyro"]["accel_noise_threshold"] = accel_noise_threshold
 		noise_threshold_calibration_wanted = false
 		noise_threshold_timer = 0.0
 

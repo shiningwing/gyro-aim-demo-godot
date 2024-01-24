@@ -30,7 +30,7 @@ var graphics_config_load = graphics_config.load("user://cfg/graphics.cfg")
 # Start defining settings here
 # Meta
 ## The version of the [b]general.cfg[/b] file.
-var general_config_version: int = 6
+var general_config_version: int = 7
 ## The version of the [b]general.cfg[/b] file.
 var graphics_config_version: int = 5
 
@@ -81,6 +81,12 @@ var gyro_space: int = 0 # 0 is local, 1 is player, 2 is world
 ## Sets which gyroscope axis is used for camera yaw when gyro aim is enabled. 
 ## False is yaw, true is roll.
 var gyro_local_use_roll := false
+## The saved gyroscope noise threshold, usually set automatically by the gyro 
+## calibration process.
+var gyro_noise_threshold: float = 0.0
+## The saved accelerometer noise threshold, usually set automatically by the gyro 
+## calibration process.
+var accel_noise_threshold: float = 0.0
 
 # Settings in graphics.cfg
 # Display
@@ -136,6 +142,8 @@ var general := {
 		"gyro_tightening_threshold": gyro_tightening_threshold,
 		"gyro_space": gyro_space,
 		"gyro_local_use_roll": gyro_local_use_roll,
+		"gyro_noise_threshold": gyro_noise_threshold,
+		"accel_noise_threshold": accel_noise_threshold,
 	},
 }
 
