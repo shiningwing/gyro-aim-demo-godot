@@ -14,6 +14,7 @@ config/name="Gyro Aim Demo"
 config/description="A basic gyro aim demo."
 config/version="0.10.0"
 run/main_scene="res://scenes/main_menu_container.tscn"
+config/quit_on_go_back=false
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.png"
 

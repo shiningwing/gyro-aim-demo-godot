@@ -10,10 +10,10 @@ var debug_use_uncalibrated_gyro := false
 @onready var gravity_label: Label = $Debug/TopLeft/GravityLabel
 @onready var gyro_noise_label: Label = $Debug/TopLeft/GyroNoiseLabel
 @onready var accel_noise_label: Label = $Debug/TopLeft/AccelNoiseLabel
-@onready var gyro_calibration_timer_label: Label = $Debug/Calibration/GyroCalibrationTimerLabel
-@onready var gyro_calibrating_label: Label = $Debug/Calibration/GyroCalibratingLabel
-@onready var gyro_calibration_samples_label: Label = $Debug/Calibration/GyroCalibrationSamplesLabel
-@onready var gyro_calibration_offset_label: Label = $Debug/Calibration/GyroCalibrationOffsetLabel
+@onready var gyro_calibration_timer_label: Label = $Debug/TopRight/GyroCalibrationTimerLabel
+@onready var gyro_calibrating_label: Label = $Debug/TopRight/GyroCalibratingLabel
+@onready var gyro_calibration_samples_label: Label = $Debug/TopRight/GyroCalibrationSamplesLabel
+@onready var gyro_calibration_offset_label: Label = $Debug/TopRight/GyroCalibrationOffsetLabel
 @onready var platform_label: Label = $Debug/TopRight/PlatformLabel
 
 # Called when the node enters the scene tree for the first time.
@@ -48,7 +48,3 @@ func update_debug_stats():
 	gyro_calibrating_label.text = str("Calibrating: ", MotionInput.calibrating)
 	gyro_calibration_samples_label.text = str("Calibration Samples: ", MotionInput.num_offset_samples)
 	gyro_calibration_offset_label.text = str("Calibration Offset: ", MotionInput.accumulated_offset)
-
-
-func _on_quit_button_pressed():
-	get_tree().change_scene_to_file("res://scenes/main_menu_container.tscn")

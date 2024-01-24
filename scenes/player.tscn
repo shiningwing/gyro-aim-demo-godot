@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://clcgrdipt2qpf"]
+[gd_scene load_steps=5 format=3 uid="uid://clcgrdipt2qpf"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_48bg6"]
 [ext_resource type="PackedScene" uid="uid://dxtii2gk75v7s" path="res://scenes/hud_0.tscn" id="2_wff81"]
+[ext_resource type="PackedScene" uid="uid://dtqq2qjl8hckk" path="res://scenes/player_hud.tscn" id="3_oi834"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wj0np"]
 radius = 0.35
@@ -19,3 +20,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
 fov = 59.0
 
 [node name="HUD0" parent="." instance=ExtResource("2_wff81")]
+
+[node name="PlayerHud" parent="." instance=ExtResource("3_oi834")]

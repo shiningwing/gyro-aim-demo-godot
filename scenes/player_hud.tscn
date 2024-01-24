@@ -1,0 +1,167 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtqq2qjl8hckk"]
+
+[ext_resource type="Script" path="res://scenes/player_hud.gd" id="1_35fx1"]
+[ext_resource type="Texture2D" uid="uid://77wpfhpb5g8u" path="res://textures/ui/touch_button_basic.png" id="2_gpjfg"]
+[ext_resource type="Texture2D" uid="uid://cgo6iad4devyh" path="res://textures/ui/touch_button_basic_pressed.png" id="3_6dqse"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o2so7"]
+radius = 192.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_deenu"]
+font_size = 96
+
+[node name="PlayerHud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_35fx1")
+
+[node name="RightFireButton" type="TouchScreenButton" parent="."]
+position = Vector2(629, 309)
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("2_gpjfg")
+texture_pressed = ExtResource("3_6dqse")
+shape = SubResource("CircleShape2D_o2so7")
+action = "player_primaryfire"
+visibility_mode = 1
+
+[node name="Label" type="Label" parent="RightFireButton"]
+custom_minimum_size = Vector2(384, 384)
+offset_top = 4.0
+offset_right = 174.0
+offset_bottom = 136.0
+text = "Fire"
+label_settings = SubResource("LabelSettings_deenu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightGyroButton" type="TouchScreenButton" parent="."]
+position = Vector2(698, 224)
+scale = Vector2(0.15, 0.15)
+texture_normal = ExtResource("2_gpjfg")
+texture_pressed = ExtResource("3_6dqse")
+shape = SubResource("CircleShape2D_o2so7")
+action = "player_gyro_modifier"
+visibility_mode = 1
+
+[node name="Label" type="Label" parent="RightGyroButton"]
+custom_minimum_size = Vector2(384, 384)
+offset_top = 4.0
+offset_right = 174.0
+offset_bottom = 136.0
+text = "Gyro"
+label_settings = SubResource("LabelSettings_deenu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LeftFireButton" type="TouchScreenButton" parent="."]
+position = Vector2(56, 215)
+scale = Vector2(0.15, 0.15)
+texture_normal = ExtResource("2_gpjfg")
+texture_pressed = ExtResource("3_6dqse")
+shape = SubResource("CircleShape2D_o2so7")
+action = "player_primaryfire"
+visibility_mode = 1
+
+[node name="Label" type="Label" parent="LeftFireButton"]
+custom_minimum_size = Vector2(384, 384)
+offset_top = 4.0
+offset_right = 174.0
+offset_bottom = 136.0
+text = "Fire"
+label_settings = SubResource("LabelSettings_deenu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LeftGyroButton" type="TouchScreenButton" parent="."]
+position = Vector2(55, 144)
+scale = Vector2(0.15, 0.15)
+texture_normal = ExtResource("2_gpjfg")
+texture_pressed = ExtResource("3_6dqse")
+shape = SubResource("CircleShape2D_o2so7")
+action = "player_gyro_modifier"
+visibility_mode = 1
+
+[node name="Label" type="Label" parent="LeftGyroButton"]
+custom_minimum_size = Vector2(384, 384)
+offset_top = 4.0
+offset_right = 174.0
+offset_bottom = 136.0
+text = "Gyro"
+label_settings = SubResource("LabelSettings_deenu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitButton" type="TouchScreenButton" parent="."]
+position = Vector2(55, 32)
+scale = Vector2(0.15, 0.15)
+texture_normal = ExtResource("2_gpjfg")
+texture_pressed = ExtResource("3_6dqse")
+shape = SubResource("CircleShape2D_o2so7")
+action = "ui_cancel"
+visibility_mode = 1
+
+[node name="Label" type="Label" parent="ExitButton"]
+custom_minimum_size = Vector2(384, 384)
+offset_top = 4.0
+offset_right = 174.0
+offset_bottom = 136.0
+text = "Exit"
+label_settings = SubResource("LabelSettings_deenu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitPlaceholder" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 56.0
+offset_top = 31.0
+offset_right = 104.0
+offset_bottom = 79.0
+
+[node name="LeftGyroPlaceholder" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 56.0
+offset_top = 143.0
+offset_right = 104.0
+offset_bottom = 191.0
+
+[node name="LeftFirePlaceholder" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 56.0
+offset_top = 215.0
+offset_right = 104.0
+offset_bottom = 263.0
+
+[node name="RightFirePlaceholder" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -224.0
+offset_top = -168.0
+offset_right = -176.0
+offset_bottom = -120.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="RightGyroPlaceholder" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -152.0
+offset_top = -256.0
+offset_right = -104.0
+offset_bottom = -208.0
+grow_horizontal = 0
+grow_vertical = 0
