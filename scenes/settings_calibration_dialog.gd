@@ -80,6 +80,8 @@ func _process(delta):
 			$VBoxContainer/CalibrationBox/Description.text = "Finished. Press the button to exit."
 			$VBoxContainer/CalibrationBox/FinishButton.text = "Finish"
 			$VBoxContainer/CalibrationBox/FinishButton.disabled = false
+	else:
+		MotionInput.interrupt_calibration = false
 
 
 

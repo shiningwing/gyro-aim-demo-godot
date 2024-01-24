@@ -1,13 +1,56 @@
-[gd_scene load_steps=7 format=3 uid="uid://hbrmgukjrybr"]
+[gd_scene load_steps=12 format=3 uid="uid://hbrmgukjrybr"]
 
 [ext_resource type="Script" path="res://scenes/settings_controls_list.gd" id="1_6aqb5"]
 [ext_resource type="PackedScene" uid="uid://bvda0utgyeows" path="res://scenes/settings_item_slider.tscn" id="1_ul8ib"]
 [ext_resource type="PackedScene" uid="uid://dbv5yqje5sisk" path="res://scenes/settings_item_toggle.tscn" id="2_sp0s8"]
 [ext_resource type="PackedScene" uid="uid://djnkrsg7qcmdr" path="res://scenes/settings_item_dropdown.tscn" id="4_uh851"]
+[ext_resource type="Texture2D" uid="uid://bedakvm8l8v5d" path="res://textures/ui/chevron-right-custom.png" id="4_x42ri"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_efxs5"]
 font_size = 20
 font_color = Color(1, 0.843137, 0.25098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtc0x"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hx1w"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lfhmc"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5a50b"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.411765, 0.941176, 0.682353, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 4.0
+expand_margin_right = 4.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_5usrh"]
 font_size = 18
@@ -67,11 +110,19 @@ config_key = "gyro_enabled"
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="GyroAutocalibrationEnable" parent="GyroSettings" instance=ExtResource("2_sp0s8")]
+[node name="GyroCalibrationSettingsButton" type="Button" parent="GyroSettings"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-label = "Calibrate Gyroscope Automatically"
-config_section = "InputGyro"
-config_key = "gyro_autocalibration_enabled"
+theme_override_styles/normal = SubResource("StyleBoxFlat_qtc0x")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2hx1w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qtc0x")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_lfhmc")
+theme_override_styles/focus = SubResource("StyleBoxFlat_5a50b")
+text = "Callibration Settings..."
+icon = ExtResource("4_x42ri")
+flat = true
+alignment = 0
+icon_alignment = 2
 
 [node name="GyroHoriSens" parent="GyroSettings" instance=ExtResource("1_ul8ib")]
 layout_mode = 2
@@ -235,3 +286,5 @@ max_length = 4
 [node name="PaddingBottom" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
+
+[connection signal="pressed" from="GyroSettings/GyroCalibrationSettingsButton" to="." method="_on_gyro_calibration_settings_button_pressed"]

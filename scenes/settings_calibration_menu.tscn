@@ -1,0 +1,99 @@
+[gd_scene load_steps=10 format=3 uid="uid://bnpabvisqo1ts"]
+
+[ext_resource type="Texture2D" uid="uid://cvbdp5m60r2yr" path="res://textures/ui/arrow-left-custom.png" id="1_43kl3"]
+[ext_resource type="Script" path="res://scenes/settings_calibration_menu.gd" id="1_l5bvw"]
+[ext_resource type="Texture2D" uid="uid://bedakvm8l8v5d" path="res://textures/ui/chevron-right-custom.png" id="2_0ui0h"]
+[ext_resource type="PackedScene" uid="uid://b4vyd5r0wwemy" path="res://scenes/settings_calibration_list.tscn" id="3_6r1t1"]
+[ext_resource type="PackedScene" uid="uid://dg7dbxnl8erwe" path="res://scenes/settings_calibration_dialog.tscn" id="5_p28j0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4f1ol"]
+content_margin_right = 24.0
+bg_color = Color(0.282353, 0.12549, 0.188235, 1)
+border_width_bottom = 2
+border_color = Color(0.92549, 0.25098, 0.478431, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vp4bc"]
+font_size = 20
+font_color = Color(1, 0.843137, 0.25098, 0.74902)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6r5rm"]
+font_size = 20
+font_color = Color(1, 0.843137, 0.25098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2m3cc"]
+bg_color = Color(0.188235, 0.0862745, 0.129412, 0.74902)
+
+[node name="CalibrationMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l5bvw")
+
+[node name="CalibrationMenuPanel" type="PanelContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CalibrationMenuPanel"]
+layout_mode = 2
+
+[node name="HeaderContainer" type="PanelContainer" parent="CalibrationMenuPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4f1ol")
+
+[node name="Header" type="HBoxContainer" parent="CalibrationMenuPanel/VBoxContainer/HeaderContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="CalibrationMenuPanel/VBoxContainer/HeaderContainer/Header"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("1_43kl3")
+flat = true
+icon_alignment = 1
+
+[node name="PreviousTitle" type="Label" parent="CalibrationMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+text = "Controls"
+label_settings = SubResource("LabelSettings_vp4bc")
+
+[node name="TextureRect" type="TextureRect" parent="CalibrationMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_0ui0h")
+
+[node name="Title" type="Label" parent="CalibrationMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Calibration Settings"
+label_settings = SubResource("LabelSettings_6r5rm")
+
+[node name="SaveSettingsButton" type="Button" parent="CalibrationMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Save Settings"
+
+[node name="SettingsScrollContainer" type="ScrollContainer" parent="CalibrationMenuPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="CalibrationContainer" parent="CalibrationMenuPanel/VBoxContainer/SettingsScrollContainer" instance=ExtResource("3_6r1t1")]
+layout_mode = 2
+
+[node name="CalibrationDialogContainer" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2m3cc")
+
+[node name="CalibrationDialog" parent="CalibrationDialogContainer" instance=ExtResource("5_p28j0")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[connection signal="pressed" from="CalibrationMenuPanel/VBoxContainer/HeaderContainer/Header/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="CalibrationMenuPanel/VBoxContainer/HeaderContainer/Header/SaveSettingsButton" to="." method="_on_save_settings_button_pressed"]
