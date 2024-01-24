@@ -1,5 +1,7 @@
 extends Node
-## Provides motion vectors to be used for gameplay.
+## A script intended to be used as an autoloaded singleton, which takes in motion 
+## data from controllers or mobile devices and provides all functionality needed 
+## for gyro aim.
 # Shout out to Jibb Smart for the gyro guides, and for pioneering so much of this
 
 
@@ -13,11 +15,28 @@ var gravity_vector := Vector3.ZERO
 # Calibration variables
 var num_offset_samples: int = 0
 var accumulated_offset := Vector3.ZERO
+var num_offset_samples_temporary: int = 0
+var accumulated_offset_temporary := Vector3.ZERO
+
 var calibrating := false
 var calibration_wanted := false
+var interrupt_calibration := false
 var calibration_timer_running := false
 var calibration_timer_length: float = 5.0
 var calibration_timer: float = 0.0
+
+var noise_threshold_calibration_wanted := false
+var gyro_noise_threshold: float = 0.0
+var accel_noise_threshold: float = 0.0
+var noise_threshold_timer_running := false
+var noise_threshold_timer_length: float = 5.0
+var noise_threshold_timer: float = 0.0
+
+var gyro_sample_array: PackedFloat64Array
+var gyro_noise: float = 0.0
+var accel_sample_array: PackedFloat64Array
+var accel_noise: float = 0.0
+var motion_sample_array_index: int
 
 var _gyro_velocity := Vector3.ZERO
 var _gyro_calibration := Vector3.ZERO
@@ -28,57 +47,49 @@ var _debug_gyro_timer: float = 0.0
 var _current_smoothing_buffer_index: int
 var _smoothing_input_buffer: PackedVector2Array
 
-@onready var is_android := OS.has_feature("android")
-@onready var is_ios := OS.has_feature("ios")
+@onready var is_mobile := OS.has_feature("mobile")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	# Read the motion from Godot if we're running on mobile
-	if is_android or is_ios:
+	if is_mobile:
 		uncalibrated_gyro.x = rad_to_deg(Input.get_gyroscope().x)
 		uncalibrated_gyro.y = rad_to_deg(Input.get_gyroscope().y)
 		uncalibrated_gyro.z = rad_to_deg(Input.get_gyroscope().z)
 		accelerometer = Input.get_accelerometer()
 	
 	# If we're in debug mode and not on mobile, oscillate the gyro
-	if GameSettings.general["Debug"]["debug_mode"] and not is_android and not is_ios:
-		_debug_gyro_timer += 1 * delta
+	if GameSettings.general["Debug"]["debug_mode"] and not is_mobile:
+		_debug_gyro_timer += 1.0 * delta
 		uncalibrated_gyro.y = sin(_debug_gyro_timer * 32) * 50 # sine wave
 	
-	# When the user requests timed calibration:
-	if calibration_wanted and not calibrating:
-		# Start the timer and reset the previous calibration
-		calibration_timer_running = true
-		reset_calibration()
-	if calibration_timer_running:
-		if calibration_timer < 1.0:
-			calibration_timer += delta
-		elif calibration_timer >= 1.0 and calibration_timer < calibration_timer_length + 1.0:
-			calibrating = true 
-			calibration_timer += delta
-		elif calibration_timer >= calibration_timer_length + 1.0:
-			calibration_wanted = false
-			calibrating = false
-			calibration_timer_running = false
-			calibration_timer = 0
+	# Process motion arrays
+	process_motion_sample_arrays(16)
 	
-	# Get calibration samples
-	if calibrating:
-		num_offset_samples += 1
-		accumulated_offset += uncalibrated_gyro
+	# If a noise threshold calibration is requested, run it until it's done
+	if noise_threshold_calibration_wanted:
+		get_noise_thresholds(delta)
+	else:
+		gyro_noise_threshold = GameSettings.general["InputGyro"]["gyro_noise_threshold"]
+		accel_noise_threshold = GameSettings.general["InputGyro"]["accel_noise_threshold"]
+	
+	# Signal that calibration is wanted if autocalibration is on and is not 
+	# being interrupted.
+	if (GameSettings.general["InputGyro"]["gyro_autocalibration_enabled"] 
+			and not interrupt_calibration):
+		calibration_wanted = true
+	
+	if calibration_wanted:
+		calibration_process(delta)
 	
 	# Apply the gyro calibration
 	_gyro_velocity = Vector3(uncalibrated_gyro.x, uncalibrated_gyro.y, uncalibrated_gyro.z)
 	_gyro_calibration = Vector3(get_calibration_offset().x, get_calibration_offset().y, get_calibration_offset().z)
-	if not calibrating:
-		calibrated_gyro = _gyro_velocity - _gyro_calibration
-	else:
-		calibrated_gyro = Vector3.ZERO
+	calibrated_gyro = _gyro_velocity - _gyro_calibration
 	
 	# Update gravity vector
 	get_simple_gravity(calibrated_gyro.normalized(), accelerometer.normalized(), delta)
@@ -92,10 +103,90 @@ func get_calibration_offset():
 		return Vector3.ZERO
 	return accumulated_offset / num_offset_samples
 
-
 func reset_calibration():
 	num_offset_samples = 0
 	accumulated_offset = Vector3.ZERO
+
+
+func reset_temporary_calibration():
+	num_offset_samples_temporary = 0
+	accumulated_offset_temporary = Vector3.ZERO
+
+
+func calibration_process(delta: float):
+	if calibration_timer < 5:
+		calibration_timer += delta
+		calibrating = true
+		# If we're above the noise threshold, start over
+		if (gyro_noise > gyro_noise_threshold * 1.25
+				or accel_noise > accel_noise_threshold * 1.25):
+			calibration_timer = 0
+			reset_temporary_calibration()
+	# Once we're successful, apply the calibration
+	else:
+		calibrating = false
+		calibration_timer = 0
+		num_offset_samples = num_offset_samples_temporary
+		accumulated_offset = accumulated_offset_temporary
+		reset_temporary_calibration()
+		
+	if calibrating:
+		num_offset_samples_temporary += 1
+		accumulated_offset_temporary += uncalibrated_gyro
+
+
+func calibrate_noise_thresholds():
+	reset_noise_thresholds()
+	noise_threshold_timer = 0.0
+	noise_threshold_calibration_wanted = true
+
+
+func reset_noise_thresholds():
+	gyro_noise_threshold = 0.0
+	accel_noise_threshold = 0.0
+
+
+func get_noise_thresholds(delta: float):
+	if noise_threshold_timer < noise_threshold_timer_length:
+		noise_threshold_timer += delta
+		# Set initial threshold to gyro noise
+		if gyro_noise_threshold == 0.0:
+			gyro_noise_threshold = gyro_noise
+		# Then, only update the threshold to the noise value if it's smaller
+		elif gyro_noise_threshold < gyro_noise:
+			# If the gyro noise if over a certain times the current threshold, 
+			# it's probably a sudden movement spike, so start over
+			#if gyro_noise_threshold * 10000 > gyro_noise:
+			#	reset_noise_thresholds()
+			#	noise_threshold_timer = 0.0
+			#else:
+				gyro_noise_threshold = gyro_noise
+		# Now the same for accelerometer
+		if accel_noise_threshold == 0.0:
+			accel_noise_threshold = accel_noise
+		elif accel_noise_threshold < accel_noise:
+			#if accel_noise_threshold * 1000000000 > accel_noise:
+			#	reset_noise_thresholds()
+			#	noise_threshold_timer = 0.0
+			#else:
+				accel_noise_threshold = accel_noise
+	else:
+		GameSettings.general["InputGyro"]["gyro_noise_threshold"] = gyro_noise_threshold
+		GameSettings.general["InputGyro"]["accel_noise_threshold"] = accel_noise_threshold
+		noise_threshold_calibration_wanted = false
+		noise_threshold_timer = 0.0
+
+
+func process_motion_sample_arrays(buffer_length: int):
+	# Get the sample array for gyroscope input
+	motion_sample_array_index = (motion_sample_array_index + 1) % buffer_length
+	gyro_sample_array.resize(buffer_length)
+	gyro_sample_array[motion_sample_array_index] = uncalibrated_gyro.length()
+	gyro_noise = standard_deviation(gyro_sample_array)
+	# The the same for accelerometer
+	accel_sample_array.resize(buffer_length)
+	accel_sample_array[motion_sample_array_index] = accelerometer.z
+	accel_noise = standard_deviation(accel_sample_array)
 
 
 func process_gyro_input(gyro: Vector3, delta: float):
@@ -286,3 +377,22 @@ func get_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
 	# Nudge towards gravity according to current acceleration
 	var new_gravity: Vector3 = -accel
 	gravity_vector += (new_gravity - gravity_vector) * 0.02
+
+
+func standard_deviation(data: Array):
+	var sum: float
+	var mean: float
+	var sd: float
+	
+	var index: int = 0
+	for i in data:
+		sum += data[index]
+		index += 1
+	mean = sum / index
+	
+	index = 0
+	for i in data:
+		sd += pow(data[index] - mean, 2)
+		index += 1
+	
+	return sqrt(sd / index)

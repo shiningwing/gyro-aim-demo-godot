@@ -17,6 +17,9 @@ func _process(delta):
 	if !MotionInput.calibration_timer_running:
 		calibrate_gyro_button.text = "Calibrate Gyro"
 		calibrate_gyro_button.disabled = false
+	if $CalibrationDialogContainer.visible:
+		if $CalibrationDialogContainer/CalibrationDialog.visible == false:
+			$CalibrationDialogContainer.visible = false
 
 
 func _on_game_start_button_pressed():
@@ -29,6 +32,5 @@ func _on_save_settings_button_pressed():
 
 
 func _on_calibrate_gyro_button_pressed():
-	calibrate_gyro_button.text = "Calibrating..."
-	calibrate_gyro_button.disabled = true
-	MotionInput.calibration_wanted = true
+	$CalibrationDialogContainer.visible = true
+	$CalibrationDialogContainer/CalibrationDialog.visible = true

@@ -1,11 +1,12 @@
-extends MarginContainer
+extends Control
 
 
 var view_size
 var safe_area
 var scale_factor
 
-@onready var is_android := OS.has_feature("android")
+@onready var is_android = OS.has_feature("android")
+@onready var calibration_container = $CalibrationMenuPanel/VBoxContainer/SettingsScrollContainer/CalibrationContainer
 
 
 # Called when the node enters the scene tree for the first time.
@@ -20,6 +21,23 @@ func _process(delta):
 	if is_android:
 		if DisplayServer.get_display_cutouts() != []:
 			calculate_safe_areas()
+	
+	if $CalibrationDialogContainer.visible:
+		if not $CalibrationDialogContainer/CalibrationDialog.visible:
+			$CalibrationDialogContainer.visible = false
+			calibration_container.calibrate_button_pressed = false
+	
+	if calibration_container.calibrate_button_pressed:
+		$CalibrationDialogContainer.visible = true
+		$CalibrationDialogContainer/CalibrationDialog.visible = true
+
+
+func _on_save_settings_button_pressed():
+	GameSettings.write_general_config()
+
+
+func _on_back_button_pressed():
+	get_tree().change_scene_to_file("res://scenes/main_menu_container.tscn")
 
 
 func calculate_safe_areas():

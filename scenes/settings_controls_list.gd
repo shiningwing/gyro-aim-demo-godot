@@ -30,3 +30,7 @@ func _process(delta):
 			$GyroSettings/GyroLocalUseRoll.visible = false
 	else:
 		$GyroSettings.visible = false
+
+
+func _on_gyro_calibration_settings_button_pressed():
+	get_tree().change_scene_to_file("res://scenes/settings_calibration_menu_container.tscn")

@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://chblq7ob3o6f2"]
+
+[ext_resource type="Script" path="res://scenes/settings_item_slider_alone.gd" id="1_qvmjx"]
+
+[node name="SettingsItemSlider" type="HBoxContainer"]
+theme_override_constants/separation = 16
+script = ExtResource("1_qvmjx")
+
+[node name="HSlider" type="HSlider" parent="."]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 99.0
+step = 0.1
+allow_greater = true
+
+[connection signal="drag_ended" from="HSlider" to="." method="_on_h_slider_drag_ended"]
+[connection signal="drag_started" from="HSlider" to="." method="_on_h_slider_drag_started"]
+[connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]

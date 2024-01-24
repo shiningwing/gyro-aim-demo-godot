@@ -1,0 +1,224 @@
+[gd_scene load_steps=9 format=3 uid="uid://dg7dbxnl8erwe"]
+
+[ext_resource type="StyleBox" uid="uid://cibl7nns1ibcq" path="res://themes/hideout_style_box_flat_dialog.tres" id="1_m7q45"]
+[ext_resource type="Script" path="res://scenes/settings_calibration_dialog.gd" id="1_mwfnk"]
+[ext_resource type="Texture2D" uid="uid://fb2sj280itmf" path="res://textures/ui/rotate-orbit-custom.png" id="2_bqu6n"]
+[ext_resource type="Texture2D" uid="uid://b1wyo0v1q8dah" path="res://textures/ui/horizontal-rotate-clockwise-custom.png" id="2_cfba1"]
+[ext_resource type="Texture2D" uid="uid://b7qf0sjm71r8h" path="res://textures/ui/axis-arrow-custom.png" id="3_nnuh4"]
+[ext_resource type="Texture2D" uid="uid://xpq6xscd2sng" path="res://textures/ui/axis-z-rotate-clockwise-custom.png" id="3_xyotq"]
+[ext_resource type="Texture2D" uid="uid://dmr0t5ytxnbjp" path="res://textures/ui/axis-x-rotate-clockwise-custom.png" id="4_b5aaj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xe4po"]
+font_size = 24
+font_color = Color(1, 0.843137, 0.25098, 1)
+
+[node name="CalibrationDialog" type="PanelContainer"]
+custom_minimum_size = Vector2(576, 0)
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = ExtResource("1_m7q45")
+script = ExtResource("1_mwfnk")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Calibrate Gyroscope"
+label_settings = SubResource("LabelSettings_xe4po")
+vertical_alignment = 1
+
+[node name="StartBox" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Description" type="Label" parent="VBoxContainer/StartBox"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+text = "Place the device still on a flat, solid surface, then press the button to calibrate the gyroscope. Please do not move the device while it is calibrating."
+autowrap_mode = 3
+
+[node name="Description2" type="Label" parent="VBoxContainer/StartBox"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+text = "Calibration will occur in two stages. Either stage may reset a few times before finishing. Please be patient and allow it to finish."
+autowrap_mode = 3
+
+[node name="StartButton" type="Button" parent="VBoxContainer/StartBox"]
+layout_mode = 2
+text = "Start Calibration"
+
+[node name="EarlyCancelButton" type="Button" parent="VBoxContainer/StartBox"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="NoiseThresholdBox" type="VBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Description" type="Label" parent="VBoxContainer/NoiseThresholdBox"]
+layout_mode = 2
+text = "Calibrating noise thresholds. Please do not move the device."
+
+[node name="GyroNoiseContainer" type="HBoxContainer" parent="VBoxContainer/NoiseThresholdBox"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/NoiseThresholdBox/GyroNoiseContainer"]
+layout_mode = 2
+texture = ExtResource("2_bqu6n")
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/NoiseThresholdBox/GyroNoiseContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.0
+value = 1.0
+show_percentage = false
+
+[node name="AccelNoiseContainer" type="HBoxContainer" parent="VBoxContainer/NoiseThresholdBox"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/NoiseThresholdBox/AccelNoiseContainer"]
+layout_mode = 2
+texture = ExtResource("3_nnuh4")
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/NoiseThresholdBox/AccelNoiseContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 0.1
+step = 0.0
+value = 0.1
+show_percentage = false
+
+[node name="ProgressContainer" type="HBoxContainer" parent="VBoxContainer/NoiseThresholdBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/NoiseThresholdBox/ProgressContainer"]
+layout_mode = 2
+text = "Progress"
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/NoiseThresholdBox/ProgressContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 5.0
+
+[node name="DummyButton" type="Button" parent="VBoxContainer/NoiseThresholdBox"]
+layout_mode = 2
+disabled = true
+text = "Calibrating..."
+
+[node name="CalibrationBox" type="VBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Description" type="Label" parent="VBoxContainer/CalibrationBox"]
+layout_mode = 2
+text = "Calibrating gyroscope. Please do not move the device."
+
+[node name="GyroXContainer" type="HBoxContainer" parent="VBoxContainer/CalibrationBox"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/CalibrationBox/GyroXContainer"]
+layout_mode = 2
+texture = ExtResource("2_cfba1")
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/CalibrationBox/GyroXContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = -5.0
+max_value = 5.0
+step = 0.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="VBoxContainer/CalibrationBox/GyroXContainer"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+text = "0.00°/s"
+horizontal_alignment = 2
+
+[node name="GyroYContainer" type="HBoxContainer" parent="VBoxContainer/CalibrationBox"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/CalibrationBox/GyroYContainer"]
+layout_mode = 2
+texture = ExtResource("3_xyotq")
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/CalibrationBox/GyroYContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = -5.0
+max_value = 5.0
+step = 0.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="VBoxContainer/CalibrationBox/GyroYContainer"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+text = "0.00°/s"
+horizontal_alignment = 2
+
+[node name="GyroZContainer" type="HBoxContainer" parent="VBoxContainer/CalibrationBox"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/CalibrationBox/GyroZContainer"]
+layout_mode = 2
+texture = ExtResource("4_b5aaj")
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/CalibrationBox/GyroZContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = -5.0
+max_value = 5.0
+step = 0.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="VBoxContainer/CalibrationBox/GyroZContainer"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+text = "0.00°/s"
+horizontal_alignment = 2
+
+[node name="ProgressContainer" type="HBoxContainer" parent="VBoxContainer/CalibrationBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/CalibrationBox/ProgressContainer"]
+layout_mode = 2
+text = "Progress"
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/CalibrationBox/ProgressContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 5.0
+
+[node name="FinishButton" type="Button" parent="VBoxContainer/CalibrationBox"]
+layout_mode = 2
+disabled = true
+text = "Calibrating..."
+
+[connection signal="pressed" from="VBoxContainer/StartBox/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/StartBox/EarlyCancelButton" to="." method="_on_early_cancel_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/CalibrationBox/FinishButton" to="." method="_on_finish_button_pressed"]
