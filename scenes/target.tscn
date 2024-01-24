@@ -4,9 +4,13 @@
 [ext_resource type="AudioStream" uid="uid://bcy46k165hv8j" path="res://sounds/drop_002.ogg" id="2_t3mob"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ru8o1"]
+diffuse_mode = 1
 albedo_color = Color(0, 1, 1, 1)
-metallic = 0.65
+metallic = 0.5
 roughness = 0.7
+emission = Color(0, 1, 1, 1)
+emission_energy_multiplier = 0.1
+rim_enabled = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_sj1m8"]
 material = SubResource("StandardMaterial3D_ru8o1")

@@ -24,3 +24,6 @@ func _process(delta):
 
 func destroy():
 	destroyed = true
+
+func hit():
+	$BreakSound.play()

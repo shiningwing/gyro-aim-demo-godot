@@ -7,7 +7,7 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-		ProjectSettings.set_setting("input_devices/pointing/emulate_mouse_from_touch", true)
+		pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

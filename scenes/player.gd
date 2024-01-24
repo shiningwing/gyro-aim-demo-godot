@@ -149,4 +149,4 @@ func fire_weapon():
 	if target != null:
 		if target.is_in_group("target"):
 			print("Hit!")
-			target.destroy()
+			target.hit()
