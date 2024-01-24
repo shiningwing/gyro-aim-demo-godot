@@ -83,10 +83,10 @@ var gyro_space: int = 0 # 0 is local, 1 is player, 2 is world
 var gyro_local_use_roll := false
 ## The saved gyroscope noise threshold, usually set automatically by the gyro 
 ## calibration process.
-var gyro_noise_threshold: float = 0.0
+var gyro_noise_threshold: float = 0.1
 ## The saved accelerometer noise threshold, usually set automatically by the gyro 
 ## calibration process.
-var accel_noise_threshold: float = 0.0
+var accel_noise_threshold: float = 0.015
 
 # Settings in graphics.cfg
 # Display
