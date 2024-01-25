@@ -157,6 +157,7 @@ func fire_weapon():
 				$ScoreHud.start_timer()
 				score = 0
 				score_streak = 0
+				score_timer = 0
 			elif not $ScoreHud.timer_finished:
 				target.hit()
 				if score_streak < 5:
