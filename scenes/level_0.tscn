@@ -55,4 +55,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016762, 1, 0.018594)
 environment = SubResource("Environment_c3vj2")
 
 [node name="Target" parent="." instance=ExtResource("5_1ujgb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, -17)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.35, -17)
