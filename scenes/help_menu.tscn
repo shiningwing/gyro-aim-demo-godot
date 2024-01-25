@@ -1,0 +1,209 @@
+[gd_scene load_steps=12 format=3 uid="uid://bv7q8er38a3ge"]
+
+[ext_resource type="Script" path="res://scenes/help_menu.gd" id="1_xbvat"]
+[ext_resource type="Texture2D" uid="uid://cvbdp5m60r2yr" path="res://textures/ui/arrow-left-custom.png" id="2_egshn"]
+[ext_resource type="Texture2D" uid="uid://bedakvm8l8v5d" path="res://textures/ui/chevron-right-custom.png" id="3_78ktm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mf0xk"]
+content_margin_right = 24.0
+bg_color = Color(0.282353, 0.12549, 0.188235, 1)
+border_width_bottom = 2
+border_color = Color(0.92549, 0.25098, 0.478431, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6m660"]
+font_size = 20
+font_color = Color(1, 0.843137, 0.25098, 0.74902)
+
+[sub_resource type="LabelSettings" id="LabelSettings_lyrfm"]
+font_size = 20
+font_color = Color(1, 0.843137, 0.25098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cckxs"]
+content_margin_left = 24.0
+content_margin_top = 20.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+bg_color = Color(0.188235, 0.0862745, 0.129412, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gex01"]
+font_size = 20
+font_color = Color(1, 0.843137, 0.25098, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_aw88e"]
+font_color = Color(0.956863, 0.560784, 0.694118, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6mlcr"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.282353, 0.12549, 0.188235, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_pfpbi"]
+font_size = 14
+font_color = Color(1, 1, 1, 0.74902)
+
+[node name="HelpMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HelpMenuContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xbvat")
+
+[node name="HelpMenuPanel" type="PanelContainer" parent="HelpMenuContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel"]
+layout_mode = 2
+
+[node name="HeaderContainer" type="PanelContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mf0xk")
+
+[node name="Header" type="HBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("2_egshn")
+flat = true
+icon_alignment = 1
+
+[node name="PreviousTitle" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+text = "Main Menu"
+label_settings = SubResource("LabelSettings_6m660")
+
+[node name="TextureRect" type="TextureRect" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_78ktm")
+
+[node name="Title" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Help & Info"
+label_settings = SubResource("LabelSettings_lyrfm")
+
+[node name="SettingsScrollContainer" type="ScrollContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="ScrollingPanel" type="PanelContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cckxs")
+
+[node name="ScrollingList" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="FAQTitle" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList"]
+layout_mode = 2
+text = "Frequently Asked Questions"
+label_settings = SubResource("LabelSettings_gex01")
+vertical_alignment = 1
+
+[node name="FAQList" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Question0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/FAQList"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+text = "\"My aim is drifting on its own! What do I do?\""
+label_settings = SubResource("LabelSettings_aw88e")
+autowrap_mode = 3
+
+[node name="Answer0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/FAQList"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+text = "Go into the Controls settings, and in the Gyro Aim section, press the \"Calibration Settings...\" button to open the Gyro Calibration settings menu. From there, you can press the \"Calibrate Gyroscope\" and follow the provided instructions to correct for any drifting that's occurring. "
+autowrap_mode = 3
+
+[node name="CreditsTitle" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList"]
+layout_mode = 2
+text = "Credits"
+label_settings = SubResource("LabelSettings_gex01")
+vertical_alignment = 1
+
+[node name="CreditsList" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CreditsItem0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+text = "This game uses public domain assets from Kenney (https://kenney.nl)."
+autowrap_mode = 3
+
+[node name="Copyright" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+text = "\"Gyro Aim Demo for Godot\" copyright © 2024 Shining Wing, licensed under the MIT License."
+autowrap_mode = 3
+
+[node name="Padding0" type="Control" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+layout_mode = 2
+
+[node name="MITLicensePanel" type="PanelContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6mlcr")
+
+[node name="List" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MITLicense0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel/List"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+text = "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+label_settings = SubResource("LabelSettings_pfpbi")
+autowrap_mode = 3
+
+[node name="MITLicense1" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel/List"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+text = "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
+label_settings = SubResource("LabelSettings_pfpbi")
+autowrap_mode = 3
+
+[node name="MITLicense2" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel/List"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+text = "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+label_settings = SubResource("LabelSettings_pfpbi")
+autowrap_mode = 3
+
+[node name="Padding1" type="Control" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+layout_mode = 2
+
+[connection signal="pressed" from="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header/BackButton" to="HelpMenuContainer" method="_on_back_button_pressed"]
