@@ -12,6 +12,11 @@ var gyro_delta := Vector2.ZERO
 
 var is_gyro_active := true
 
+var score: int = 0
+var score_streak: int = 0
+var score_timer: float = 0.0
+var mission_timer: float = 0.0
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -89,7 +94,15 @@ func _process(delta):
 	#else:
 	#	MotionInput.calibrating = false
 	
+	if Input.is_action_just_pressed("player_primaryfire"):
+		fire_weapon()
+	
 	camera.fov = GameSettings.graphics["View"]["camera_fov"]
+	
+	score_timer += delta
+	
+	$ScoreHud.score = score
+	$ScoreHud.score_streak = score_streak
 
 
 func _input(event):
@@ -132,3 +145,29 @@ func clamp_camera():
 	# Update camera angles in debug HUD
 	camera_x_angle_label.text = str("Camera X Angle: ", rotation_degrees.y)
 	camera_y_angle_label.text = str("Camera Y Angle: ", camera.rotation_degrees.x)
+
+
+func fire_weapon():
+	$FireSound.play()
+	var target = $Camera3D/RayCast3D.get_collider()
+	if target != null:
+		if target.is_in_group("target"):
+			if not $ScoreHud.timer_running and not $ScoreHud.timer_finished:
+				target.hit()
+				$ScoreHud.start_timer()
+				score = 0
+				score_streak = 0
+			elif not $ScoreHud.timer_finished:
+				target.hit()
+				if score_streak < 5:
+					score_streak += 1
+				var awarded_score: int
+				if (100 - score_timer * 50) > 0:
+					awarded_score = ceili((100 - score_timer * 50) * score_streak)
+				else:
+					awarded_score = ceili(100 - score_timer * 50)
+				score += awarded_score
+				print(awarded_score)
+				score_timer = 0
+	else:
+		score_streak = 0

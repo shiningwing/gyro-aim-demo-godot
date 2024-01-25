@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dxtii2gk75v7s"]
+[gd_scene load_steps=2 format=3 uid="uid://dxtii2gk75v7s"]
 
 [ext_resource type="Script" path="res://scenes/hud_0.gd" id="1_tlsm6"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_t0wd7"]
-font_size = 24
 
 [node name="HUD0" type="Control"]
 layout_mode = 3
@@ -104,20 +101,58 @@ layout_mode = 2
 text = "Calibrating: false"
 horizontal_alignment = 2
 
-[node name="ShittyCrosshair" type="Label" parent="."]
+[node name="Crosshair" type="GridContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+offset_left = -6.0
+offset_top = -3.0
+offset_right = 6.0
+offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "+"
-label_settings = SubResource("LabelSettings_t0wd7")
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="Control" type="Control" parent="Crosshair"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="Crosshair"]
+custom_minimum_size = Vector2(2, 6)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Control2" type="Control" parent="Crosshair"]
+layout_mode = 2
+
+[node name="ColorRect2" type="ColorRect" parent="Crosshair"]
+custom_minimum_size = Vector2(6, 2)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Control4" type="Control" parent="Crosshair"]
+layout_mode = 2
+
+[node name="ColorRect3" type="ColorRect" parent="Crosshair"]
+custom_minimum_size = Vector2(6, 2)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Control3" type="Control" parent="Crosshair"]
+layout_mode = 2
+
+[node name="ColorRect4" type="ColorRect" parent="Crosshair"]
+custom_minimum_size = Vector2(2, 6)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Control5" type="Control" parent="Crosshair"]
+layout_mode = 2
