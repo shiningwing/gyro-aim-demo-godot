@@ -37,7 +37,7 @@ var graphics_config_version: int = 5
 # Settings in general.cfg
 # Debug
 ## Activates in-game developer features when true, such as debug HUD elements.
-var debug_mode := true
+var debug_mode := false
 # InputMouse
 ## Horizontal mouselook sensitivity for the player's camera, as a float.
 var mouse_sensitivity_x: float = 10.0
@@ -48,7 +48,7 @@ var mouse_sensitivity_y: float = 10.0
 var gyro_enabled := true
 ## Toggles if gyro autocalibration is enabled. If not, the gyroscope must be 
 ## calibrated manually.
-var gyro_autocalibration_enabled := false
+var gyro_autocalibration_enabled := true
 ## Horizontal look sensitivity for gyro aim, as a float. Camera rotation on the 
 ## X axis is multiplied by this amount.
 var gyro_sensitivity_x: float = 2.0
