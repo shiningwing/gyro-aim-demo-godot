@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://clcgrdipt2qpf"]
+[gd_scene load_steps=7 format=3 uid="uid://clcgrdipt2qpf"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_48bg6"]
 [ext_resource type="PackedScene" uid="uid://dxtii2gk75v7s" path="res://scenes/hud_0.tscn" id="2_wff81"]
 [ext_resource type="PackedScene" uid="uid://dtqq2qjl8hckk" path="res://scenes/player_hud.tscn" id="3_oi834"]
 [ext_resource type="AudioStream" uid="uid://cjbhxlexoshih" path="res://sounds/click_001.ogg" id="4_mnibw"]
+[ext_resource type="PackedScene" uid="uid://bsy5tp410vo4n" path="res://scenes/score_hud.tscn" id="5_igagw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wj0np"]
 radius = 0.35
@@ -31,3 +32,5 @@ collide_with_bodies = false
 
 [node name="FireSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_mnibw")
+
+[node name="ScoreHud" parent="." instance=ExtResource("5_igagw")]

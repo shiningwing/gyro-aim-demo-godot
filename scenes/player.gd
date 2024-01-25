@@ -13,6 +13,7 @@ var gyro_delta := Vector2.ZERO
 var is_gyro_active := true
 
 var score: int = 0
+var score_streak: int = 0
 var score_timer: float = 0.0
 var mission_timer: float = 0.0
 
@@ -99,6 +100,9 @@ func _process(delta):
 	camera.fov = GameSettings.graphics["View"]["camera_fov"]
 	
 	score_timer += delta
+	
+	$ScoreHud.score = score
+	$ScoreHud.score_streak = score_streak
 
 
 func _input(event):
@@ -148,5 +152,22 @@ func fire_weapon():
 	var target = $Camera3D/RayCast3D.get_collider()
 	if target != null:
 		if target.is_in_group("target"):
-			print("Hit!")
-			target.hit()
+			if not $ScoreHud.timer_running and not $ScoreHud.timer_finished:
+				target.hit()
+				$ScoreHud.start_timer()
+				score = 0
+				score_streak = 0
+			elif not $ScoreHud.timer_finished:
+				target.hit()
+				if score_streak < 5:
+					score_streak += 1
+				var awarded_score: int
+				if (100 - score_timer * 50) > 0:
+					awarded_score = ceili((100 - score_timer * 50) * score_streak)
+				else:
+					awarded_score = ceili(100 - score_timer * 50)
+				score += awarded_score
+				print(awarded_score)
+				score_timer = 0
+	else:
+		score_streak = 0

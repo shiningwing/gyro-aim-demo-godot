@@ -50,6 +50,8 @@ light_energy = 3.0
 
 [node name="Player" parent="." instance=ExtResource("5_slo6q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016762, 1, 0.018594)
+min_look_angle = -90.0
+max_look_angle = 90.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_c3vj2")
