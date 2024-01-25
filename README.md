@@ -29,4 +29,6 @@ If you're on desktop, press Escape to exit the main game scene.
 	- A final score display when the timer runs out
 	- A ticking sound when the timer is in the last 5 seconds
 
+Gyro aim code in this project is based on guides from [Jibb Smart's GyroWiki](http://gyrowiki.jibbsmart.com/).
+
 This project uses some stock assets (prototype textures and sound effects) from [Kenney](https://kenney.nl).
