@@ -92,7 +92,7 @@ func _process(delta):
 	calibrated_gyro = _gyro_velocity - _gyro_calibration
 	
 	# Update gravity vector
-	get_simple_gravity(calibrated_gyro.normalized(), accelerometer.normalized(), delta)
+	get_simple_gravity(calibrated_gyro, accelerometer.normalized(), delta)
 	
 	processed_gyro = process_gyro_input(calibrated_gyro, delta)
 	processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro, delta)
@@ -369,7 +369,7 @@ func get_tightened_input(input: Vector2, threshold: float):
 
 func get_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
 	# Convert gyro input to reverse rotation
-	var rotation := Quaternion(-gyro, gyro.length() * delta)
+	var rotation := Quaternion(-gyro.normalized(), gyro.length() * delta)
 	
 	# Rotate gravity vector
 	gravity_vector *= rotation
