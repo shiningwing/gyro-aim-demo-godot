@@ -1,10 +1,6 @@
 extends Control
 
 
-@onready var calibrate_gyro_button: Button = (
-		$MainMenuPanel/VBoxContainer/HeaderContainer/Header/CalibrateGyroButton)
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 		pass
