@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Gyro Aim Demo"
 config/description="A basic gyro aim demo."
-config/version="0.13.2"
+config/version="0.14.0"
 run/main_scene="res://scenes/main_menu_container.tscn"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.2")
@@ -100,6 +100,6 @@ player_gyro_modifier={
 
 [rendering]
 
-renderer/rendering_method="mobile"
+renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
 anti_aliasing/quality/screen_space_aa=1

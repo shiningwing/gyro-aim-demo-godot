@@ -3,18 +3,16 @@
 [ext_resource type="Script" path="res://scenes/target.gd" id="1_8kseb"]
 [ext_resource type="AudioStream" uid="uid://bcy46k165hv8j" path="res://sounds/drop_002.ogg" id="2_t3mob"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ru8o1"]
-diffuse_mode = 1
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_alo8h"]
+shading_mode = 2
 albedo_color = Color(0, 1, 1, 1)
-metallic = 0.5
-roughness = 0.7
-emission = Color(0, 1, 1, 1)
-emission_energy_multiplier = 0.1
-rim_enabled = true
+metallic_specular = 0.0
+roughness = 0.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_sj1m8"]
-material = SubResource("StandardMaterial3D_ru8o1")
-radial_segments = 32
+material = SubResource("StandardMaterial3D_alo8h")
+radial_segments = 16
+rings = 16
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0a3k3"]
 

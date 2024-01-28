@@ -1,22 +1,47 @@
-[gd_scene load_steps=10 format=3 uid="uid://ci664etpkldjl"]
+[gd_scene load_steps=14 format=3 uid="uid://ci664etpkldjl"]
 
-[ext_resource type="PackedScene" uid="uid://cn13pk5kwsiva" path="res://addons/kenney_prototype_tools/scenes/dark/dark_01.tscn" id="2_qa67t"]
-[ext_resource type="PackedScene" uid="uid://dprksnsipfg02" path="res://addons/kenney_prototype_tools/scenes/orange/orange_01.tscn" id="3_wntka"]
-[ext_resource type="PackedScene" uid="uid://b8cqivgm3hxny" path="res://addons/kenney_prototype_tools/scenes/red/red_01.tscn" id="4_bjww2"]
+[ext_resource type="Texture2D" uid="uid://bjki20y2o2s7c" path="res://addons/kenney_prototype_tools/textures/dark/texture_01.png" id="1_hrcu2"]
+[ext_resource type="Texture2D" uid="uid://bf3ywp0eda70m" path="res://addons/kenney_prototype_tools/textures/orange/texture_02.png" id="1_r6a8h"]
+[ext_resource type="Texture2D" uid="uid://dqp0tee5y0i2l" path="res://textures/skybox.png" id="4_23eft"]
 [ext_resource type="PackedScene" uid="uid://0qoex87odeaq" path="res://scenes/target.tscn" id="5_1ujgb"]
 [ext_resource type="PackedScene" uid="uid://clcgrdipt2qpf" path="res://scenes/player.tscn" id="5_slo6q"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v53ga"]
 size = Vector3(50, 1, 50)
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yy44g"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wlvsh"]
+albedo_texture = ExtResource("1_hrcu2")
+uv1_scale = Vector3(25, 25, 50)
+texture_filter = 5
 
-[sub_resource type="Sky" id="Sky_x3ghe"]
-sky_material = SubResource("ProceduralSkyMaterial_yy44g")
+[sub_resource type="PlaneMesh" id="PlaneMesh_xkd7n"]
+lightmap_size_hint = Vector2i(252, 252)
+material = SubResource("StandardMaterial3D_wlvsh")
+add_uv2 = true
+size = Vector2(50, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lhk2u"]
+albedo_texture = ExtResource("1_r6a8h")
+uv1_scale = Vector3(50, 10, 1)
+uv1_world_triplanar = true
+texture_filter = 5
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yjyrb"]
+lightmap_size_hint = Vector2i(252, 52)
+material = SubResource("StandardMaterial3D_lhk2u")
+add_uv2 = true
+size = Vector2(50, 10)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7y3jq"]
+panorama = ExtResource("4_23eft")
+
+[sub_resource type="Sky" id="Sky_4mdsv"]
+sky_material = SubResource("PanoramaSkyMaterial_7y3jq")
 
 [sub_resource type="Environment" id="Environment_c3vj2"]
 background_mode = 2
-sky = SubResource("Sky_x3ghe")
+sky = SubResource("Sky_4mdsv")
+sky_rotation = Vector3(0, 2.00713, 0)
 
 [node name="Level0" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -25,33 +50,36 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Blocks"]
 
-[node name="Cube" parent="Blocks/StaticBody3D" instance=ExtResource("2_qa67t")]
-transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, -25, 0, -25)
-
-[node name="Cube2" parent="Blocks/StaticBody3D" instance=ExtResource("3_wntka")]
-transform = Transform3D(50, 0, 0, 0, 10, 0, 0, 0, 1, -25, 1, -25)
-
-[node name="Cube3" parent="Blocks/StaticBody3D" instance=ExtResource("3_wntka")]
-transform = Transform3D(50, 0, 0, 0, 10, 0, 0, 0, 1, -25, 1, 24)
-
-[node name="Cube4" parent="Blocks/StaticBody3D" instance=ExtResource("4_bjww2")]
-transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 48, -25, 1, -24)
-
-[node name="Cube5" parent="Blocks/StaticBody3D" instance=ExtResource("4_bjww2")]
-transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 48, 24, 1, -24)
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Blocks/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_v53ga")
 
+[node name="Floor" type="MeshInstance3D" parent="Blocks/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("PlaneMesh_xkd7n")
+
+[node name="Wall0" type="MeshInstance3D" parent="Blocks/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 6, -25)
+mesh = SubResource("PlaneMesh_yjyrb")
+
+[node name="Wall1" type="MeshInstance3D" parent="Blocks/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -25, 6, 0)
+mesh = SubResource("PlaneMesh_yjyrb")
+
+[node name="Wall2" type="MeshInstance3D" parent="Blocks/StaticBody3D"]
+transform = Transform3D(-1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, 0, 6, 25)
+mesh = SubResource("PlaneMesh_yjyrb")
+
+[node name="Wall3" type="MeshInstance3D" parent="Blocks/StaticBody3D"]
+transform = Transform3D(1.31134e-07, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, 1.31134e-07, -5.73206e-15, 25, 6, 0)
+mesh = SubResource("PlaneMesh_yjyrb")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-1, -8.44439e-08, -2.26267e-08, 0, -0.258819, 0.965926, -8.74228e-08, 0.965926, 0.258819, 0, 14, 0)
-light_energy = 3.0
+transform = Transform3D(-1, -8.44439e-08, -2.26267e-08, 4.37114e-08, -0.707107, 0.707107, -7.57104e-08, 0.707107, 0.707107, 0, 14, 0)
+light_energy = 1.5
 
 [node name="Player" parent="." instance=ExtResource("5_slo6q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016762, 1, 0.018594)
-min_look_angle = -90.0
-max_look_angle = 90.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_c3vj2")
