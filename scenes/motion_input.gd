@@ -92,7 +92,8 @@ func _process(delta):
 	calibrated_gyro = _gyro_velocity - _gyro_calibration
 	
 	# Update gravity vector
-	get_simple_gravity(calibrated_gyro, accelerometer.normalized(), delta)
+	if calibrated_gyro != Vector3.ZERO:
+		get_simple_gravity(calibrated_gyro, accelerometer.normalized(), delta)
 	
 	processed_gyro = process_gyro_input(calibrated_gyro, delta)
 	processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro, delta)
