@@ -2,10 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://hbrmgukjrybr" path="res://scenes/settings_controls_list.tscn" id="1_3xl7e"]
 [ext_resource type="Theme" uid="uid://dq7k322hhtav6" path="res://themes/hideout.tres" id="1_8q32k"]
+[ext_resource type="PackedScene" uid="uid://rodg5krr1emq" path="res://scenes/settings_graphics_list.tscn" id="3_ia1fg"]
 [ext_resource type="PackedScene" uid="uid://dyqnujmid4xn4" path="res://scenes/settings_developer_list.tscn" id="3_rauka"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_rx8bw"]
-font_size = 24
 
 [node name="SettingsTabs" type="TabContainer"]
 offset_right = 40.0
@@ -34,14 +32,28 @@ layout_mode = 2
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="Display" type="CenterContainer" parent="."]
+[node name="Display" type="ScrollContainer" parent="."]
 visible = false
+custom_minimum_size = Vector2(640, 240)
+layout_mode = 2
+theme = ExtResource("1_8q32k")
+follow_focus = true
+
+[node name="GraphicsListContainer" type="HBoxContainer" parent="Display"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="PaddingLeft" type="Control" parent="Display/GraphicsListContainer"]
+custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Display"]
+[node name="GraphicsList" parent="Display/GraphicsListContainer" instance=ExtResource("3_ia1fg")]
 layout_mode = 2
-text = "Coming soon..."
-label_settings = SubResource("LabelSettings_rx8bw")
+
+[node name="PaddingRight" type="Control" parent="Display/GraphicsListContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
 
 [node name="Developer" type="ScrollContainer" parent="."]
 visible = false
