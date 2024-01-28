@@ -22,7 +22,7 @@ size = Vector2(50, 50)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lhk2u"]
 albedo_texture = ExtResource("1_r6a8h")
-uv1_scale = Vector3(50, 10, 1)
+uv1_scale = Vector3(25, 5, 1)
 uv1_world_triplanar = true
 texture_filter = 5
 
