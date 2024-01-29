@@ -91,6 +91,7 @@ custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 1
 icon = ExtResource("2_egshn")
 flat = true
 icon_alignment = 1
@@ -115,7 +116,6 @@ label_settings = SubResource("LabelSettings_lyrfm")
 [node name="SettingsScrollContainer" type="ScrollContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-follow_focus = true
 
 [node name="ScrollingPanel" type="PanelContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer"]
 layout_mode = 2

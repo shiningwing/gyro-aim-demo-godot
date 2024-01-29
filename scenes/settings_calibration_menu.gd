@@ -14,6 +14,8 @@ func _ready():
 	if is_android:
 		if DisplayServer.get_display_cutouts() != []:
 			calculate_safe_areas()
+	
+	$CalibrationMenuPanel/VBoxContainer/HeaderContainer/Header/SaveSettingsButton.grab_focus()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -30,6 +32,9 @@ func _process(delta):
 	if calibration_container.calibrate_button_pressed:
 		$CalibrationDialogContainer.visible = true
 		$CalibrationDialogContainer/CalibrationDialog.visible = true
+	
+	if Input.is_action_just_pressed("ui_cancel"):
+		_on_back_button_pressed()
 
 
 func _on_save_settings_button_pressed():

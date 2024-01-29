@@ -35,6 +35,7 @@ theme_override_constants/separation = 8
 
 [node name="Header" type="Label" parent="ListContainer"]
 layout_mode = 2
+focus_mode = 2
 text = "Gyroscope Rotation Speeds"
 label_settings = SubResource("LabelSettings_xpj05")
 vertical_alignment = 1
@@ -127,6 +128,7 @@ horizontal_alignment = 2
 
 [node name="CalibrateButton" type="Button" parent="ListContainer/CalibrationBox"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../../Header")
 text = "Calibrate Gyroscope"
 
 [node name="Autocalibration" type="VBoxContainer" parent="ListContainer/CalibrationBox"]

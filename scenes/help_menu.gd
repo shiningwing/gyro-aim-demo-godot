@@ -6,6 +6,7 @@ var safe_area
 var scale_factor
 
 @onready var is_android := OS.has_feature("android")
+@onready var scroll_container: ScrollContainer = $HelpMenuPanel/VBoxContainer/SettingsScrollContainer
 
 
 # Called when the node enters the scene tree for the first time.
@@ -20,6 +21,12 @@ func _process(delta):
 	if is_android:
 		if DisplayServer.get_display_cutouts() != []:
 			calculate_safe_areas()
+	
+	if Input.is_action_just_pressed("ui_cancel"):
+		_on_back_button_pressed()
+	
+	var input: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	scroll_container.set_v_scroll(scroll_container.scroll_vertical + (300 * input.y * delta))
 
 
 func _on_back_button_pressed():
