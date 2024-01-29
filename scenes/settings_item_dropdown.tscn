@@ -18,6 +18,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 text = "Value"
 icon = ExtResource("3_jcayh")
 flat = false
