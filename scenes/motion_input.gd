@@ -72,7 +72,7 @@ func _process(delta):
 	
 	# If a noise threshold calibration is requested, run it until it's done
 	if noise_threshold_calibration_wanted:
-		get_noise_thresholds(delta)
+		process_noise_thresholds(delta)
 	else:
 		gyro_noise_threshold = GameSettings.general["InputGyro"]["gyro_noise_threshold"]
 		accel_noise_threshold = GameSettings.general["InputGyro"]["accel_noise_threshold"]
@@ -84,7 +84,7 @@ func _process(delta):
 		calibration_wanted = true
 	
 	if calibration_wanted:
-		calibration_process(delta)
+		process_calibration(delta)
 	
 	# Apply the gyro calibration
 	_gyro_velocity = Vector3(uncalibrated_gyro.x, uncalibrated_gyro.y, uncalibrated_gyro.z)
@@ -93,7 +93,7 @@ func _process(delta):
 	
 	# Update gravity vector
 	if calibrated_gyro != Vector3.ZERO:
-		get_simple_gravity(calibrated_gyro, accelerometer.normalized(), delta)
+		process_simple_gravity(calibrated_gyro, accelerometer.normalized(), delta)
 	
 	processed_gyro = process_gyro_input(calibrated_gyro, delta)
 	processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro, delta)
@@ -114,7 +114,7 @@ func reset_temporary_calibration():
 	accumulated_offset_temporary = Vector3.ZERO
 
 
-func calibration_process(delta: float):
+func process_calibration(delta: float):
 	if calibration_timer < 5:
 		calibration_timer += delta
 		calibrating = true
@@ -147,7 +147,7 @@ func reset_noise_thresholds():
 	accel_noise_threshold = 0.0
 
 
-func get_noise_thresholds(delta: float):
+func process_noise_thresholds(delta: float):
 	if noise_threshold_timer < noise_threshold_timer_length:
 		noise_threshold_timer += delta
 		# Set initial threshold to gyro noise
@@ -244,6 +244,18 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	# Process gyro Vector2 using calculated axes and sensitivity
 	var processed := Vector2(gyro_delta.x * sens.x * delta, gyro_delta.y * sens.y * delta)
 	return processed
+
+
+func process_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
+	# Convert gyro input to reverse rotation
+	var rotation := Quaternion(-gyro.normalized(), gyro.length() * delta)
+	
+	# Rotate gravity vector
+	gravity_vector *= rotation
+	
+	# Nudge towards gravity according to current acceleration
+	var new_gravity: Vector3 = -accel
+	gravity_vector += (new_gravity - gravity_vector) * 0.02
 
 
 func get_world_space_gyro(gyro: Vector3, gravity: Vector3):
@@ -366,18 +378,6 @@ func get_tightened_input(input: Vector2, threshold: float):
 		var input_scale: float = input_magnitude / threshold
 		return input * input_scale
 	return input
-
-
-func get_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
-	# Convert gyro input to reverse rotation
-	var rotation := Quaternion(-gyro.normalized(), gyro.length() * delta)
-	
-	# Rotate gravity vector
-	gravity_vector *= rotation
-	
-	# Nudge towards gravity according to current acceleration
-	var new_gravity: Vector3 = -accel
-	gravity_vector += (new_gravity - gravity_vector) * 0.02
 
 
 func standard_deviation(data: Array):
