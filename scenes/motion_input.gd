@@ -37,8 +37,8 @@ var gravity_vector := Vector3.ZERO
 # Calibration variables
 var num_offset_samples: int = 0
 var accumulated_offset := Vector3.ZERO
-var num_offset_samples_temporary: int = 0
-var accumulated_offset_temporary := Vector3.ZERO
+var _num_offset_samples_temporary: int = 0
+var _accumulated_offset_temporary := Vector3.ZERO
 
 ## Is [code]true[/code] if gyro calibration is currently running. If manual 
 ## gyro calibration is desired, [member calibration_wanted] should be set 
@@ -111,6 +111,8 @@ var _debug_gyro_timer: float = 0.0
 var _current_smoothing_buffer_index: int
 var _smoothing_input_buffer: PackedVector2Array
 
+## Is [code]true[/code] if the game is running on a mobile device. Can be reused 
+## elsewhere if desired.
 @onready var is_mobile := OS.has_feature("mobile")
 
 # Called when the node enters the scene tree for the first time.
@@ -132,11 +134,11 @@ func _process(delta):
 		uncalibrated_gyro.y = sin(_debug_gyro_timer * 32) * 50 # sine wave
 	
 	# Process motion arrays
-	process_motion_sample_arrays(16)
+	_process_motion_sample_arrays(16)
 	
 	# If a noise threshold calibration is requested, run it until it's done
 	if noise_threshold_calibration_wanted:
-		process_noise_thresholds(delta)
+		_process_noise_thresholds(delta)
 	else:
 		gyro_noise_threshold = GameSettings.general["InputGyro"]["gyro_noise_threshold"]
 		accel_noise_threshold = GameSettings.general["InputGyro"]["accel_noise_threshold"]
@@ -148,7 +150,7 @@ func _process(delta):
 		calibration_wanted = true
 	
 	if calibration_wanted:
-		process_calibration(delta)
+		_process_calibration(delta)
 	
 	# Apply the gyro calibration
 	_gyro_velocity = Vector3(uncalibrated_gyro.x, uncalibrated_gyro.y, uncalibrated_gyro.z)
@@ -157,10 +159,10 @@ func _process(delta):
 	
 	# Update gravity vector
 	if calibrated_gyro != Vector3.ZERO:
-		process_simple_gravity(calibrated_gyro, accelerometer.normalized(), delta)
+		_process_simple_gravity(calibrated_gyro, accelerometer.normalized(), delta)
 	
-	processed_gyro = process_gyro_input(calibrated_gyro, delta)
-	#processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro, delta)
+	processed_gyro = _get_gyro_aim_input(calibrated_gyro, delta)
+	#processed_uncalibrated_gyro = _get_gyro_aim_input(uncalibrated_gyro, delta)
 
 
 ## Returns the current gyro calibration offset, and is used for applying the 
@@ -178,12 +180,12 @@ func reset_calibration():
 	accumulated_offset = Vector3.ZERO
 
 
-func reset_temporary_calibration():
-	num_offset_samples_temporary = 0
-	accumulated_offset_temporary = Vector3.ZERO
+func _reset_temporary_calibration():
+	_num_offset_samples_temporary = 0
+	_accumulated_offset_temporary = Vector3.ZERO
 
 
-func process_calibration(delta: float):
+func _process_calibration(delta: float):
 	if calibration_timer < 5:
 		calibration_timer += delta
 		calibrating = true
@@ -191,35 +193,35 @@ func process_calibration(delta: float):
 		if (gyro_noise > gyro_noise_threshold * 1.25
 				or accel_noise > accel_noise_threshold * 1.25):
 			calibration_timer = 0
-			reset_temporary_calibration()
+			_reset_temporary_calibration()
 	# Once we're successful, apply the calibration
 	else:
 		calibrating = false
 		calibration_timer = 0
-		num_offset_samples = num_offset_samples_temporary
-		accumulated_offset = accumulated_offset_temporary
-		reset_temporary_calibration()
+		num_offset_samples = _num_offset_samples_temporary
+		accumulated_offset = _accumulated_offset_temporary
+		_reset_temporary_calibration()
 		
 	if calibrating:
-		num_offset_samples_temporary += 1
-		accumulated_offset_temporary += uncalibrated_gyro
+		_num_offset_samples_temporary += 1
+		_accumulated_offset_temporary += uncalibrated_gyro
 
 
 ## Resets the existing noise threshold values, and signals that calibrating the 
 ## noise thresholds is desired. Should be called from a UI script as the first 
 ## stage when the user is running manual gyro calibration.
 func calibrate_noise_thresholds():
-	reset_noise_thresholds()
+	_reset_noise_thresholds()
 	noise_threshold_timer = 0.0
 	noise_threshold_calibration_wanted = true
 
 
-func reset_noise_thresholds():
+func _reset_noise_thresholds():
 	gyro_noise_threshold = 0.0
 	accel_noise_threshold = 0.0
 
 
-func process_noise_thresholds(delta: float):
+func _process_noise_thresholds(delta: float):
 	if noise_threshold_timer < noise_threshold_timer_length:
 		noise_threshold_timer += delta
 		# Set initial threshold to gyro noise
@@ -230,7 +232,7 @@ func process_noise_thresholds(delta: float):
 			# If the gyro noise if over a certain times the current threshold, 
 			# it's probably a sudden movement spike, so start over
 			#if gyro_noise_threshold * 10000 > gyro_noise:
-			#	reset_noise_thresholds()
+			#	_reset_noise_thresholds()
 			#	noise_threshold_timer = 0.0
 			#else:
 				gyro_noise_threshold = gyro_noise
@@ -239,7 +241,7 @@ func process_noise_thresholds(delta: float):
 			accel_noise_threshold = accel_noise
 		elif accel_noise_threshold < accel_noise:
 			#if accel_noise_threshold * 1000000000 > accel_noise:
-			#	reset_noise_thresholds()
+			#	_reset_noise_thresholds()
 			#	noise_threshold_timer = 0.0
 			#else:
 				accel_noise_threshold = accel_noise
@@ -250,7 +252,7 @@ func process_noise_thresholds(delta: float):
 		noise_threshold_timer = 0.0
 
 
-func process_motion_sample_arrays(buffer_length: int):
+func _process_motion_sample_arrays(buffer_length: int):
 	# Get the sample array for gyroscope input
 	_motion_sample_array_index = (_motion_sample_array_index + 1) % buffer_length
 	_gyro_sample_array.resize(buffer_length)
@@ -262,7 +264,7 @@ func process_motion_sample_arrays(buffer_length: int):
 	accel_noise = standard_deviation(_accel_sample_array)
 
 
-func process_gyro_input(gyro: Vector3, delta: float):
+func _get_gyro_aim_input(gyro: Vector3, delta: float):
 	# Get base sensitivity from settings config
 	var sens: Vector2
 	var gyro_delta: Vector2
@@ -278,9 +280,9 @@ func process_gyro_input(gyro: Vector3, delta: float):
 				gyro_delta.x = gyro.y
 				gyro_delta.y = gyro.x
 		1:	# Player space
-			gyro_delta = get_player_space_gyro(gyro, gravity_vector)
+			gyro_delta = _get_player_space_gyro(gyro, gravity_vector)
 		2:	# World space
-			gyro_delta = get_world_space_gyro(gyro, gravity_vector)
+			gyro_delta = _get_world_space_gyro(gyro, gravity_vector)
 	
 	# Set gyro axis inversion based on settings
 	if GameSettings.general["InputGyro"]["gyro_invert_x"]:
@@ -290,7 +292,7 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	
 	# Apply gyro smoothing if enabled
 	if GameSettings.general["InputGyro"]["gyro_smoothing_enabled"]:
-		gyro_delta = get_tiered_smoothed_input(
+		gyro_delta = _get_tiered_smoothed_input(
 				gyro_delta, 
 				GameSettings.general["InputGyro"]["gyro_smoothing_threshold"] / 2, 
 				GameSettings.general["InputGyro"]["gyro_smoothing_threshold"], 
@@ -303,12 +305,12 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	
 	# Apply gyro tightening if enabled
 	if GameSettings.general["InputGyro"]["gyro_tightening_enabled"]:
-		gyro_delta = get_tightened_input(gyro_delta,
+		gyro_delta = _get_tightened_input(gyro_delta,
 				GameSettings.general["InputGyro"]["gyro_tightening_threshold"])
 	
 	# Set sensitivity based on acceleration setting
 	if GameSettings.general["InputGyro"]["gyro_accel_enabled"]:
-		sens = get_gyro_acceleration(gyro_delta)
+		sens = _get_gyro_acceleration(gyro_delta)
 	else:
 		sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_x"]
 		sens.y = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
@@ -318,7 +320,7 @@ func process_gyro_input(gyro: Vector3, delta: float):
 	return processed
 
 
-func process_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
+func _process_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
 	# Convert gyro input to reverse rotation
 	var rotation := Quaternion(-gyro.normalized(), gyro.length() * delta)
 	
@@ -330,7 +332,7 @@ func process_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
 	gravity_vector += (new_gravity - gravity_vector) * 0.02
 
 
-func get_world_space_gyro(gyro: Vector3, gravity: Vector3):
+func _get_world_space_gyro(gyro: Vector3, gravity: Vector3):
 	# Our output, remaining comments are Jibb's
 	var processed: Vector2
 	
@@ -356,7 +358,7 @@ func get_world_space_gyro(gyro: Vector3, gravity: Vector3):
 	return processed
 
 
-func get_player_space_gyro(gyro: Vector3, gravity: Vector3):
+func _get_player_space_gyro(gyro: Vector3, gravity: Vector3):
 	# Our output
 	var processed: Vector2
 	
@@ -376,10 +378,10 @@ func get_player_space_gyro(gyro: Vector3, gravity: Vector3):
 	return processed
 
 
-## Calculates the sensitivity used for gyro aim when acceleration is on. 
-## Takes a [Vector2] containing a gyroscope X and Y, which should be the one 
-## obtained after the 3DOF to 2DOF conversion in [method process_gyro_input].
-func get_gyro_acceleration(gyro: Vector2):
+# Calculates the sensitivity used for gyro aim when acceleration is on. 
+# Takes a Vector2 containing a gyroscope X and Y, which should be the one 
+# obtained after the 3DOF to 2DOF conversion in _get_gyro_aim_input().
+func _get_gyro_acceleration(gyro: Vector2):
 	var sens: Vector2
 	sens.x = GameSettings.general["InputGyro"]["gyro_sensitivity_x"]
 	sens.y = GameSettings.general["InputGyro"]["gyro_sensitivity_y"]
@@ -415,11 +417,11 @@ func get_gyro_acceleration(gyro: Vector2):
 	return new_sens
 
 
-func get_direct_input(input: Vector2):
+func _get_direct_input(input: Vector2):
 	return input
 
 
-func get_smoothed_input(input: Vector2, buffer_length: int):
+func _get_smoothed_input(input: Vector2, buffer_length: int):
 	_current_smoothing_buffer_index = (_current_smoothing_buffer_index + 1) % buffer_length
 	_smoothing_input_buffer.resize(buffer_length)
 	_smoothing_input_buffer[_current_smoothing_buffer_index] = input
@@ -432,7 +434,7 @@ func get_smoothed_input(input: Vector2, buffer_length: int):
 	return average
 
 
-func get_tiered_smoothed_input(input: Vector2, min_threshold: float, 
+func _get_tiered_smoothed_input(input: Vector2, min_threshold: float, 
 		max_threshold: float, buffer_length: int):
 	var input_magnitude: float = sqrt(input.x * input.x + input.y * input.y)
 	
@@ -440,11 +442,11 @@ func get_tiered_smoothed_input(input: Vector2, min_threshold: float,
 			(max_threshold - min_threshold))
 	direct_weight = clamp(direct_weight, 0.0, 1.0)
 	
-	return (get_direct_input(input * direct_weight)
-			+ get_smoothed_input(input * (1.0 - direct_weight), buffer_length))
+	return (_get_direct_input(input * direct_weight)
+			+ _get_smoothed_input(input * (1.0 - direct_weight), buffer_length))
 
 
-func get_tightened_input(input: Vector2, threshold: float):
+func _get_tightened_input(input: Vector2, threshold: float):
 	var input_magnitude: float = sqrt(input.x * input.x + input.y * input.y)
 	if input_magnitude < threshold:
 		var input_scale: float = input_magnitude / threshold
