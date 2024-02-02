@@ -1,15 +1,37 @@
 extends Node
-## A script intended to be used as an autoloaded singleton, which takes in motion 
+## Provides usable motion input values for gameplay, with built-in gyro aim.
+##
+## A script intended to be autoloaded as a singleton, which takes in motion 
 ## data from controllers or mobile devices and provides all functionality needed 
-## for gyro aim.
-# Shout out to Jibb Smart for the gyro guides, and for pioneering so much of this
+## for gyro aim. For typical gyro aim functionality, a player's camera should 
+## take in the [member processed_gyro] variable [b]without[/b] any additional 
+## use of [code]delta[/code]. Any relevant settings should be set using the 
+## GameSettings singleton provided through [code]scenes/game_settings.gd[/code].
+## [br][br]
+## Most code here is adapted from guides written by Jibb Smart for his GyroWiki.
+# Please keep documentation comments to within 80 character lines when possible.
 
 
+## The raw, uncalibrated gyroscope values direct from the device. In general, 
+## this should not be used for gameplay.
 var uncalibrated_gyro := Vector3.ZERO
+## The gyroscope values provided after the calibration is applied. This can be 
+## used when a direct rotation of the device is needed, but for gyro aim, 
+## [member processed_gyro] should be used instead.
 var calibrated_gyro := Vector3.ZERO
+## This is the processed [Vector2] that should be used directly in camera 
+## scripts and such for gyro aim. All player settings such as sensitivity are 
+## applied to this variable automatically, so no extra code should be required 
+## when applying this to camera rotation. This variable is multiplied by 
+## [code]delta[/code] already, so camera scripts should not do this again.
 var processed_gyro := Vector2.ZERO
-var processed_uncalibrated_gyro := Vector2.ZERO
+#var processed_uncalibrated_gyro := Vector2.ZERO
+## The raw accelerometer input direct from the device. Can be used for gameplay
+## if shaking is needed, but for getting the device's rotation in relation to 
+## gravity, [member gravity_vector] should be used instead.
 var accelerometer := Vector3.ZERO
+## The direction of gravity relative to the device, using sensor fusion for 
+## better accuracy.
 var gravity_vector := Vector3.ZERO
 
 # Calibration variables
@@ -18,29 +40,71 @@ var accumulated_offset := Vector3.ZERO
 var num_offset_samples_temporary: int = 0
 var accumulated_offset_temporary := Vector3.ZERO
 
+## Is [code]true[/code] if gyro calibration is currently running. If manual 
+## gyro calibration is desired, [member calibration_wanted] should be set 
+## instead of this variable.
 var calibrating := false
+## Used to signal if the user is requesting gyro calibration. UI scripts for 
+## manual calibration should set this manually, and it is also set automatically 
+## if the user has enabled autocalibration.
 var calibration_wanted := false
+## Sets whether gyro autocalibration is currently being interrupted. Should be 
+## set by any UI scene that doesn't want autocalibration, such as a manual 
+## calibration screen.
 var interrupt_calibration := false
-var calibration_timer_running := false
+## The hardcoded length for the gyro calibration timer. If [member calibration_timer] 
+## goes above this value, the new gyro calibration will be applied. 
 var calibration_timer_length: float = 5.0
+## The timer used for gyro calibration. Gyro samples will be accumulated while 
+## this timer is running, and a new calibration is applied if it goes above 
+## [member calibration_timer_length].
 var calibration_timer: float = 0.0
 
+## Sets whether noise threshold calibration is wanted. Should [b]not[/b] be set 
+## manually, UI scripts should call [method calibrate_noise_thresholds] if they 
+## desire calibrating the noise thresholds.
 var noise_threshold_calibration_wanted := false
+## The current gyroscope noise threshold. If [member gyro_noise] is above this 
+## threshold, any currently running gyro calibration process will be reset. 
+## Can be set automatically by calling [method calibrate_noise_thresholds], or 
+## manually through the game settings.
 var gyro_noise_threshold: float = 0.0
+## The current accelerometer noise threshold. If [member accel_noise] is above 
+## this threshold, any currently running gyro calibration process will be reset. 
+## Can be set automatically by calling [method calibrate_noise_thresholds], or 
+## manually through the game settings.
 var accel_noise_threshold: float = 0.0
-var noise_threshold_timer_running := false
+## The hardcoded length for the noise threshold calibration timer. 
+## If [member noise_threshold_timer] goes above this, the new noise thresholds 
+## will be applied.
 var noise_threshold_timer_length: float = 5.0
+## The timer used for noise threshold calibration. The noise thresholds will be 
+## increased to the current peak [member gyro_noise] and [member accel_noise] 
+## while this is running, and the noise thresholds will be applied to the game 
+## settings when it goes above [member noise_threshold_timer_length].
 var noise_threshold_timer: float = 0.0
 
-var gyro_sample_array: PackedFloat64Array
+
+## The current noise or "stillness" of the gyroscope. When the device is at rest 
+## on a still, solid surface, this should represent the sensor noise from the 
+## gyroscope. Is used in gyro autocalibration, where the process is reset if 
+## this value goes above [member gyro_noise_threshold].
 var gyro_noise: float = 0.0
-var accel_sample_array: PackedFloat64Array
+## The current noise or "stillness" of the accelerometer. When the device is at 
+## rest on a still, solid surface, this should represent the sensor noise from 
+## the acclerometer. Is used in gyro autocalibration, where the process is reset 
+## if this value goes above [member accel_noise_threshold].
 var accel_noise: float = 0.0
-var motion_sample_array_index: int
+
+var _gyro_sample_array: PackedFloat64Array
+var _accel_sample_array: PackedFloat64Array
+var _motion_sample_array_index: int
 
 var _gyro_velocity := Vector3.ZERO
 var _gyro_calibration := Vector3.ZERO
 
+# This timer goes up at all times, and is used for the "fake gyro sine wave" on 
+# PC when debug mode is enabled.
 var _debug_gyro_timer: float = 0.0
 
 # Smoothing variables
@@ -96,14 +160,19 @@ func _process(delta):
 		process_simple_gravity(calibrated_gyro, accelerometer.normalized(), delta)
 	
 	processed_gyro = process_gyro_input(calibrated_gyro, delta)
-	processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro, delta)
+	#processed_uncalibrated_gyro = process_gyro_input(uncalibrated_gyro, delta)
 
 
+## Returns the current gyro calibration offset, and is used for applying the 
+## drift correction to [member calibrated_gyro].
 func get_calibration_offset():
 	if num_offset_samples == 0:
 		return Vector3.ZERO
 	return accumulated_offset / num_offset_samples
 
+
+## Resets the current gyro calibration when called. When starting a manual 
+## calibration process in the UI, this should be called first.
 func reset_calibration():
 	num_offset_samples = 0
 	accumulated_offset = Vector3.ZERO
@@ -136,6 +205,9 @@ func process_calibration(delta: float):
 		accumulated_offset_temporary += uncalibrated_gyro
 
 
+## Resets the existing noise threshold values, and signals that calibrating the 
+## noise thresholds is desired. Should be called from a UI script as the first 
+## stage when the user is running manual gyro calibration.
 func calibrate_noise_thresholds():
 	reset_noise_thresholds()
 	noise_threshold_timer = 0.0
@@ -180,14 +252,14 @@ func process_noise_thresholds(delta: float):
 
 func process_motion_sample_arrays(buffer_length: int):
 	# Get the sample array for gyroscope input
-	motion_sample_array_index = (motion_sample_array_index + 1) % buffer_length
-	gyro_sample_array.resize(buffer_length)
-	gyro_sample_array[motion_sample_array_index] = uncalibrated_gyro.length()
-	gyro_noise = standard_deviation(gyro_sample_array)
+	_motion_sample_array_index = (_motion_sample_array_index + 1) % buffer_length
+	_gyro_sample_array.resize(buffer_length)
+	_gyro_sample_array[_motion_sample_array_index] = uncalibrated_gyro.length()
+	gyro_noise = standard_deviation(_gyro_sample_array)
 	# The the same for accelerometer
-	accel_sample_array.resize(buffer_length)
-	accel_sample_array[motion_sample_array_index] = accelerometer.z
-	accel_noise = standard_deviation(accel_sample_array)
+	_accel_sample_array.resize(buffer_length)
+	_accel_sample_array[_motion_sample_array_index] = accelerometer.z
+	accel_noise = standard_deviation(_accel_sample_array)
 
 
 func process_gyro_input(gyro: Vector3, delta: float):
@@ -380,6 +452,8 @@ func get_tightened_input(input: Vector2, threshold: float):
 	return input
 
 
+## Returns the population standard deviation of an [Array] of any length. 
+## Is used in this script for calculating noise thresholds.
 func standard_deviation(data: Array):
 	var sum: float
 	var mean: float
