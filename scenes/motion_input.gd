@@ -322,7 +322,10 @@ func _get_gyro_aim_input(gyro: Vector3, delta: float):
 
 func _process_simple_gravity(gyro: Vector3, accel: Vector3, delta: float):
 	# Convert gyro input to reverse rotation
-	var rotation := Quaternion(-gyro.normalized(), gyro.length() * delta)
+	var gyro_vector := Vector3(deg_to_rad(gyro.x), deg_to_rad(gyro.y), deg_to_rad(gyro.z))
+	var rotation := Quaternion(-gyro_vector.normalized(), gyro_vector.length() * delta)
+	print(str(-gyro_vector.normalized(), " + ", gyro_vector.length() * delta))
+	print(delta)
 	
 	# Rotate gravity vector
 	gravity_vector *= rotation
