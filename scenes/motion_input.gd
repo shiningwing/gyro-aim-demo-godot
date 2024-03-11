@@ -12,6 +12,9 @@ extends Node
 # Please keep documentation comments to within 80 character lines when possible.
 
 
+var gamepad_gyro := SDLGyro.new()
+
+
 ## The raw, uncalibrated gyroscope values direct from the device. In general, 
 ## this should not be used for gameplay.
 var uncalibrated_gyro := Vector3.ZERO
@@ -117,7 +120,9 @@ var _smoothing_input_buffer: PackedVector2Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	if not is_mobile:
+		gamepad_gyro.sdl_init()
+		gamepad_gyro.controller_init()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -127,6 +132,12 @@ func _process(delta):
 		uncalibrated_gyro.y = rad_to_deg(Input.get_gyroscope().y)
 		uncalibrated_gyro.z = rad_to_deg(Input.get_gyroscope().z)
 		accelerometer = Input.get_accelerometer()
+	else:
+		gamepad_gyro.gamepadPoling()
+		var gyro_array: Array = gamepad_gyro.getCalibratedGyro()
+		uncalibrated_gyro.x = gyro_array[0]
+		uncalibrated_gyro.y = gyro_array[1]
+		uncalibrated_gyro.z = gyro_array[2]
 	
 	# If we're in debug mode and not on mobile, oscillate the gyro
 	if GameSettings.general["Debug"]["debug_mode"] and not is_mobile:

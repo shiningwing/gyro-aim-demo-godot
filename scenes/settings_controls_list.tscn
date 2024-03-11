@@ -170,7 +170,7 @@ vertical_alignment = 1
 
 [node name="GyroSpace" parent="GyroSettings" instance=ExtResource("4_uh851")]
 layout_mode = 2
-label = "Gyro Space (3DOF to 2DOF Conversion)"
+label = "Gyro Space (3DOF to 2DOF Conversion) [CURRENTLY BROKEN]"
 config_section = "InputGyro"
 config_key = "gyro_space"
 menu_items = ["Local Space", "Player Space", "World Space"]
