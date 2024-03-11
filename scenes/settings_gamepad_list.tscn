@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5bc2tquyi52f"]
+
+[ext_resource type="PackedScene" uid="uid://bvda0utgyeows" path="res://scenes/settings_item_slider.tscn" id="1_yq556"]
+[ext_resource type="PackedScene" uid="uid://djnkrsg7qcmdr" path="res://scenes/settings_item_dropdown.tscn" id="2_0kefp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_efxs5"]
+font_size = 20
+font_color = Color(1, 0.843137, 0.25098, 1)
+
+[node name="GamepadList" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="PaddingTop" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="AimHeader" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Right Stick Aim"
+label_settings = SubResource("LabelSettings_efxs5")
+vertical_alignment = 1
+
+[node name="HoriSensSlider" parent="." instance=ExtResource("1_yq556")]
+layout_mode = 2
+label = "Horizontal Sensitivity"
+config_section = "InputGamepad"
+config_key = "rs_sensitivity_x"
+max_value = 20.0
+step = 0.1
+
+[node name="VertSensSlider" parent="." instance=ExtResource("1_yq556")]
+layout_mode = 2
+label = "Vertical Sensitivity"
+config_section = "InputGamepad"
+config_key = "rs_sensitivity_y"
+max_value = 20.0
+step = 0.1
+
+[node name="DeadzonesHeader" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Deadzones"
+label_settings = SubResource("LabelSettings_efxs5")
+vertical_alignment = 1
+
+[node name="LSDeadzoneSlider" parent="." instance=ExtResource("1_yq556")]
+layout_mode = 2
+label = "Left Stick Deadzone"
+config_section = "InputGamepad"
+config_key = "ls_deadzone"
+max_value = 1.0
+step = 0.01
+
+[node name="LSDeadzoneShape" parent="." instance=ExtResource("2_0kefp")]
+layout_mode = 2
+label = "Left Stick Deadzone Shape [Unimplemented]"
+config_section = "InputGamepad"
+config_key = "ls_deadzone_type"
+menu_items = ["Circle", "Cross"]
+
+[node name="RSDeadzoneSlider" parent="." instance=ExtResource("1_yq556")]
+layout_mode = 2
+label = "Right Stick Deadzone"
+config_section = "InputGamepad"
+config_key = "rs_deadzone"
+max_value = 1.0
+step = 0.01
+
+[node name="RSDeadzoneShape" parent="." instance=ExtResource("2_0kefp")]
+layout_mode = 2
+label = "Right Stick Deadzone Shape [Unimplemented]"
+config_section = "InputGamepad"
+config_key = "rs_deadzone_type"
+menu_items = ["Circle", "Cross"]
+
+[node name="PaddingBottom" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2

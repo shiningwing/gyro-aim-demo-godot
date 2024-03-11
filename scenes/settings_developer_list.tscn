@@ -16,18 +16,24 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 
-[node name="MouseTouchHeader" type="Label" parent="."]
+[node name="DebugHeader" type="Label" parent="."]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 text = "Debug"
 label_settings = SubResource("LabelSettings_efxs5")
 vertical_alignment = 1
 
-[node name="SettingsItemToggle" parent="." instance=ExtResource("3_lne6f")]
+[node name="DebugModeToggle" parent="." instance=ExtResource("3_lne6f")]
 layout_mode = 2
 label = "Debug Mode"
 config_section = "Debug"
 config_key = "debug_mode"
+
+[node name="WalkingToggle" parent="." instance=ExtResource("3_lne6f")]
+layout_mode = 2
+label = "Allow Walking"
+config_section = "Debug"
+config_key = "allow_walking"
 
 [node name="PaddingBottom" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 8)

@@ -1,34 +1,57 @@
-[gd_scene load_steps=5 format=3 uid="uid://blsu60w3ijadc"]
+[gd_scene load_steps=6 format=3 uid="uid://blsu60w3ijadc"]
 
 [ext_resource type="PackedScene" uid="uid://hbrmgukjrybr" path="res://scenes/settings_controls_list.tscn" id="1_3xl7e"]
 [ext_resource type="Theme" uid="uid://dq7k322hhtav6" path="res://themes/hideout.tres" id="1_8q32k"]
 [ext_resource type="PackedScene" uid="uid://rodg5krr1emq" path="res://scenes/settings_graphics_list.tscn" id="3_ia1fg"]
 [ext_resource type="PackedScene" uid="uid://dyqnujmid4xn4" path="res://scenes/settings_developer_list.tscn" id="3_rauka"]
+[ext_resource type="PackedScene" uid="uid://c5bc2tquyi52f" path="res://scenes/settings_gamepad_list.tscn" id="3_un62y"]
 
 [node name="SettingsTabs" type="TabContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
 use_hidden_tabs_for_min_size = true
 
-[node name="Controls" type="ScrollContainer" parent="."]
+[node name="Gyro" type="ScrollContainer" parent="."]
 custom_minimum_size = Vector2(640, 240)
 layout_mode = 2
 theme = ExtResource("1_8q32k")
 follow_focus = true
 
-[node name="ControlsListContainer" type="HBoxContainer" parent="Controls"]
+[node name="ControlsListContainer" type="HBoxContainer" parent="Gyro"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="PaddingLeft" type="Control" parent="Controls/ControlsListContainer"]
+[node name="PaddingLeft" type="Control" parent="Gyro/ControlsListContainer"]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="ControlsList" parent="Controls/ControlsListContainer" instance=ExtResource("1_3xl7e")]
+[node name="ControlsList" parent="Gyro/ControlsListContainer" instance=ExtResource("1_3xl7e")]
 layout_mode = 2
 
-[node name="PaddingRight" type="Control" parent="Controls/ControlsListContainer"]
+[node name="PaddingRight" type="Control" parent="Gyro/ControlsListContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+
+[node name="Gamepad" type="ScrollContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(640, 240)
+layout_mode = 2
+follow_focus = true
+
+[node name="GamepadListContainer" type="HBoxContainer" parent="Gamepad"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="PaddingLeft" type="Control" parent="Gamepad/GamepadListContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+
+[node name="GamepadList" parent="Gamepad/GamepadListContainer" instance=ExtResource("3_un62y")]
+layout_mode = 2
+
+[node name="PaddingRight" type="Control" parent="Gamepad/GamepadListContainer"]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 

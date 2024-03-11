@@ -31,34 +31,15 @@ func _ready():
 
 
 func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed("player_jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	var input_dir = Input.get_vector(
-			"player_strafeleft",
-			"player_straferight",
-			"player_forward",
-			"player_backward")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
-
-	move_and_slide()
+	if GameSettings.general["Debug"]["allow_walking"]:
+		move_player(delta)
 
 
 func _process(delta):
 	# Apply mouselook rotation
 	process_mouse_look(delta)
+	# Apply right stick rotation
+	process_stick_look(delta)
 	
 	# Set what the gyro modifier button does when pressed
 	match GameSettings.general["InputGyro"]["gyro_modifier_mode"]:
@@ -82,7 +63,7 @@ func _process(delta):
 	clamp_camera()
 	
 	# Exit game when Esc is pressed
-	if Input.is_action_just_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("player_pause"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_tree().change_scene_to_file("res://scenes/main_menu_container.tscn")
 	
@@ -121,8 +102,23 @@ func process_mouse_look(delta):
 	
 	# Zero out mouse delta to avoid camera "floating"
 	mouse_delta = Vector2.ZERO
-	
-	
+
+
+func process_stick_look(delta):
+	var sens_x: float = GameSettings.general["InputGamepad"]["rs_sensitivity_x"] * 50
+	var sens_y: float = GameSettings.general["InputGamepad"]["rs_sensitivity_y"] * 50
+	# Get the current stick vector
+	#match GameSettings.general["InputGamepad"]["rs_deadzone_type"]:
+	var stick_delta: Vector2 = Input.get_vector(
+			"player_rs_left", 
+			"player_rs_right", 
+			"player_rs_up", 
+			"player_rs_down", 
+			GameSettings.general["InputGamepad"]["rs_deadzone"])
+	# Rotate camera around X axis
+	camera.rotation_degrees.x -= stick_delta.y * sens_y * delta
+	# Rotate camera around Y axis
+	rotation_degrees.y -= stick_delta.x * sens_x * delta
 
 
 func process_gyro_look(delta):
@@ -145,6 +141,33 @@ func clamp_camera():
 	# Update camera angles in debug HUD
 	camera_x_angle_label.text = str("Camera X Angle: ", rotation_degrees.y)
 	camera_y_angle_label.text = str("Camera Y Angle: ", camera.rotation_degrees.x)
+
+
+func move_player(delta):
+	# Add the gravity.
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed("player_jump") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	var input_dir = Input.get_vector(
+			"player_strafeleft",
+			"player_straferight",
+			"player_forward",
+			"player_backward",
+			GameSettings.general["InputGamepad"]["ls_deadzone"])
+	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	if direction:
+		velocity.x = direction.x * SPEED
+		velocity.z = direction.z * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.z = move_toward(velocity.z, 0, SPEED)
+
+	move_and_slide()
 
 
 func fire_weapon():
