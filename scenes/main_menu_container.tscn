@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dmiud74j8p6l3"]
+[gd_scene format=3 uid="uid://dmiud74j8p6l3"]
 
-[ext_resource type="Script" path="res://scenes/main_menu_container.gd" id="1_acob1"]
+[ext_resource type="Script" uid="uid://b4f1a62jx86rj" path="res://scenes/main_menu_container.gd" id="1_acob1"]
 [ext_resource type="PackedScene" uid="uid://coqst8u6i5nwm" path="res://scenes/main_menu.tscn" id="1_cvudb"]
 
-[node name="MainMenuContainer" type="Control"]
+[node name="MainMenuContainer" type="Control" unique_id=60421946]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=695587448]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +19,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=985015986]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,5 +28,5 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_acob1")
 
-[node name="MainMenu" parent="MarginContainer" instance=ExtResource("1_cvudb")]
+[node name="MainMenu" parent="MarginContainer" unique_id=1890304635 instance=ExtResource("1_cvudb")]
 layout_mode = 2

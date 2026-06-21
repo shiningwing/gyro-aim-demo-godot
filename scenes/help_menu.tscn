@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://bv7q8er38a3ge"]
+[gd_scene format=3 uid="uid://bv7q8er38a3ge"]
 
-[ext_resource type="Script" path="res://scenes/help_menu.gd" id="1_xbvat"]
+[ext_resource type="Script" uid="uid://5u5kgebnudvi" path="res://scenes/help_menu.gd" id="1_xbvat"]
 [ext_resource type="Texture2D" uid="uid://cvbdp5m60r2yr" path="res://textures/ui/arrow-left-custom.png" id="2_egshn"]
 [ext_resource type="Texture2D" uid="uid://bedakvm8l8v5d" path="res://textures/ui/chevron-right-custom.png" id="3_78ktm"]
 
@@ -47,7 +47,7 @@ corner_radius_bottom_left = 4
 font_size = 14
 font_color = Color(1, 1, 1, 0.74902)
 
-[node name="HelpMenu" type="Control"]
+[node name="HelpMenu" type="Control" unique_id=341456308]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,7 +55,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="PanelContainer" parent="."]
+[node name="Background" type="PanelContainer" parent="." unique_id=1766256210]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -63,7 +63,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HelpMenuContainer" type="MarginContainer" parent="."]
+[node name="HelpMenuContainer" type="MarginContainer" parent="." unique_id=1281118922]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,21 +72,21 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xbvat")
 
-[node name="HelpMenuPanel" type="PanelContainer" parent="HelpMenuContainer"]
+[node name="HelpMenuPanel" type="PanelContainer" parent="HelpMenuContainer" unique_id=443894465]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel" unique_id=2075251030]
 layout_mode = 2
 
-[node name="HeaderContainer" type="PanelContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer"]
+[node name="HeaderContainer" type="PanelContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer" unique_id=2068741025]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mf0xk")
 
-[node name="Header" type="HBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer"]
+[node name="Header" type="HBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer" unique_id=202631597]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header"]
+[node name="BackButton" type="Button" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header" unique_id=632322133]
 custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -96,120 +96,120 @@ icon = ExtResource("2_egshn")
 flat = true
 icon_alignment = 1
 
-[node name="PreviousTitle" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header"]
+[node name="PreviousTitle" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header" unique_id=448736257]
 layout_mode = 2
 text = "Main Menu"
 label_settings = SubResource("LabelSettings_6m660")
 
-[node name="TextureRect" type="TextureRect" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header"]
+[node name="TextureRect" type="TextureRect" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header" unique_id=2004014989]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("3_78ktm")
 
-[node name="Title" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header"]
+[node name="Title" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header" unique_id=199976196]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Help & Info"
 label_settings = SubResource("LabelSettings_lyrfm")
 
-[node name="SettingsScrollContainer" type="ScrollContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer"]
+[node name="SettingsScrollContainer" type="ScrollContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer" unique_id=1008384330]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ScrollingPanel" type="PanelContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer"]
+[node name="ScrollingPanel" type="PanelContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer" unique_id=1817199929]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_cckxs")
 
-[node name="ScrollingList" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel"]
+[node name="ScrollingList" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel" unique_id=1741619801]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="FAQTitle" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList"]
+[node name="FAQTitle" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList" unique_id=949020692]
 layout_mode = 2
 text = "Frequently Asked Questions"
 label_settings = SubResource("LabelSettings_gex01")
 vertical_alignment = 1
 
-[node name="FAQList" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList"]
+[node name="FAQList" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList" unique_id=224515285]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Question0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/FAQList"]
+[node name="Question0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/FAQList" unique_id=2127035366]
 custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 text = "\"My aim is drifting on its own! What do I do?\""
 label_settings = SubResource("LabelSettings_aw88e")
 autowrap_mode = 3
 
-[node name="Answer0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/FAQList"]
+[node name="Answer0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/FAQList" unique_id=84128920]
 custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 text = "Go into the Controls settings, and in the Gyro Aim section, press the \"Calibration Settings...\" button to open the Gyro Calibration settings menu. From there, you can press the \"Calibrate Gyroscope\" and follow the provided instructions to correct for any drifting that's occurring. "
 autowrap_mode = 3
 
-[node name="CreditsTitle" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList"]
+[node name="CreditsTitle" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList" unique_id=1965580134]
 layout_mode = 2
 text = "Credits"
 label_settings = SubResource("LabelSettings_gex01")
 vertical_alignment = 1
 
-[node name="CreditsList" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList"]
+[node name="CreditsList" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList" unique_id=791943454]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="CreditsItem0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+[node name="CreditsItem0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList" unique_id=327265196]
 custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 text = "Gyro aim code in this project is based on guides from Jibb Smart's GyroWiki (http://gyrowiki.jibbsmart.com/)."
 autowrap_mode = 3
 
-[node name="CreditsItem1" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+[node name="CreditsItem1" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList" unique_id=409155554]
 custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 text = "This game uses public domain assets from Kenney (https://kenney.nl)."
 autowrap_mode = 3
 
-[node name="Copyright" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+[node name="Copyright" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList" unique_id=65863655]
 custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 text = "\"Gyro Aim Demo for Godot\" copyright © 2024 Shining Wing, licensed under the MIT License."
 autowrap_mode = 3
 
-[node name="Padding0" type="Control" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+[node name="Padding0" type="Control" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList" unique_id=1773690726]
 layout_mode = 2
 
-[node name="MITLicensePanel" type="PanelContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+[node name="MITLicensePanel" type="PanelContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList" unique_id=1406596473]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_6mlcr")
 
-[node name="List" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel"]
+[node name="List" type="VBoxContainer" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel" unique_id=795597118]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="MITLicense0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel/List"]
+[node name="MITLicense0" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel/List" unique_id=984960579]
 custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 text = "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
 label_settings = SubResource("LabelSettings_pfpbi")
 autowrap_mode = 3
 
-[node name="MITLicense1" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel/List"]
+[node name="MITLicense1" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel/List" unique_id=1166369297]
 custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 text = "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
 label_settings = SubResource("LabelSettings_pfpbi")
 autowrap_mode = 3
 
-[node name="MITLicense2" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel/List"]
+[node name="MITLicense2" type="Label" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList/MITLicensePanel/List" unique_id=1259471206]
 custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 text = "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 label_settings = SubResource("LabelSettings_pfpbi")
 autowrap_mode = 3
 
-[node name="Padding1" type="Control" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList"]
+[node name="Padding1" type="Control" parent="HelpMenuContainer/HelpMenuPanel/VBoxContainer/SettingsScrollContainer/ScrollingPanel/ScrollingList/CreditsList" unique_id=44490577]
 layout_mode = 2
 
 [connection signal="pressed" from="HelpMenuContainer/HelpMenuPanel/VBoxContainer/HeaderContainer/Header/BackButton" to="HelpMenuContainer" method="_on_back_button_pressed"]

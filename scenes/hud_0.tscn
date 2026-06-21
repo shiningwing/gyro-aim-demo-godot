@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxtii2gk75v7s"]
+[gd_scene format=3 uid="uid://dxtii2gk75v7s"]
 
-[ext_resource type="Script" path="res://scenes/hud_0.gd" id="1_tlsm6"]
+[ext_resource type="Script" uid="uid://bjmgj5l7wdpbv" path="res://scenes/hud_0.gd" id="1_tlsm6"]
 
-[node name="HUD0" type="Control"]
+[node name="HUD0" type="Control" unique_id=2032442407]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +12,7 @@ grow_vertical = 2
 script = ExtResource("1_tlsm6")
 metadata/_edit_vertical_guides_ = [1112.0]
 
-[node name="Debug" type="Control" parent="."]
+[node name="Debug" type="Control" parent="." unique_id=1027431047]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopLeft" type="VBoxContainer" parent="Debug"]
+[node name="TopLeft" type="VBoxContainer" parent="Debug" unique_id=1034973993]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -32,43 +32,43 @@ offset_bottom = 106.0
 grow_vertical = 2
 theme_override_constants/separation = 4
 
-[node name="CameraXAngleLabel" type="Label" parent="Debug/TopLeft"]
+[node name="CameraXAngleLabel" type="Label" parent="Debug/TopLeft" unique_id=319642377]
 layout_mode = 2
 text = "Camera X Angle: "
 
-[node name="CameraYAngleLabel" type="Label" parent="Debug/TopLeft"]
+[node name="CameraYAngleLabel" type="Label" parent="Debug/TopLeft" unique_id=141779824]
 layout_mode = 2
 text = "Camera Y Angle: "
 
-[node name="GyroLabel" type="Label" parent="Debug/TopLeft"]
+[node name="GyroLabel" type="Label" parent="Debug/TopLeft" unique_id=1330358703]
 layout_mode = 2
 text = "Gyroscope: "
 
-[node name="CalibratedGyroLabel" type="Label" parent="Debug/TopLeft"]
+[node name="CalibratedGyroLabel" type="Label" parent="Debug/TopLeft" unique_id=776070865]
 layout_mode = 2
 text = "Calibrated Gyroscope: "
 
-[node name="AccelLabel" type="Label" parent="Debug/TopLeft"]
+[node name="AccelLabel" type="Label" parent="Debug/TopLeft" unique_id=652483499]
 layout_mode = 2
 text = "Accelerometer: "
 
-[node name="GravityLabel" type="Label" parent="Debug/TopLeft"]
+[node name="GravityLabel" type="Label" parent="Debug/TopLeft" unique_id=91422335]
 layout_mode = 2
 text = "Sensor Fusion Gravity: "
 
-[node name="GravityErrorLabel" type="Label" parent="Debug/TopLeft"]
+[node name="GravityErrorLabel" type="Label" parent="Debug/TopLeft" unique_id=863814273]
 layout_mode = 2
 text = "Sensor Fusion Gravity: "
 
-[node name="GyroNoiseLabel" type="Label" parent="Debug/TopLeft"]
+[node name="GyroNoiseLabel" type="Label" parent="Debug/TopLeft" unique_id=106539347]
 layout_mode = 2
 text = "Gyroscope Noise: "
 
-[node name="AccelNoiseLabel" type="Label" parent="Debug/TopLeft"]
+[node name="AccelNoiseLabel" type="Label" parent="Debug/TopLeft" unique_id=354210382]
 layout_mode = 2
 text = "Accelerometer Noise: "
 
-[node name="TopRight" type="VBoxContainer" parent="Debug"]
+[node name="TopRight" type="VBoxContainer" parent="Debug" unique_id=1164646827]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -80,32 +80,32 @@ offset_bottom = 72.0
 grow_horizontal = 0
 theme_override_constants/separation = 4
 
-[node name="PlatformLabel" type="Label" parent="Debug/TopRight"]
+[node name="PlatformLabel" type="Label" parent="Debug/TopRight" unique_id=131873234]
 layout_mode = 2
 text = "Platform: "
 horizontal_alignment = 2
 
-[node name="GyroCalibrationOffsetLabel" type="Label" parent="Debug/TopRight"]
+[node name="GyroCalibrationOffsetLabel" type="Label" parent="Debug/TopRight" unique_id=885111039]
 layout_mode = 2
 text = "Calibration Offset: (0, 0, 0)"
 horizontal_alignment = 2
 
-[node name="GyroCalibrationSamplesLabel" type="Label" parent="Debug/TopRight"]
+[node name="GyroCalibrationSamplesLabel" type="Label" parent="Debug/TopRight" unique_id=2141725711]
 layout_mode = 2
 text = "Calibration Samples: 0"
 horizontal_alignment = 2
 
-[node name="GyroCalibrationTimerLabel" type="Label" parent="Debug/TopRight"]
+[node name="GyroCalibrationTimerLabel" type="Label" parent="Debug/TopRight" unique_id=1911646416]
 layout_mode = 2
 text = "Calibration Timer: 0"
 horizontal_alignment = 2
 
-[node name="GyroCalibratingLabel" type="Label" parent="Debug/TopRight"]
+[node name="GyroCalibratingLabel" type="Label" parent="Debug/TopRight" unique_id=2008250349]
 layout_mode = 2
 text = "Calibrating: false"
 horizontal_alignment = 2
 
-[node name="Crosshair" type="GridContainer" parent="."]
+[node name="Crosshair" type="GridContainer" parent="." unique_id=243294039]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -122,41 +122,41 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 3
 
-[node name="Control" type="Control" parent="Crosshair"]
+[node name="Control" type="Control" parent="Crosshair" unique_id=1241326867]
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="Crosshair"]
+[node name="ColorRect" type="ColorRect" parent="Crosshair" unique_id=1829068080]
 custom_minimum_size = Vector2(2, 6)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Control2" type="Control" parent="Crosshair"]
+[node name="Control2" type="Control" parent="Crosshair" unique_id=523449020]
 layout_mode = 2
 
-[node name="ColorRect2" type="ColorRect" parent="Crosshair"]
+[node name="ColorRect2" type="ColorRect" parent="Crosshair" unique_id=53189999]
 custom_minimum_size = Vector2(6, 2)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Control4" type="Control" parent="Crosshair"]
+[node name="Control4" type="Control" parent="Crosshair" unique_id=1853154128]
 layout_mode = 2
 
-[node name="ColorRect3" type="ColorRect" parent="Crosshair"]
+[node name="ColorRect3" type="ColorRect" parent="Crosshair" unique_id=492341858]
 custom_minimum_size = Vector2(6, 2)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Control3" type="Control" parent="Crosshair"]
+[node name="Control3" type="Control" parent="Crosshair" unique_id=994908091]
 layout_mode = 2
 
-[node name="ColorRect4" type="ColorRect" parent="Crosshair"]
+[node name="ColorRect4" type="ColorRect" parent="Crosshair" unique_id=741781474]
 custom_minimum_size = Vector2(2, 6)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Control5" type="Control" parent="Crosshair"]
+[node name="Control5" type="Control" parent="Crosshair" unique_id=2135734657]
 layout_mode = 2

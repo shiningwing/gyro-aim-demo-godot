@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dyqnujmid4xn4"]
+[gd_scene format=3 uid="uid://dyqnujmid4xn4"]
 
 [ext_resource type="PackedScene" uid="uid://dbv5yqje5sisk" path="res://scenes/settings_item_toggle.tscn" id="3_lne6f"]
 
@@ -6,35 +6,35 @@
 font_size = 20
 font_color = Color(1, 0.843137, 0.25098, 1)
 
-[node name="DeveloperList" type="VBoxContainer"]
+[node name="DeveloperList" type="VBoxContainer" unique_id=2024457472]
 offset_right = 40.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="PaddingTop" type="Control" parent="."]
+[node name="PaddingTop" type="Control" parent="." unique_id=1350209732]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 
-[node name="DebugHeader" type="Label" parent="."]
+[node name="DebugHeader" type="Label" parent="." unique_id=321823596]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 text = "Debug"
 label_settings = SubResource("LabelSettings_efxs5")
 vertical_alignment = 1
 
-[node name="DebugModeToggle" parent="." instance=ExtResource("3_lne6f")]
+[node name="DebugModeToggle" parent="." unique_id=1269110951 instance=ExtResource("3_lne6f")]
 layout_mode = 2
 label = "Debug Mode"
 config_section = "Debug"
 config_key = "debug_mode"
 
-[node name="WalkingToggle" parent="." instance=ExtResource("3_lne6f")]
+[node name="WalkingToggle" parent="." unique_id=2004347477 instance=ExtResource("3_lne6f")]
 layout_mode = 2
 label = "Allow Walking"
 config_section = "Debug"
 config_key = "allow_walking"
 
-[node name="PaddingBottom" type="Control" parent="."]
+[node name="PaddingBottom" type="Control" parent="." unique_id=227277061]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
