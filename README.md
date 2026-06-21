@@ -4,18 +4,20 @@ This is a simple first-person shooter demo game for Godot Engine made to make us
 
 This project is more just me experimenting with programming various features I would like to use for future projects. If you want to use this as a basis for your own project, you're on your own.
 
-If you're on desktop, press Escape to exit the main game scene.
+If you're on desktop, press Escape or the Start button to exit the main game scene.
 
 ## Features:
 	
-- Gyro aim (only on mobile for now)
+- Gyro aim (on supported gamepads and mobile)
 	- Configurable horizontal and vertical sensitivity
 	- Acceleration, with configurable multiplier, and slow and fast thresholds
 	- Smoothing, with a configurable threshold and buffer length
 	- Tightening, with a configurable threshold
-	- Sensor fusion, with "player space" and "world space" gyro aim
+	- Sensor fusion, with "player space" and "world space" gyro aim (only works correctly on gamepads at the moment
 	- A gyro modifier button, which can be set to turn gyro aim on or off when held, or toggled when pressed.
-- Simple mouse aim
+- Stick aim
+  	- You can adjust vertical and horizontal sensitivity, and stick inner deadzones (everything else is missing)
+- Mouse aim
 	- You can adjust the sensitivity, that's it
 - Touch controls
 	- Touch aim uses the same sensitivity as mouse aim
