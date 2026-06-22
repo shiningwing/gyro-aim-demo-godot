@@ -12,10 +12,11 @@
 font_size = 24
 font_color = Color(1, 0.843137, 0.25098, 1)
 
-[node name="CalibrationDialog" type="PanelContainer" unique_id=2127171122]
+[node name="CalibrationDialog" type="PanelContainer" unique_id=2127171122 groups=["calibration_dialog"]]
 custom_minimum_size = Vector2(576, 0)
 offset_right = 40.0
 offset_bottom = 40.0
+focus_behavior_recursive = 2
 theme_override_styles/panel = ExtResource("1_m7q45")
 script = ExtResource("1_mwfnk")
 
@@ -45,12 +46,16 @@ layout_mode = 2
 text = "Calibration will occur in two stages. Either stage may reset a few times before finishing. Please be patient and allow it to finish."
 autowrap_mode = 3
 
-[node name="StartButton" type="Button" parent="VBoxContainer/StartBox" unique_id=499109129]
+[node name="StartButton" type="Button" parent="VBoxContainer/StartBox" unique_id=499109129 groups=["calibration_start_button"]]
 layout_mode = 2
+focus_neighbor_bottom = NodePath("../EarlyCancelButton")
+focus_next = NodePath("../EarlyCancelButton")
 text = "Start Calibration"
 
 [node name="EarlyCancelButton" type="Button" parent="VBoxContainer/StartBox" unique_id=1095672365]
 layout_mode = 2
+focus_neighbor_top = NodePath("../StartButton")
+focus_previous = NodePath("../StartButton")
 text = "Cancel"
 
 [node name="NoiseThresholdBox" type="VBoxContainer" parent="VBoxContainer" unique_id=424062762]

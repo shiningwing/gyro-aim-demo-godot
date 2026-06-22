@@ -50,3 +50,6 @@ func _process(delta):
 
 func _on_calibrate_button_pressed():
 	calibrate_button_pressed = true
+	var start_button: Control = get_tree().get_first_node_in_group("calibration_start_button")
+	if start_button is Control:
+		start_button.grab_focus()
