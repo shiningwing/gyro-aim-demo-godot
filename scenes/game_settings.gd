@@ -30,7 +30,7 @@ var graphics_config_load = graphics_config.load("user://cfg/graphics.cfg")
 # Start defining settings here
 # Meta
 ## The version of the [b]general.cfg[/b] file.
-var general_config_version: int = 7
+var general_config_version: int = 8
 ## The version of the [b]general.cfg[/b] file.
 var graphics_config_version: int = 5
 
@@ -118,10 +118,21 @@ var general := {
 	},
 	"Debug": {
 		"debug_mode": debug_mode,
+		"allow_walking": false
 	},
 	"InputMouse": {
 		"mouse_sensitivity_x": mouse_sensitivity_x,
 		"mouse_sensitivity_y": mouse_sensitivity_y,
+	},
+	"InputGamepad": {
+		"ls_deadzone": 0.25,
+		"ls_deadzone_type": 1,
+		"rs_sensitivity_x": 5.0,
+		"rs_sensitivity_y": 5.0,
+		"rs_deadzone": 0.15,
+		"rs_deadzone_type": 0,
+		"l2_deadzone": 0.25,
+		"r2_deadzone": 0.25,
 	},
 	"InputGyro": {
 		"gyro_enabled": gyro_enabled,

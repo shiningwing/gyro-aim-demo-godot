@@ -117,7 +117,8 @@ var _smoothing_input_buffer: PackedVector2Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	if not is_mobile:
+		Input.set_joy_motion_sensors_enabled(0, true)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -127,6 +128,11 @@ func _process(delta):
 		uncalibrated_gyro.y = rad_to_deg(Input.get_gyroscope().y)
 		uncalibrated_gyro.z = rad_to_deg(Input.get_gyroscope().z)
 		accelerometer = Input.get_accelerometer()
+	else:
+		uncalibrated_gyro.x = rad_to_deg(Input.get_joy_gyroscope(0).x)
+		uncalibrated_gyro.y = rad_to_deg(Input.get_joy_gyroscope(0).y)
+		uncalibrated_gyro.z = rad_to_deg(Input.get_joy_gyroscope(0).z)
+		accelerometer = Input.get_joy_accelerometer(0)
 	
 	# If we're in debug mode and not on mobile, oscillate the gyro
 	if GameSettings.general["Debug"]["debug_mode"] and not is_mobile:

@@ -1,19 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbv5yqje5sisk"]
+[gd_scene format=3 uid="uid://dbv5yqje5sisk"]
 
-[ext_resource type="Script" path="res://scenes/settings_item_toggle.gd" id="1_ggndn"]
+[ext_resource type="Script" uid="uid://bj5uv33yhsrkl" path="res://scenes/settings_item_toggle.gd" id="1_ggndn"]
 
-[node name="SettingsItemToggle" type="HBoxContainer"]
+[node name="SettingsItemToggle" type="HBoxContainer" unique_id=1702239713]
 theme_override_constants/separation = 16
 script = ExtResource("1_ggndn")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=530192017]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Setting Label"
 vertical_alignment = 1
 
-[node name="CheckButton" type="CheckButton" parent="."]
+[node name="CheckButton" type="CheckButton" parent="." unique_id=2009577484]
 layout_mode = 2
 button_pressed = true
 text = "On"

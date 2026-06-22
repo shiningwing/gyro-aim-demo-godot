@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://bsy5tp410vo4n"]
+[gd_scene format=3 uid="uid://bsy5tp410vo4n"]
 
-[ext_resource type="Script" path="res://scenes/score_hud.gd" id="1_ou0rk"]
+[ext_resource type="Script" uid="uid://c6r50eh8c40j5" path="res://scenes/score_hud.gd" id="1_ou0rk"]
 [ext_resource type="AudioStream" uid="uid://d22cu0rkdo37w" path="res://sounds/confirmation_002.ogg" id="2_qobif"]
 [ext_resource type="AudioStream" uid="uid://clx3u5urw4fos" path="res://sounds/click_002.ogg" id="3_nwfqu"]
 
@@ -29,7 +29,7 @@ font_color = Color(0.411765, 0.941176, 0.682353, 1)
 outline_size = 8
 outline_color = Color(0.0874, 0.19, 0.13015, 1)
 
-[node name="ScoreHud" type="Control"]
+[node name="ScoreHud" type="Control" unique_id=843668067]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,7 +38,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ou0rk")
 
-[node name="VersionLabel" type="Label" parent="."]
+[node name="VersionLabel" type="Label" parent="." unique_id=2092469545]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -52,7 +52,7 @@ text = "v0.0.0"
 label_settings = SubResource("LabelSettings_4ycr7")
 horizontal_alignment = 2
 
-[node name="ScoreTimerSection" type="HBoxContainer" parent="."]
+[node name="ScoreTimerSection" type="HBoxContainer" parent="." unique_id=916491338]
 visible = false
 layout_mode = 1
 anchors_preset = 5
@@ -64,57 +64,57 @@ offset_right = 96.0
 offset_bottom = 73.0
 grow_horizontal = 2
 
-[node name="TimerContainer" type="VBoxContainer" parent="ScoreTimerSection"]
+[node name="TimerContainer" type="VBoxContainer" parent="ScoreTimerSection" unique_id=1656345605]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="Title" type="Label" parent="ScoreTimerSection/TimerContainer"]
+[node name="Title" type="Label" parent="ScoreTimerSection/TimerContainer" unique_id=2114534158]
 layout_mode = 2
 text = "Seconds Left"
 label_settings = SubResource("LabelSettings_4ycr7")
 horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="ScoreTimerSection/TimerContainer"]
+[node name="Value" type="Label" parent="ScoreTimerSection/TimerContainer" unique_id=757434703]
 layout_mode = 2
 text = "60"
 label_settings = SubResource("LabelSettings_66i53")
 horizontal_alignment = 1
 
-[node name="ScoreContainer" type="VBoxContainer" parent="ScoreTimerSection"]
+[node name="ScoreContainer" type="VBoxContainer" parent="ScoreTimerSection" unique_id=724748882]
 custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
 
-[node name="Title" type="Label" parent="ScoreTimerSection/ScoreContainer"]
+[node name="Title" type="Label" parent="ScoreTimerSection/ScoreContainer" unique_id=906801629]
 layout_mode = 2
 text = "Score"
 label_settings = SubResource("LabelSettings_4ycr7")
 horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="ScoreTimerSection/ScoreContainer"]
+[node name="Value" type="Label" parent="ScoreTimerSection/ScoreContainer" unique_id=463524352]
 layout_mode = 2
 text = "2608550"
 label_settings = SubResource("LabelSettings_1208g")
 horizontal_alignment = 1
 
-[node name="StreakContainer" type="VBoxContainer" parent="ScoreTimerSection"]
+[node name="StreakContainer" type="VBoxContainer" parent="ScoreTimerSection" unique_id=117225923]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="Title" type="Label" parent="ScoreTimerSection/StreakContainer"]
+[node name="Title" type="Label" parent="ScoreTimerSection/StreakContainer" unique_id=1544484953]
 layout_mode = 2
 text = "Streak"
 label_settings = SubResource("LabelSettings_4ycr7")
 horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="ScoreTimerSection/StreakContainer"]
+[node name="Value" type="Label" parent="ScoreTimerSection/StreakContainer" unique_id=1731052034]
 layout_mode = 2
 text = "x0"
 label_settings = SubResource("LabelSettings_66i53")
 horizontal_alignment = 1
 
-[node name="StartSection" type="VBoxContainer" parent="."]
+[node name="StartSection" type="VBoxContainer" parent="." unique_id=882158336]
 visible = false
 layout_mode = 1
 anchors_preset = 5
@@ -127,21 +127,21 @@ offset_bottom = 56.0
 grow_horizontal = 2
 theme_override_constants/separation = 4
 
-[node name="Title" type="Label" parent="StartSection"]
+[node name="Title" type="Label" parent="StartSection" unique_id=1587545119]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Shoot the target to begin."
 label_settings = SubResource("LabelSettings_scbbx")
 horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="StartSection"]
+[node name="Value" type="Label" parent="StartSection" unique_id=1934713598]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "The game will last 60 seconds."
 label_settings = SubResource("LabelSettings_4ycr7")
 horizontal_alignment = 1
 
-[node name="FinalScore" type="VBoxContainer" parent="."]
+[node name="FinalScore" type="VBoxContainer" parent="." unique_id=1751341823]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -152,20 +152,20 @@ offset_right = 20.0
 offset_bottom = 56.0
 grow_horizontal = 2
 
-[node name="Title" type="Label" parent="FinalScore"]
+[node name="Title" type="Label" parent="FinalScore" unique_id=427972716]
 layout_mode = 2
 text = "Final Score - 60 Second Game"
 label_settings = SubResource("LabelSettings_4ycr7")
 horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="FinalScore"]
+[node name="Value" type="Label" parent="FinalScore" unique_id=2018810681]
 layout_mode = 2
 text = "2608550"
 label_settings = SubResource("LabelSettings_tfdo1")
 horizontal_alignment = 1
 
-[node name="FinishedSound" type="AudioStreamPlayer" parent="."]
+[node name="FinishedSound" type="AudioStreamPlayer" parent="." unique_id=1762175068]
 stream = ExtResource("2_qobif")
 
-[node name="TickerSound" type="AudioStreamPlayer" parent="."]
+[node name="TickerSound" type="AudioStreamPlayer" parent="." unique_id=818928264]
 stream = ExtResource("3_nwfqu")

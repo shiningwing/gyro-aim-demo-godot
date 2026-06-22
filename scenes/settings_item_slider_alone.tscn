@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://chblq7ob3o6f2"]
+[gd_scene format=3 uid="uid://chblq7ob3o6f2"]
 
-[ext_resource type="Script" path="res://scenes/settings_item_slider_alone.gd" id="1_qvmjx"]
+[ext_resource type="Script" uid="uid://cmg8cuws8f8lk" path="res://scenes/settings_item_slider_alone.gd" id="1_qvmjx"]
 
-[node name="SettingsItemSlider" type="HBoxContainer"]
+[node name="SettingsItemSlider" type="HBoxContainer" unique_id=1786298866]
 theme_override_constants/separation = 16
 script = ExtResource("1_qvmjx")
 
-[node name="HSlider" type="HSlider" parent="."]
+[node name="HSlider" type="HSlider" parent="." unique_id=359874874]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 size_flags_horizontal = 3

@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://fpvuwepoy0fg"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://fpvuwepoy0fg"]
 
 [ext_resource type="Texture2D" uid="uid://bqyedq3pod7m0" path="res://addons/kenney_prototype_tools/textures/purple/texture_07.png" id="1_l46hj"]
 

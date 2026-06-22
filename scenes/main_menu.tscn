@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://coqst8u6i5nwm"]
+[gd_scene format=3 uid="uid://coqst8u6i5nwm"]
 
 [ext_resource type="PackedScene" uid="uid://blsu60w3ijadc" path="res://scenes/settings_tabs_scrolling.tscn" id="1_ocvcx"]
-[ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_pl8at"]
+[ext_resource type="Script" uid="uid://dharkqjh218rr" path="res://scenes/main_menu.gd" id="1_pl8at"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_buhpd"]
 font_size = 24
 font_color = Color(0.956863, 0.560784, 0.694118, 1)
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=1564552330]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pl8at")
 
-[node name="MainMenuPanel" type="PanelContainer" parent="."]
+[node name="MainMenuPanel" type="PanelContainer" parent="." unique_id=66083293]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,65 +24,66 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuPanel" unique_id=1781905494]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="PaddingStart" type="Control" parent="MainMenuPanel/VBoxContainer"]
+[node name="PaddingStart" type="Control" parent="MainMenuPanel/VBoxContainer" unique_id=1171852625]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 
-[node name="HeaderContainer" type="HBoxContainer" parent="MainMenuPanel/VBoxContainer"]
+[node name="HeaderContainer" type="HBoxContainer" parent="MainMenuPanel/VBoxContainer" unique_id=194102950]
 layout_mode = 2
 
-[node name="PaddingStart" type="Control" parent="MainMenuPanel/VBoxContainer/HeaderContainer"]
+[node name="PaddingStart" type="Control" parent="MainMenuPanel/VBoxContainer/HeaderContainer" unique_id=701632136]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="Header" type="HBoxContainer" parent="MainMenuPanel/VBoxContainer/HeaderContainer"]
+[node name="Header" type="HBoxContainer" parent="MainMenuPanel/VBoxContainer/HeaderContainer" unique_id=1301304375]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header" unique_id=1288717968]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Title" type="Label" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header/VBoxContainer"]
+[node name="Title" type="Label" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header/VBoxContainer" unique_id=2012344696]
 layout_mode = 2
 text = "Gyro Aim Demo for Godot"
 label_settings = SubResource("LabelSettings_buhpd")
 
-[node name="Title2" type="Label" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header/VBoxContainer"]
+[node name="Title2" type="Label" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header/VBoxContainer" unique_id=1020369247]
 layout_mode = 2
 text = "From Shiny's Hideout!"
 
-[node name="HelpButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+[node name="HelpButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header" unique_id=1359782817]
 layout_mode = 2
 size_flags_vertical = 4
 text = "Help & Info"
 
-[node name="SaveSettingsButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+[node name="SaveSettingsButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header" unique_id=1413254051]
 layout_mode = 2
 size_flags_vertical = 4
 text = "Save Settings"
 
-[node name="GameStartButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header"]
+[node name="GameStartButton" type="Button" parent="MainMenuPanel/VBoxContainer/HeaderContainer/Header" unique_id=83634171]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Start Game!"
 
-[node name="PaddingEnd" type="Control" parent="MainMenuPanel/VBoxContainer/HeaderContainer"]
+[node name="PaddingEnd" type="Control" parent="MainMenuPanel/VBoxContainer/HeaderContainer" unique_id=177138212]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="PaddingMiddle" type="Control" parent="MainMenuPanel/VBoxContainer"]
+[node name="PaddingMiddle" type="Control" parent="MainMenuPanel/VBoxContainer" unique_id=2140015079]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 
-[node name="SettingsTabs" parent="MainMenuPanel/VBoxContainer" instance=ExtResource("1_ocvcx")]
+[node name="SettingsTabs" parent="MainMenuPanel/VBoxContainer" unique_id=1778707148 instance=ExtResource("1_ocvcx")]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
 
 [connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/HelpButton" to="." method="_on_help_button_pressed"]
 [connection signal="pressed" from="MainMenuPanel/VBoxContainer/HeaderContainer/Header/SaveSettingsButton" to="." method="_on_save_settings_button_pressed"]

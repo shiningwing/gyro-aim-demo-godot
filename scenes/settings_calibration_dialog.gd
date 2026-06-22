@@ -62,6 +62,8 @@ func _process(delta):
 			gyro_z_label.text = str(snapped(MotionInput.uncalibrated_gyro.z, 0.01), "°/s")
 			
 			calibration_progress.value = MotionInput.calibration_timer
+			
+			$VBoxContainer/CalibrationBox/FinishButton.grab_focus()
 		
 		if ($VBoxContainer/CalibrationBox.visible 
 				and MotionInput.calibrating == false 

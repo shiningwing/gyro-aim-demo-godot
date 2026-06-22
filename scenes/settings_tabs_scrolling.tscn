@@ -1,79 +1,107 @@
-[gd_scene load_steps=5 format=3 uid="uid://blsu60w3ijadc"]
+[gd_scene format=3 uid="uid://blsu60w3ijadc"]
 
 [ext_resource type="PackedScene" uid="uid://hbrmgukjrybr" path="res://scenes/settings_controls_list.tscn" id="1_3xl7e"]
 [ext_resource type="Theme" uid="uid://dq7k322hhtav6" path="res://themes/hideout.tres" id="1_8q32k"]
 [ext_resource type="PackedScene" uid="uid://rodg5krr1emq" path="res://scenes/settings_graphics_list.tscn" id="3_ia1fg"]
 [ext_resource type="PackedScene" uid="uid://dyqnujmid4xn4" path="res://scenes/settings_developer_list.tscn" id="3_rauka"]
+[ext_resource type="PackedScene" uid="uid://c5bc2tquyi52f" path="res://scenes/settings_gamepad_list.tscn" id="3_un62y"]
 
-[node name="SettingsTabs" type="TabContainer"]
+[node name="SettingsTabs" type="TabContainer" unique_id=1041871893]
 offset_right = 40.0
 offset_bottom = 40.0
+current_tab = 0
 use_hidden_tabs_for_min_size = true
 
-[node name="Controls" type="ScrollContainer" parent="."]
+[node name="Gyro" type="ScrollContainer" parent="." unique_id=1798030037]
 custom_minimum_size = Vector2(640, 240)
 layout_mode = 2
 theme = ExtResource("1_8q32k")
 follow_focus = true
+metadata/_tab_index = 0
 
-[node name="ControlsListContainer" type="HBoxContainer" parent="Controls"]
+[node name="ControlsListContainer" type="HBoxContainer" parent="Gyro" unique_id=109901122]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="PaddingLeft" type="Control" parent="Controls/ControlsListContainer"]
+[node name="PaddingLeft" type="Control" parent="Gyro/ControlsListContainer" unique_id=366645099]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="ControlsList" parent="Controls/ControlsListContainer" instance=ExtResource("1_3xl7e")]
+[node name="ControlsList" parent="Gyro/ControlsListContainer" unique_id=1759281183 instance=ExtResource("1_3xl7e")]
 layout_mode = 2
 
-[node name="PaddingRight" type="Control" parent="Controls/ControlsListContainer"]
+[node name="PaddingRight" type="Control" parent="Gyro/ControlsListContainer" unique_id=1099995960]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="Display" type="ScrollContainer" parent="."]
+[node name="Gamepad" type="ScrollContainer" parent="." unique_id=1502670129]
+visible = false
+custom_minimum_size = Vector2(640, 240)
+layout_mode = 2
+follow_focus = true
+metadata/_tab_index = 1
+
+[node name="GamepadListContainer" type="HBoxContainer" parent="Gamepad" unique_id=1473136376]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="PaddingLeft" type="Control" parent="Gamepad/GamepadListContainer" unique_id=464082168]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+
+[node name="GamepadList" parent="Gamepad/GamepadListContainer" unique_id=564383666 instance=ExtResource("3_un62y")]
+layout_mode = 2
+
+[node name="PaddingRight" type="Control" parent="Gamepad/GamepadListContainer" unique_id=999804779]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+
+[node name="Display" type="ScrollContainer" parent="." unique_id=185636042]
 visible = false
 custom_minimum_size = Vector2(640, 240)
 layout_mode = 2
 theme = ExtResource("1_8q32k")
 follow_focus = true
+metadata/_tab_index = 2
 
-[node name="GraphicsListContainer" type="HBoxContainer" parent="Display"]
+[node name="GraphicsListContainer" type="HBoxContainer" parent="Display" unique_id=1915136347]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="PaddingLeft" type="Control" parent="Display/GraphicsListContainer"]
+[node name="PaddingLeft" type="Control" parent="Display/GraphicsListContainer" unique_id=406354816]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="GraphicsList" parent="Display/GraphicsListContainer" instance=ExtResource("3_ia1fg")]
+[node name="GraphicsList" parent="Display/GraphicsListContainer" unique_id=830764060 instance=ExtResource("3_ia1fg")]
 layout_mode = 2
 
-[node name="PaddingRight" type="Control" parent="Display/GraphicsListContainer"]
+[node name="PaddingRight" type="Control" parent="Display/GraphicsListContainer" unique_id=97295383]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="Developer" type="ScrollContainer" parent="."]
+[node name="Developer" type="ScrollContainer" parent="." unique_id=1067631525]
 visible = false
 custom_minimum_size = Vector2(640, 240)
 layout_mode = 2
 theme = ExtResource("1_8q32k")
 follow_focus = true
+metadata/_tab_index = 3
 
-[node name="DeveloperListContainer" type="HBoxContainer" parent="Developer"]
+[node name="DeveloperListContainer" type="HBoxContainer" parent="Developer" unique_id=1123192686]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="PaddingLeft" type="Control" parent="Developer/DeveloperListContainer"]
+[node name="PaddingLeft" type="Control" parent="Developer/DeveloperListContainer" unique_id=2092717683]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="DeveloperList" parent="Developer/DeveloperListContainer" instance=ExtResource("3_rauka")]
+[node name="DeveloperList" parent="Developer/DeveloperListContainer" unique_id=270268365 instance=ExtResource("3_rauka")]
 layout_mode = 2
 
-[node name="PaddingRight" type="Control" parent="Developer/DeveloperListContainer"]
+[node name="PaddingRight" type="Control" parent="Developer/DeveloperListContainer" unique_id=1019116939]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2

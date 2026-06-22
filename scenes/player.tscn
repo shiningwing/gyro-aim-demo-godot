@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://clcgrdipt2qpf"]
+[gd_scene format=3 uid="uid://clcgrdipt2qpf"]
 
-[ext_resource type="Script" path="res://scenes/player.gd" id="1_48bg6"]
+[ext_resource type="Script" uid="uid://b6vdsnrtg50je" path="res://scenes/player.gd" id="1_48bg6"]
 [ext_resource type="PackedScene" uid="uid://dxtii2gk75v7s" path="res://scenes/hud_0.tscn" id="2_wff81"]
 [ext_resource type="PackedScene" uid="uid://dtqq2qjl8hckk" path="res://scenes/player_hud.tscn" id="3_oi834"]
 [ext_resource type="AudioStream" uid="uid://cjbhxlexoshih" path="res://sounds/click_001.ogg" id="4_mnibw"]
@@ -10,27 +10,27 @@
 radius = 0.35
 height = 1.5
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" unique_id=1937732209]
 script = ExtResource("1_48bg6")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=975088110]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 shape = SubResource("CapsuleShape3D_wj0np")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=130941928]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
 fov = 59.0
 
-[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1403710315]
 target_position = Vector3(0, 0, -100)
 collide_with_areas = true
 collide_with_bodies = false
 
-[node name="HUD0" parent="." instance=ExtResource("2_wff81")]
+[node name="HUD0" parent="." unique_id=956403062 instance=ExtResource("2_wff81")]
 
-[node name="PlayerHud" parent="." instance=ExtResource("3_oi834")]
+[node name="PlayerHud" parent="." unique_id=787061481 instance=ExtResource("3_oi834")]
 
-[node name="FireSound" type="AudioStreamPlayer" parent="."]
+[node name="FireSound" type="AudioStreamPlayer" parent="." unique_id=195548073]
 stream = ExtResource("4_mnibw")
 
-[node name="ScoreHud" parent="." instance=ExtResource("5_igagw")]
+[node name="ScoreHud" parent="." unique_id=1333345558 instance=ExtResource("5_igagw")]

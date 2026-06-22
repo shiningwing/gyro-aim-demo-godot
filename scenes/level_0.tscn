@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ci664etpkldjl"]
+[gd_scene format=3 uid="uid://ci664etpkldjl"]
 
 [ext_resource type="Texture2D" uid="uid://bjki20y2o2s7c" path="res://addons/kenney_prototype_tools/textures/dark/texture_01.png" id="1_hrcu2"]
 [ext_resource type="Texture2D" uid="uid://bf3ywp0eda70m" path="res://addons/kenney_prototype_tools/textures/orange/texture_02.png" id="1_r6a8h"]
@@ -43,46 +43,46 @@ background_mode = 2
 sky = SubResource("Sky_4mdsv")
 sky_rotation = Vector3(0, 2.00713, 0)
 
-[node name="Level0" type="Node3D"]
+[node name="Level0" type="Node3D" unique_id=1007927353]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="Blocks" type="Node3D" parent="."]
+[node name="Blocks" type="Node3D" parent="." unique_id=2036470926]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Blocks"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Blocks" unique_id=1200866784]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Blocks/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Blocks/StaticBody3D" unique_id=1963429106]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_v53ga")
 
-[node name="Floor" type="MeshInstance3D" parent="Blocks/StaticBody3D"]
+[node name="Floor" type="MeshInstance3D" parent="Blocks/StaticBody3D" unique_id=99764935]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("PlaneMesh_xkd7n")
 
-[node name="Wall0" type="MeshInstance3D" parent="Blocks/StaticBody3D"]
+[node name="Wall0" type="MeshInstance3D" parent="Blocks/StaticBody3D" unique_id=376631363]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 6, -25)
 mesh = SubResource("PlaneMesh_yjyrb")
 
-[node name="Wall1" type="MeshInstance3D" parent="Blocks/StaticBody3D"]
+[node name="Wall1" type="MeshInstance3D" parent="Blocks/StaticBody3D" unique_id=151680536]
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -25, 6, 0)
 mesh = SubResource("PlaneMesh_yjyrb")
 
-[node name="Wall2" type="MeshInstance3D" parent="Blocks/StaticBody3D"]
+[node name="Wall2" type="MeshInstance3D" parent="Blocks/StaticBody3D" unique_id=914080068]
 transform = Transform3D(-1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, 0, 6, 25)
 mesh = SubResource("PlaneMesh_yjyrb")
 
-[node name="Wall3" type="MeshInstance3D" parent="Blocks/StaticBody3D"]
+[node name="Wall3" type="MeshInstance3D" parent="Blocks/StaticBody3D" unique_id=2035812895]
 transform = Transform3D(1.31134e-07, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, 1.31134e-07, -5.73206e-15, 25, 6, 0)
 mesh = SubResource("PlaneMesh_yjyrb")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1444215530]
 transform = Transform3D(-1, -8.44439e-08, -2.26267e-08, 4.37114e-08, -0.707107, 0.707107, -7.57104e-08, 0.707107, 0.707107, 0, 14, 0)
 light_energy = 1.5
 
-[node name="Player" parent="." instance=ExtResource("5_slo6q")]
+[node name="Player" parent="." unique_id=1072676998 instance=ExtResource("5_slo6q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016762, 1, 0.018594)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=251922271]
 environment = SubResource("Environment_c3vj2")
 
-[node name="Target" parent="." instance=ExtResource("5_1ujgb")]
+[node name="Target" parent="." unique_id=1541654353 instance=ExtResource("5_1ujgb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.35, -17)

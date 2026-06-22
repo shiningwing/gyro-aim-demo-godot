@@ -1,7 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://b4vyd5r0wwemy"]
+[gd_scene format=3 uid="uid://b4vyd5r0wwemy"]
 
 [ext_resource type="Texture2D" uid="uid://b1wyo0v1q8dah" path="res://textures/ui/horizontal-rotate-clockwise-custom.png" id="1_66pj1"]
-[ext_resource type="Script" path="res://scenes/settings_calibration_list.gd" id="1_ccwn5"]
+[ext_resource type="Script" uid="uid://bimmy6b2dwb1j" path="res://scenes/settings_calibration_list.gd" id="1_ccwn5"]
 [ext_resource type="Texture2D" uid="uid://xpq6xscd2sng" path="res://textures/ui/axis-z-rotate-clockwise-custom.png" id="2_224jf"]
 [ext_resource type="Texture2D" uid="uid://dmr0t5ytxnbjp" path="res://textures/ui/axis-x-rotate-clockwise-custom.png" id="3_yi3sx"]
 [ext_resource type="PackedScene" uid="uid://dbv5yqje5sisk" path="res://scenes/settings_item_toggle.tscn" id="4_wewy7"]
@@ -24,45 +24,45 @@ font_color = Color(1, 0.843137, 0.25098, 1)
 font_size = 14
 font_color = Color(1, 1, 1, 0.74902)
 
-[node name="CalibrationContainer" type="PanelContainer"]
+[node name="CalibrationContainer" type="PanelContainer" unique_id=2138735623]
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_s54jl")
 script = ExtResource("1_ccwn5")
 
-[node name="ListContainer" type="VBoxContainer" parent="."]
+[node name="ListContainer" type="VBoxContainer" parent="." unique_id=17229657]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Header" type="Label" parent="ListContainer"]
+[node name="Header" type="Label" parent="ListContainer" unique_id=830166683]
 layout_mode = 2
 focus_mode = 2
 text = "Gyroscope Rotation Speeds"
 label_settings = SubResource("LabelSettings_xpj05")
 vertical_alignment = 1
 
-[node name="Description" type="Label" parent="ListContainer"]
+[node name="Description" type="Label" parent="ListContainer" unique_id=1453761642]
 custom_minimum_size = Vector2(640, 0)
 layout_mode = 2
 text = "These speeds should be very close to zero when the device is stationary on a solid surface. If they are not, your aim will drift during gameplay. If this is happening, you can calibrate the gyroscope by pressing the \"Calibrate Gyroscope\" button below."
 label_settings = SubResource("LabelSettings_rl2q4")
 autowrap_mode = 3
 
-[node name="Padding" type="Control" parent="ListContainer"]
+[node name="Padding" type="Control" parent="ListContainer" unique_id=2097879628]
 layout_mode = 2
 
-[node name="CalibrationBox" type="VBoxContainer" parent="ListContainer"]
+[node name="CalibrationBox" type="VBoxContainer" parent="ListContainer" unique_id=1451815167]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="GyroXContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox"]
+[node name="GyroXContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox" unique_id=1849319018]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="TextureRect" type="TextureRect" parent="ListContainer/CalibrationBox/GyroXContainer"]
+[node name="TextureRect" type="TextureRect" parent="ListContainer/CalibrationBox/GyroXContainer" unique_id=863454914]
 layout_mode = 2
 texture = ExtResource("1_66pj1")
 
-[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/GyroXContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/GyroXContainer" unique_id=690737731]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -72,21 +72,21 @@ max_value = 5.0
 step = 0.0
 show_percentage = false
 
-[node name="Label" type="Label" parent="ListContainer/CalibrationBox/GyroXContainer"]
+[node name="Label" type="Label" parent="ListContainer/CalibrationBox/GyroXContainer" unique_id=316566353]
 custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
 text = "0.00°/s"
 horizontal_alignment = 2
 
-[node name="GyroYContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox"]
+[node name="GyroYContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox" unique_id=634790557]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="TextureRect" type="TextureRect" parent="ListContainer/CalibrationBox/GyroYContainer"]
+[node name="TextureRect" type="TextureRect" parent="ListContainer/CalibrationBox/GyroYContainer" unique_id=819327198]
 layout_mode = 2
 texture = ExtResource("2_224jf")
 
-[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/GyroYContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/GyroYContainer" unique_id=451099088]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -96,21 +96,21 @@ max_value = 5.0
 step = 0.0
 show_percentage = false
 
-[node name="Label" type="Label" parent="ListContainer/CalibrationBox/GyroYContainer"]
+[node name="Label" type="Label" parent="ListContainer/CalibrationBox/GyroYContainer" unique_id=2065322008]
 custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
 text = "0.00°/s"
 horizontal_alignment = 2
 
-[node name="GyroZContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox"]
+[node name="GyroZContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox" unique_id=298861806]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="TextureRect" type="TextureRect" parent="ListContainer/CalibrationBox/GyroZContainer"]
+[node name="TextureRect" type="TextureRect" parent="ListContainer/CalibrationBox/GyroZContainer" unique_id=1496889969]
 layout_mode = 2
 texture = ExtResource("3_yi3sx")
 
-[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/GyroZContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/GyroZContainer" unique_id=755008988]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -120,67 +120,67 @@ max_value = 5.0
 step = 0.0
 show_percentage = false
 
-[node name="Label" type="Label" parent="ListContainer/CalibrationBox/GyroZContainer"]
+[node name="Label" type="Label" parent="ListContainer/CalibrationBox/GyroZContainer" unique_id=835562701]
 custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
 text = "0.00°/s"
 horizontal_alignment = 2
 
-[node name="CalibrateButton" type="Button" parent="ListContainer/CalibrationBox"]
+[node name="CalibrateButton" type="Button" parent="ListContainer/CalibrationBox" unique_id=267509005]
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Header")
 text = "Calibrate Gyroscope"
 
-[node name="Autocalibration" type="VBoxContainer" parent="ListContainer/CalibrationBox"]
+[node name="Autocalibration" type="VBoxContainer" parent="ListContainer/CalibrationBox" unique_id=323781358]
 layout_mode = 2
 
-[node name="Header" type="Label" parent="ListContainer/CalibrationBox/Autocalibration"]
+[node name="Header" type="Label" parent="ListContainer/CalibrationBox/Autocalibration" unique_id=1286705982]
 layout_mode = 2
 text = "Auto Calibration"
 label_settings = SubResource("LabelSettings_xpj05")
 vertical_alignment = 1
 
-[node name="GyroAutocalibrationEnable" parent="ListContainer/CalibrationBox/Autocalibration" instance=ExtResource("4_wewy7")]
+[node name="GyroAutocalibrationEnable" parent="ListContainer/CalibrationBox/Autocalibration" unique_id=1614438293 instance=ExtResource("4_wewy7")]
 layout_mode = 2
 label = "Calibrate Gyroscope Automatically"
 config_section = "InputGyro"
 config_key = "gyro_autocalibration_enabled"
 
-[node name="ProgressContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/Autocalibration"]
+[node name="ProgressContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/Autocalibration" unique_id=853680200]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="ListContainer/CalibrationBox/Autocalibration/ProgressContainer"]
+[node name="Label" type="Label" parent="ListContainer/CalibrationBox/Autocalibration/ProgressContainer" unique_id=1309650977]
 layout_mode = 2
 text = "Auto Calibration Progress"
 
-[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/Autocalibration/ProgressContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/Autocalibration/ProgressContainer" unique_id=1613592640]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 max_value = 5.0
 
-[node name="NoiseThresholds" type="VBoxContainer" parent="ListContainer/CalibrationBox"]
+[node name="NoiseThresholds" type="VBoxContainer" parent="ListContainer/CalibrationBox" unique_id=1667625402]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Description" type="Label" parent="ListContainer/CalibrationBox/NoiseThresholds"]
+[node name="Description" type="Label" parent="ListContainer/CalibrationBox/NoiseThresholds" unique_id=742151292]
 custom_minimum_size = Vector2(640, 0)
 layout_mode = 2
 text = "Every time this meter fills, a new gyroscope drift correction will be applied. This should only happen while the device is still, so the meter will reset if the motion noise is greater than the noise thresholds below. Using the \"Calibrate Gyroscope\" button will set these thresholds automatically, but you can adjust it manually below if it's too sensitive or not sensitive enough."
 label_settings = SubResource("LabelSettings_rl2q4")
 autowrap_mode = 3
 
-[node name="GyroNoiseContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds"]
+[node name="GyroNoiseContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds" unique_id=1091576216]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="TextureRect" type="TextureRect" parent="ListContainer/CalibrationBox/NoiseThresholds/GyroNoiseContainer"]
+[node name="TextureRect" type="TextureRect" parent="ListContainer/CalibrationBox/NoiseThresholds/GyroNoiseContainer" unique_id=583201346]
 layout_mode = 2
 texture = ExtResource("5_88k8n")
 
-[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/NoiseThresholds/GyroNoiseContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/NoiseThresholds/GyroNoiseContainer" unique_id=976680139]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -190,30 +190,30 @@ step = 0.0
 value = 1.0
 show_percentage = false
 
-[node name="GyroNoiseSliderContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds"]
+[node name="GyroNoiseSliderContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds" unique_id=814439235]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="Padding" type="Control" parent="ListContainer/CalibrationBox/NoiseThresholds/GyroNoiseSliderContainer"]
+[node name="Padding" type="Control" parent="ListContainer/CalibrationBox/NoiseThresholds/GyroNoiseSliderContainer" unique_id=1716083001]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="GyroNoiseSlider" parent="ListContainer/CalibrationBox/NoiseThresholds/GyroNoiseSliderContainer" instance=ExtResource("7_7783b")]
+[node name="GyroNoiseSlider" parent="ListContainer/CalibrationBox/NoiseThresholds/GyroNoiseSliderContainer" unique_id=75388109 instance=ExtResource("7_7783b")]
 layout_mode = 2
 size_flags_horizontal = 3
 config_section = "InputGyro"
 config_key = "gyro_noise_threshold"
 max_value = 1.0
 
-[node name="AccelNoiseContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds"]
+[node name="AccelNoiseContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds" unique_id=1870529270]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="TextureRect" type="TextureRect" parent="ListContainer/CalibrationBox/NoiseThresholds/AccelNoiseContainer"]
+[node name="TextureRect" type="TextureRect" parent="ListContainer/CalibrationBox/NoiseThresholds/AccelNoiseContainer" unique_id=514990774]
 layout_mode = 2
 texture = ExtResource("6_wj35g")
 
-[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/NoiseThresholds/AccelNoiseContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="ListContainer/CalibrationBox/NoiseThresholds/AccelNoiseContainer" unique_id=221398646]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -223,22 +223,22 @@ step = 0.0
 value = 0.1
 show_percentage = false
 
-[node name="AccelNoiseSliderContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds"]
+[node name="AccelNoiseSliderContainer" type="HBoxContainer" parent="ListContainer/CalibrationBox/NoiseThresholds" unique_id=532877464]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="Padding" type="Control" parent="ListContainer/CalibrationBox/NoiseThresholds/AccelNoiseSliderContainer"]
+[node name="Padding" type="Control" parent="ListContainer/CalibrationBox/NoiseThresholds/AccelNoiseSliderContainer" unique_id=2134900748]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 
-[node name="AccelNoiseSlider" parent="ListContainer/CalibrationBox/NoiseThresholds/AccelNoiseSliderContainer" instance=ExtResource("7_7783b")]
+[node name="AccelNoiseSlider" parent="ListContainer/CalibrationBox/NoiseThresholds/AccelNoiseSliderContainer" unique_id=1022386807 instance=ExtResource("7_7783b")]
 layout_mode = 2
 size_flags_horizontal = 3
 config_section = "InputGyro"
 config_key = "accel_noise_threshold"
 max_value = 0.1
 
-[node name="CalibrationSettingsContainer" type="VBoxContainer" parent="ListContainer"]
+[node name="CalibrationSettingsContainer" type="VBoxContainer" parent="ListContainer" unique_id=1307800762]
 layout_mode = 2
 theme_override_constants/separation = 8
 
